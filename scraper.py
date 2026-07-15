@@ -6,6 +6,7 @@
 """
 
 import json
+import os
 import re
 import time
 from datetime import datetime, timezone, timedelta
@@ -51,13 +52,33 @@ WATCHLIST = {
     "티엘비": "기타",
 }
 
-# 자동 검색이 엉뚱한 종목을 찾아올 경우를 대비한 수동 지정 (필요할 때만 채우기)
-# 예: "삼성전자우": "005935"
+# 자동 검색이 실패하거나 엉뚱한 종목을 찾아올 경우를 대비한 수동 지정
+# (2026-07-15 기준 직접 확인한 코드로 전체 채워둠. 종목을 새로 추가할 때는
+#  이름만 WATCHLIST에 넣어도 되지만, 안 잡히면 여기에 코드를 추가해주면 된다)
 CODE_OVERRIDES = {
     "삼성전자": "005930",
     "삼성전자우": "005935",
     "SK하이닉스": "000660",
     "삼성SDI": "006400",
+    "TIGER 코리아AI전기전자": "0117V0",  # 정식명: TIGER 코리아AI전력기기TOP3플러스
+    "KODEX AI반도체": "395160",  # 정식명: KODEX AI반도체TOP2플러스
+    "LIG디펜스앤에어로스페이스": "079550",
+    "HD건설기계": "267270",
+    "HD현대마린솔루션": "443060",
+    "OCI홀딩스": "010060",
+    "OCI": "456040",
+    "효성티앤씨": "298020",
+    "LS": "006260",
+    "삼성E&A": "028050",
+    "에이피알": "278470",
+    "한국콜마": "161890",
+    "에스티팜": "237690",
+    "감성코퍼레이션": "036620",
+    "두산퓨얼셀": "336260",
+    "두산에너빌리티": "034020",
+    "태광": "023160",
+    "아이쓰리시스템": "214430",
+    "티엘비": "356860",
 }
 
 SEARCH_URL = "https://ac.stock.naver.com/ac"
@@ -262,6 +283,8 @@ def fetch_macro() -> dict:
 
 
 def main():
+    os.makedirs("data", exist_ok=True)
+
     results = []
     for name, sector in WATCHLIST.items():
         code = find_code(name)
