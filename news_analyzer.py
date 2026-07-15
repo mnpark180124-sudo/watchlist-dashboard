@@ -21,7 +21,7 @@ from google.genai import types
 
 from scraper import WATCHLIST  # 종목명: 섹터 딕셔너리 재사용
 
-MODEL = "gemini-2.5-flash-lite"  # 무료 티어 RPD가 가장 넉넉한 모델
+MODEL = "gemini-3.1-flash-lite"  # 무료 티어 RPD가 가장 넉넉한 최신 모델 (2.5-flash-lite는 신규 사용자에게 막혀서 교체함)
 
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
@@ -74,6 +74,8 @@ def analyze_stock(name: str) -> dict:
 
 
 def main():
+    os.makedirs("data", exist_ok=True)
+
     results = {}
     for name in WATCHLIST:
         print(f"분석 중: {name}")
