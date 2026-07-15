@@ -1,0 +1,36 @@
+name: Analyze Stock News
+
+on:
+  schedule:
+    # 장전 08:30 KST = 전날 23:30 UTC (월~금 아침이 되도록 일~목 23:30 UTC에 실행)
+    - cron: "30 23 * * 0-4"
+    # 장후 16:00 KST = 07:00 UTC (월~금)
+    - cron: "0 7 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - run: python news_analyzer.py
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Commit updated news
+        run: |
+          git config user.name "watchlist-bot"
+          git config user.email "actions@github.com"
+          git add data/news.json
+          git diff --staged --quiet || git commit -m "chore: update news analysis"
+          git push
