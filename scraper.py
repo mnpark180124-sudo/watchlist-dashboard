@@ -239,24 +239,40 @@ def fetch_foreign_institution(code: str) -> dict:
 
 
 def fetch_naver_index(code: str, label: str) -> dict:
-    """네이버 국내 지수 페이지의 og:description 메타태그에서 현재가/등락 정보를 뽑는다.
-    (지수 페이지는 보통 og:description에 '코스피 3,412.55 -12.34 -0.36%' 식 요약이 들어있다)"""
-    url = f"https://finance.naver.com/sise/sise_index.naver?code={code}"
+    """네이버 지수 일별시세 표에서 가장 최근 값을 가져온다.
+    (표 형식: 날짜/체결가/전일비/등락률/거래량/거래대금, 6칸짜리 행만 데이터로 인정)"""
+    url = f"https://finance.naver.com/sise/sise_index_day.naver?code={code}&page=1"
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
         soup = BeautifulSoup(res.text, "html.parser")
-        og = soup.find("meta", attrs={"property": "og:description"})
-        desc = og["content"] if og and og.get("content") else ""
+        table = soup.find("table", class_="type_1")
+        if table is None:
+            raise ValueError("표를 못 찾음")
 
-        nums = re.findall(r"-?[\d,]+\.\d+", desc)
-        nums = [float(n.replace(",", "")) for n in nums]
+        for row in table.find_all("tr"):
+            cols = row.find_all("td")
+            if len(cols) != 6:
+                continue  # 헤더/빈 행 건너뜀
 
-        return {
-            "price": nums[0] if len(nums) > 0 else None,
-            "change": nums[1] if len(nums) > 1 else None,
-            "changeRate": nums[2] if len(nums) > 2 else None,
-        }
+            def clean(v):
+                v = v.replace(",", "").replace("%", "").strip()
+                return float(v) if v else None
+
+            price = clean(cols[1].get_text())
+            diff_text = cols[2].get_text().strip()
+            diff = clean(diff_text)
+            rate = clean(cols[3].get_text())
+
+            # 전일비 컬럼에 상승/하락 표시가 있는 경우 하락이면 음수로 보정
+            if diff is not None and ("하락" in diff_text or "-" in diff_text) and diff > 0:
+                diff = -diff
+            if rate is not None and diff is not None and diff < 0 and rate > 0:
+                rate = -rate
+
+            return {"price": price, "change": diff, "changeRate": rate}
+
+        raise ValueError("유효한 데이터 행이 없음")
     except Exception as e:
         print(f"[지수 실패] {label}({code}): {e}")
         return {"price": None, "change": None, "changeRate": None}
