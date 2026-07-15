@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>관심종목 모니터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e11;
+    --panel: #12161c;
+    --panel-hover: #171c24;
+    --line: #1f2530;
+    --line-strong: #2a3140;
+    --text: #e8eaed;
+    --muted: #6b7684;
+    --up: #f04452;      /* 한국식: 상승 = 빨강 */
+    --down: #3182f6;    /* 한국식: 하락 = 파랑 */
+    --flat: #6b7684;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    padding: 26px 32px 18px;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    background: rgba(11,14,17,0.92);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  #meta {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  #meta button {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  #meta button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+
+  main {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 28px 32px 80px;
+  }
+
+  #sectors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
+  }
+
+  .sector-card {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--panel);
+    overflow: hidden;
+  }
+  .sector-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sector-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+  .sector-avg { font-size: 12px; font-weight: 700; }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+  .tile {
+    padding: 12px 14px;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+    transition: background 0.12s ease;
+  }
+  .tile:hover { background: var(--panel-hover); }
+  .tile-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 6px;
+  }
+  .tile-price { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
+  .tile-change { font-size: 12px; font-weight: 700; }
+
+  .up { color: var(--up); }
+  .down { color: var(--down); }
+  .flat { color: var(--flat); }
+
+  .score-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-bottom: 7px;
+  }
+  .score-badge.s-pos { background: rgba(240,68,82,0.15); color: var(--up); }
+  .score-badge.s-mid { background: rgba(107,118,132,0.18); color: var(--muted); }
+  .score-badge.s-neg { background: rgba(49,130,246,0.15); color: var(--down); }
+
+  .range-wrap { margin-top: 8px; }
+  .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: var(--muted);
+    margin-bottom: 3px;
+  }
+  .range-track {
+    position: relative;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--line);
+  }
+  .range-dot {
+    position: absolute;
+    top: 50%;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--text);
+    transform: translate(-50%, -50%);
+  }
+
+  .extra-line {
+    margin-top: 7px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  #macro {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 16px 32px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  .macro-item {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    background: var(--panel);
+  }
+  .macro-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+  .macro-price { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; }
+  .macro-change { font-size: 11px; margin-top: 2px; }
+
+  .flow-line {
+    margin-top: 6px;
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .flow-line .surge { color: var(--up); font-weight: 700; }
+
+  #disclaimer {
+    font-size: 11px;
+    color: var(--muted);
+    max-width: 1360px;
+    margin: 0 auto 18px;
+    padding: 0 32px;
+  }
+
+  .heat-bar {
+    margin-top: 8px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--line);
+    overflow: hidden;
+  }
+  .heat-bar-fill { height: 100%; }
+
+  .news-line {
+    margin-top: 9px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    font-size: 10.5px;
+    line-height: 1.5;
+  }
+  .news-line.empty { color: var(--muted); }
+  .news-line.important { color: var(--text); }
+  .news-badge {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+  }
+  .news-badge.up { background: rgba(240,68,82,0.15); color: var(--up); }
+  .news-badge.down { background: rgba(49,130,246,0.15); color: var(--down); }
+
+  #empty {
+    color: var(--muted);
+    font-size: 13px;
+    padding: 60px 8px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>관심종목 모니터</h1>
+  <div id="meta">
+    <span id="updated">불러오는 중…</span>
+    <button onclick="load()">새로고침</button>
+  </div>
+</header>
+
+<div id="macro"></div>
+
+<main>
+  <p id="disclaimer">평가점수는 목표주가 상승여력·투자의견·52주 위치·뉴스 영향도를 합친 참고용 지표이며, 매수/매도 추천이 아닙니다.</p>
+  <div id="sectors"></div>
+  <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
+</main>
+
+<script>
+  const HEAT_CAP = 10; // 등락률 이 값(%) 이상이면 히트바가 꽉 참
+  const SCORE_WEIGHTS = { target: 0.35, opinion: 0.25, week52: 0.25, news: 0.15 };
+  const OPINION_SCORE = { "강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0 };
+
+  function computeScore(s, newsInfo) {
+    const parts = [];
+
+    if (s.targetPrice) {
+      const upsidePct = (s.targetPrice / s.price - 1) * 100;
+      const sc = Math.max(0, Math.min(100, (upsidePct / 50) * 100));
+      parts.push([sc, SCORE_WEIGHTS.target]);
+    }
+    if (s.opinion && OPINION_SCORE[s.opinion] !== undefined) {
+      parts.push([OPINION_SCORE[s.opinion], SCORE_WEIGHTS.opinion]);
+    }
+    if (s.week52High && s.week52Low && s.week52High > s.week52Low) {
+      const pos = (s.price - s.week52Low) / (s.week52High - s.week52Low) * 100;
+      // 52주 저점에 가까울수록 높은 점수(저평가 관점)
+      parts.push([Math.max(0, Math.min(100, 100 - pos)), SCORE_WEIGHTS.week52]);
+    }
+
+    let newsScore = 50;
+    if (newsInfo && newsInfo.hasImportantNews) {
+      const impact = newsInfo.impactPct || 0;
+      newsScore = newsInfo.direction === 'down'
+        ? Math.max(0, 50 - impact / 2)
+        : Math.min(100, 50 + impact / 2);
+    }
+    parts.push([newsScore, SCORE_WEIGHTS.news]);
+
+    const totalWeight = parts.reduce((sum, [, w]) => sum + w, 0);
+    const weighted = parts.reduce((sum, [sc, w]) => sum + sc * w, 0);
+    return totalWeight > 0 ? weighted / totalWeight : null;
+  }
+
+  function scoreClass(score) {
+    if (score >= 60) return 's-pos';
+    if (score >= 40) return 's-mid';
+    return 's-neg';
+  }
+
+  function scoreLabel(score) {
+    if (score >= 70) return '긍정적';
+    if (score >= 55) return '다소 긍정';
+    if (score >= 45) return '중립';
+    if (score >= 30) return '다소 부정';
+    return '부정적';
+  }
+
+  async function load() {
+    try {
+      const [stocksRes, newsRes, macroRes] = await Promise.all([
+        fetch('data/stocks.json?ts=' + Date.now()),
+        fetch('data/news.json?ts=' + Date.now()).catch(() => null),
+        fetch('data/macro.json?ts=' + Date.now()).catch(() => null),
+      ]);
+      if (!stocksRes.ok) throw new Error('no data yet');
+      const data = await stocksRes.json();
+      const news = (newsRes && newsRes.ok) ? await newsRes.json() : {};
+      const macro = (macroRes && macroRes.ok) ? await macroRes.json() : null;
+      if (macro) renderMacro(macro);
+      render(data, news);
+    } catch (e) {
+      document.getElementById('empty').style.display = 'block';
+      document.getElementById('updated').textContent = '데이터 없음';
+    }
+  }
+
+  const MACRO_LABELS = {
+    kospi: '코스피', kosdaq: '코스닥', vkospi: 'VKOSPI',
+    usdkrw: '원/달러', nasdaq: '나스닥', sox: 'SOX(반도체)',
+  };
+
+  function renderMacro(macro) {
+    const el = document.getElementById('macro');
+    el.innerHTML = Object.keys(MACRO_LABELS).map(key => {
+      const m = macro[key];
+      if (!m || m.price == null) {
+        return `<div class="macro-item"><div class="macro-label">${MACRO_LABELS[key]}</div><div class="macro-price" style="color:var(--muted)">-</div></div>`;
+      }
+      const dir = dirOf(m.changeRate || 0);
+      const sign = (m.changeRate || 0) > 0 ? '+' : '';
+      return `
+        <div class="macro-item">
+          <div class="macro-label">${MACRO_LABELS[key]}</div>
+          <div class="macro-price">${m.price.toLocaleString('ko-KR')}</div>
+          <div class="macro-change ${dir}">${sign}${(m.changeRate || 0).toFixed(2)}%</div>
+        </div>`;
+    }).join('');
+  }
+
+  function dirOf(rate) {
+    return rate > 0 ? 'up' : rate < 0 ? 'down' : 'flat';
+  }
+
+  function render(data, news) {
+    document.getElementById('updated').textContent =
+      '업데이트: ' + new Date(data.updatedAt).toLocaleString('ko-KR', { hour12: false });
+
+    // 섹터별로 묶기
+    const bySector = {};
+    for (const s of data.stocks) {
+      const sector = s.sector || '기타';
+      (bySector[sector] ||= []).push(s);
+    }
+
+    // 섹터 내부는 등락률 높은 순, 섹터 자체는 평균 등락률 높은 순
+    const sectorNames = Object.keys(bySector).sort((a, b) => {
+      const avg = arr => arr.reduce((sum, s) => sum + (parseFloat(s.changeRate) || 0), 0) / arr.length;
+      return avg(bySector[b]) - avg(bySector[a]);
+    });
+
+    const container = document.getElementById('sectors');
+    container.innerHTML = sectorNames.map(sector => {
+      const stocks = [...bySector[sector]].sort(
+        (a, b) => (parseFloat(b.changeRate) || 0) - (parseFloat(a.changeRate) || 0)
+      );
+      const avgRate = stocks.reduce((sum, s) => sum + (parseFloat(s.changeRate) || 0), 0) / stocks.length;
+      const avgDir = dirOf(avgRate);
+
+      const tiles = stocks.map(s => {
+        const rate = parseFloat(s.changeRate) || 0;
+        const dir = dirOf(rate);
+        const heatPct = Math.min(Math.abs(rate) / HEAT_CAP, 1) * 100;
+        const sign = rate > 0 ? '+' : '';
+
+        const n = news[s.name];
+        let newsHtml;
+        if (n && n.hasImportantNews) {
+          const badgeDir = n.direction === 'down' ? 'down' : 'up';
+          const badgeSign = n.direction === 'down' ? '-' : '+';
+          newsHtml = `
+            <div class="news-line important">
+              <span class="news-badge ${badgeDir}">영향도 ${badgeSign}${Math.round(n.impactPct)}%</span><br/>
+              ${n.summary}
+            </div>`;
+        } else {
+          newsHtml = `<div class="news-line empty">특이 뉴스 없음</div>`;
+        }
+
+        const score = computeScore(s, n);
+        const scoreHtml = score !== null
+          ? `<div class="score-badge ${scoreClass(score)}">${Math.round(score)}점 · ${scoreLabel(score)}</div>`
+          : '';
+
+        let extraHtml = '';
+        if (s.targetPrice || s.opinion) {
+          extraHtml += `<div class="extra-line">`;
+          if (s.opinion) extraHtml += `투자의견 ${s.opinion}`;
+          if (s.targetPrice) extraHtml += `${s.opinion ? ' · ' : ''}목표 ${Number(s.targetPrice).toLocaleString('ko-KR')}`;
+          extraHtml += `</div>`;
+        }
+
+        let rangeHtml = '';
+        if (s.week52High && s.week52Low && s.week52High > s.week52Low) {
+          const pos = Math.max(0, Math.min(100, (s.price - s.week52Low) / (s.week52High - s.week52Low) * 100));
+          rangeHtml = `
+            <div class="range-wrap">
+              <div class="range-labels"><span>52주저 ${Number(s.week52Low).toLocaleString('ko-KR')}</span><span>52주고 ${Number(s.week52High).toLocaleString('ko-KR')}</span></div>
+              <div class="range-track"><div class="range-dot" style="left:${pos}%"></div></div>
+            </div>`;
+        }
+
+        let flowHtml = '';
+        if (s.volumeRatio || s.foreignNet != null || s.instNet != null) {
+          const bits = [];
+          if (s.volumeRatio) {
+            const surgeClass = s.volumeRatio >= 2 ? 'surge' : '';
+            bits.push(`거래량 <span class="${surgeClass}">${s.volumeRatio.toFixed(1)}배</span>`);
+          }
+          if (s.foreignNet != null) {
+            bits.push(`외국인 ${s.foreignNet > 0 ? '+' : ''}${(s.foreignNet / 10000).toFixed(1)}만주`);
+          }
+          if (s.instNet != null) {
+            bits.push(`기관 ${s.instNet > 0 ? '+' : ''}${(s.instNet / 10000).toFixed(1)}만주`);
+          }
+          flowHtml = `<div class="flow-line">${bits.join(' · ')}</div>`;
+        }
+
+        return `
+          <div class="tile" onclick="window.open('https://finance.naver.com/item/main.naver?code=${s.code}', '_blank')">
+            ${scoreHtml}
+            <div class="tile-name">${s.name}</div>
+            <div class="tile-price">${Number(s.price).toLocaleString('ko-KR')}</div>
+            <div class="tile-change ${dir}">${sign}${rate.toFixed(2)}%</div>
+            <div class="heat-bar"><div class="heat-bar-fill ${dir}" style="width:${heatPct}%; background:currentColor"></div></div>
+            ${rangeHtml}
+            ${flowHtml}
+            ${extraHtml}
+            ${newsHtml}
+          </div>`;
+      }).join('');
+
+      return `
+        <div class="sector-card">
+          <div class="sector-head">
+            <span class="sector-name">${sector}</span>
+            <span class="sector-avg ${avgDir}">${avgRate > 0 ? '+' : ''}${avgRate.toFixed(2)}%</span>
+          </div>
+          <div class="tiles">${tiles}</div>
+        </div>`;
+    }).join('');
+  }
+
+  load();
+  setInterval(load, 60000);
+</script>
+
+</body>
+</html>
