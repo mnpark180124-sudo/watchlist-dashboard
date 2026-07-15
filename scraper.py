@@ -121,9 +121,19 @@ def fetch_price(code: str) -> dict | None:
         res.raise_for_status()
         data = res.json()
         info = data["datas"][0]
+
+        def to_num(v):
+            """'280,750' 같은 콤마 포함 문자열도 숫자로 안전하게 변환"""
+            if v is None:
+                return None
+            try:
+                return float(str(v).replace(",", ""))
+            except ValueError:
+                return None
+
         return {
-            "price": info.get("closePrice"),
-            "change": info.get("compareToPreviousClosePrice"),
+            "price": to_num(info.get("closePrice")),
+            "change": to_num(info.get("compareToPreviousClosePrice")),
             "changeRate": info.get("fluctuationsRatio"),
             "riseFall": info.get("compareToPreviousPrice", {}).get("text"),  # 상승/하락/보합
         }
@@ -144,7 +154,7 @@ def fetch_extra(code: str) -> dict:
         page_text = soup.get_text(" ", strip=True)
 
         def num_after(label: str):
-            m = re.search(rf"{label}\s*([\d,]+)", page_text)
+            m = re.search(rf"{label}\s*([\d,]{{4,}})", page_text)  # 최소 4자리 이상만 인정 (엉뚱한 각주 숫자 방지)
             return int(m.group(1).replace(",", "")) if m else None
 
         opinion_match = re.search(r"투자의견\s*(강력매수|매수|중립|매도|강력매도)", page_text)
@@ -282,6 +292,18 @@ def fetch_macro() -> dict:
     }
 
 
+def sanitize_for_json(obj):
+    """dict/list를 재귀적으로 훑어서 NaN, Infinity 같은 비표준 JSON 값을 None으로 바꾼다.
+    (파이썬의 json.dump는 NaN을 그대로 써버려서 브라우저 JSON.parse가 깨지는 문제를 막기 위함)"""
+    if isinstance(obj, float) and (obj != obj or obj in (float("inf"), float("-inf"))):
+        return None
+    if isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_for_json(v) for v in obj]
+    return obj
+
+
 def main():
     os.makedirs("data", exist_ok=True)
 
@@ -318,7 +340,7 @@ def main():
     }
 
     with open("data/stocks.json", "w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=2)
+        json.dump(sanitize_for_json(output), f, ensure_ascii=False, indent=2)
 
     print(f"✅ {len(results)}개 종목 저장 완료")
 
@@ -327,7 +349,7 @@ def main():
         **fetch_macro(),
     }
     with open("data/macro.json", "w", encoding="utf-8") as f:
-        json.dump(macro_output, f, ensure_ascii=False, indent=2)
+        json.dump(sanitize_for_json(macro_output), f, ensure_ascii=False, indent=2)
 
     print("✅ 매크로 지표 저장 완료")
 
