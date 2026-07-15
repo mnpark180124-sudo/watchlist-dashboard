@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-15T15:13:23.668134+09:00",
+  "updatedAt": "2026-07-15T15:23:13.748429+09:00",
   "kospi": {
     "price": null,
     "change": null,
@@ -16,14 +16,14 @@
     "changeRate": null
   },
   "usdkrw": {
-    "price": 1486.38,
-    "change": -11.32,
+    "price": 1486.36,
+    "change": -11.34,
     "changeRate": -0.76
   },
   "nasdaq": {
-    "price": NaN,
-    "change": NaN,
-    "changeRate": NaN
+    "price": null,
+    "change": null,
+    "changeRate": null
   },
   "sox": {
     "price": 12347.78,
