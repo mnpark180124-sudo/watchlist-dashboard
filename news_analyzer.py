@@ -16,6 +16,7 @@ import json
 import os
 import re
 import time
+from datetime import datetime, timezone, timedelta
 
 from google import genai
 from google.genai import types
@@ -79,6 +80,49 @@ def analyze_stock(name: str) -> dict:
         return {"hasImportantNews": False, "source": "", "date": "", "summary": "", "impactPct": 0, "direction": "neutral"}
 
 
+GEOPOLITICAL_PROMPT = """\
+너는 한국 주식시장에 영향을 주는 지정학적 리스크를 확인하는 보조원이다.
+
+Google 검색을 이용해서 최근 3일 이내 미국-이란 관련 군사적 충돌/전쟁 리스크 뉴스가 있는지 확인해라.
+(공습, 호르무즈 해협 봉쇄, 유가 급등, 미군 파병, 확전 우려 등)
+
+아래 JSON 형식으로만 답하라. 다른 설명 문장은 절대 붙이지 마라. 마크다운 코드블록도 쓰지 마라.
+
+{
+  "has_risk": true 또는 false,
+  "direction": "down" (확전/악재로 시장에 부정적) 또는 "up" (완화/호재로 시장에 긍정적) 또는 "neutral",
+  "summary": "2문장 이내 한국어 요약 (리스크 없으면 빈 문자열)"
+}
+
+확실한 근거가 없으면 has_risk를 false로 하라.
+"""
+
+
+def analyze_geopolitical_risk() -> dict:
+    try:
+        response = client.models.generate_content(
+            model=MODEL,
+            contents=GEOPOLITICAL_PROMPT,
+            config=types.GenerateContentConfig(
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+            ),
+        )
+        text = response.text or ""
+        match = re.search(r"\{.*\}", text, re.DOTALL)
+        if not match:
+            raise ValueError(f"JSON을 못 찾음: {text[:200]}")
+
+        parsed = json.loads(match.group())
+        return {
+            "hasRisk": bool(parsed.get("has_risk", False)),
+            "direction": parsed.get("direction", "neutral"),
+            "summary": parsed.get("summary", ""),
+        }
+    except Exception as e:
+        print(f"[지정학적 리스크 분석 실패] {e}")
+        return {"hasRisk": False, "direction": "neutral", "summary": ""}
+
+
 def main():
     os.makedirs("data", exist_ok=True)
 
@@ -92,6 +136,14 @@ def main():
         json.dump(results, f, ensure_ascii=False, indent=2)
 
     print(f"✅ {len(results)}개 종목 뉴스 분석 완료")
+
+    print("지정학적 리스크(미국-이란) 확인 중...")
+    geo = analyze_geopolitical_risk()
+    kst = timezone(timedelta(hours=9))
+    geo["updatedAt"] = datetime.now(kst).isoformat()
+    with open("data/geopolitical.json", "w", encoding="utf-8") as f:
+        json.dump(geo, f, ensure_ascii=False, indent=2)
+    print("✅ 지정학적 리스크 분석 완료")
 
 
 if __name__ == "__main__":
