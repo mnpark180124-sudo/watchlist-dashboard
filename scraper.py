@@ -154,7 +154,8 @@ def fetch_extra(code: str) -> dict:
         page_text = soup.get_text(" ", strip=True)
 
         def num_after(label: str):
-            m = re.search(rf"{label}\s*([\d,]{{4,}})", page_text)  # 최소 4자리 이상만 인정 (엉뚱한 각주 숫자 방지)
+            # 라벨과 숫자 사이에 "가", ":", 공백 등이 끼어 있어도 잡히도록 최대 10글자까지 건너뛰고 찾는다
+            m = re.search(rf"{label}[^\d]{{0,10}}([\d,]{{4,}})", page_text)
             return int(m.group(1).replace(",", "")) if m else None
 
         opinion_match = re.search(r"투자의견\s*(강력매수|매수|중립|매도|강력매도)", page_text)
@@ -170,9 +171,43 @@ def fetch_extra(code: str) -> dict:
         return {"week52High": None, "week52Low": None, "targetPrice": None, "opinion": None}
 
 
+def fetch_financials(code: str) -> dict:
+    """부채비율, ROE를 종목분석 페이지 표에서 가져온다 (재무 안전성/실적 참고용).
+    행 라벨(부채비율/ROE) 기준으로 표를 찾아서 가장 최근(마지막) 값을 사용한다."""
+    url = f"https://finance.naver.com/item/coinfo.naver?code={code}"
+    try:
+        res = requests.get(url, headers=HEADERS, timeout=5)
+        res.raise_for_status()
+        tables = pd.read_html(res.text)
+
+        def latest_value(row_label: str):
+            for t in tables:
+                first_col = t.iloc[:, 0].astype(str)
+                matches = t[first_col.str.contains(row_label, na=False)]
+                if matches.empty:
+                    continue
+                row = matches.iloc[0]
+                # 뒤에서부터 훑어서 숫자로 변환되는 가장 최근 값을 찾는다
+                for v in reversed(row.tolist()[1:]):
+                    try:
+                        return float(str(v).replace(",", ""))
+                    except (ValueError, TypeError):
+                        continue
+            return None
+
+        return {
+            "debtRatio": latest_value("부채비율"),
+            "roe": latest_value("ROE"),
+        }
+    except Exception as e:
+        print(f"[재무제표 실패] {code}: {e}")
+        return {"debtRatio": None, "roe": None}
+
+
 def fetch_volume_surge(code: str) -> dict:
-    """오늘 거래량을 최근 20일 평균 거래량과 비교해 배율을 계산한다.
-    페이지의 '일별시세' 표를 컬럼명(거래량) 기준으로 찾기 때문에 표 위치가 바뀌어도 잘 버틴다."""
+    """오늘 거래량을 최근 20일 평균 거래량과 비교해 배율을 계산하고,
+    최근 20일 저가 중 최솟값을 '지지선' 참고값으로 함께 계산한다.
+    페이지의 '일별시세' 표를 컬럼명(거래량/저가) 기준으로 찾기 때문에 표 위치가 바뀌어도 잘 버틴다."""
     url = f"https://finance.naver.com/item/sise_day.naver?code={code}&page=1"
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
@@ -182,10 +217,13 @@ def fetch_volume_surge(code: str) -> dict:
         if df is None:
             raise ValueError("거래량 표를 못 찾음")
 
-        volumes = (
-            df["거래량"].astype(str).str.replace(",", "", regex=False)
-            .pipe(pd.to_numeric, errors="coerce").dropna()
-        )
+        def to_series(col):
+            return (
+                df[col].astype(str).str.replace(",", "", regex=False)
+                .pipe(pd.to_numeric, errors="coerce").dropna()
+            )
+
+        volumes = to_series("거래량")
         if volumes.empty:
             raise ValueError("거래량 데이터 없음")
 
@@ -193,18 +231,27 @@ def fetch_volume_surge(code: str) -> dict:
         avg20 = volumes.iloc[1:21].mean() if len(volumes) > 1 else None
         ratio = round(today_volume / avg20, 2) if avg20 else None
 
+        support_line = None
+        if "저가" in df.columns:
+            lows = to_series("저가").iloc[:20]
+            if not lows.empty:
+                support_line = int(lows.min())
+
         return {
             "volume": today_volume,
             "avgVolume20": int(avg20) if avg20 else None,
             "volumeRatio": ratio,
+            "supportLine": support_line,
         }
     except Exception as e:
         print(f"[거래량 실패] {code}: {e}")
-        return {"volume": None, "avgVolume20": None, "volumeRatio": None}
+        return {"volume": None, "avgVolume20": None, "volumeRatio": None, "supportLine": None}
 
 
 def fetch_foreign_institution(code: str) -> dict:
-    """외국인/기관 순매매 동향(가장 최근 거래일)을 가져온다."""
+    """외국인/기관 순매매 동향(가장 최근 거래일)을 가져온다.
+    개인 순매매는 네이버 표에 따로 없어서, '외국인+기관 순매매의 반대 부호'로 근사치를 추정한다
+    (실제로는 프로그램매매 등 다른 주체도 있어 정확한 값은 아니고 참고용 근사치다)."""
     url = f"https://finance.naver.com/item/frgn.naver?code={code}"
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
@@ -232,10 +279,14 @@ def fetch_foreign_institution(code: str) -> dict:
             except (ValueError, TypeError):
                 return None
 
-        return {"foreignNet": clean(row[foreign_col]), "instNet": clean(row[inst_col])}
+        foreign_net = clean(row[foreign_col])
+        inst_net = clean(row[inst_col])
+        indiv_net = -(foreign_net + inst_net) if foreign_net is not None and inst_net is not None else None
+
+        return {"foreignNet": foreign_net, "instNet": inst_net, "indivNet": indiv_net}
     except Exception as e:
         print(f"[수급 실패] {code}: {e}")
-        return {"foreignNet": None, "instNet": None}
+        return {"foreignNet": None, "instNet": None, "indivNet": None}
 
 
 def fetch_naver_index(code: str, label: str) -> dict:
@@ -337,6 +388,7 @@ def main():
         extra_info = fetch_extra(code)
         volume_info = fetch_volume_surge(code)
         flow_info = fetch_foreign_institution(code)
+        financial_info = fetch_financials(code)
 
         results.append({
             "name": name,
@@ -346,6 +398,7 @@ def main():
             **extra_info,
             **volume_info,
             **flow_info,
+            **financial_info,
         })
         time.sleep(0.3)  # 페이지 여러 개 긁으니 요청 간격 살짝 늘림
 
