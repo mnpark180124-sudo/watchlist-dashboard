@@ -31,6 +31,6 @@ jobs:
         run: |
           git config user.name "watchlist-bot"
           git config user.email "actions@github.com"
-          git add data/news.json
+          git add data/news.json data/geopolitical.json
           git diff --staged --quiet || git commit -m "chore: update news analysis"
           git push
