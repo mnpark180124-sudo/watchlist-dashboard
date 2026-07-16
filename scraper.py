@@ -16,6 +16,18 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
+
+def flatten_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """네이버 표는 헤더가 2단(예: '외국인' > '순매매량')인 경우가 많아서
+    pandas가 컬럼명을 ('외국인', '순매매량') 같은 튜플(MultiIndex)로 만든다.
+    이걸 '외국인순매매량' 같은 일반 문자열 한 줄로 합쳐서, 이후 문자열 매칭이 실제로 먹히게 한다."""
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = [
+            "".join(str(level) for level in tup if str(level) and "Unnamed" not in str(level))
+            for tup in df.columns
+        ]
+    return df
+
 # ----------------------------------------------------------------------
 # 1) 감시할 종목 목록 (이름만 적으면 코드는 자동으로 찾음)
 #    이름이 애매해서 자동 검색이 틀릴 것 같으면 CODE_OVERRIDES 에 직접 코드를 적어준다.
@@ -159,11 +171,22 @@ def fetch_extra(code: str) -> dict:
             m = re.search(rf"{label}[^\d]{{0,10}}([\d,]{{4,}})", page_text)
             return int(m.group(1).replace(",", "")) if m else None
 
+        week52_high = num_after("52주최고")
+        week52_low = num_after("52주최저")
+
+        if week52_low is None:
+            # "52주최고/최저" 처럼 한 라벨에 숫자 두 개가 붙어 나오는 페이지 형식 대응
+            m = re.search(r"52주\D{0,15}?([\d,]{4,})\D{1,15}?([\d,]{4,})", page_text)
+            if m:
+                a, b = int(m.group(1).replace(",", "")), int(m.group(2).replace(",", ""))
+                week52_high = week52_high or max(a, b)
+                week52_low = min(a, b)
+
         opinion_match = re.search(r"투자의견\s*(강력매수|매수|중립|매도|강력매도)", page_text)
 
         return {
-            "week52High": num_after("52주최고"),
-            "week52Low": num_after("52주최저"),
+            "week52High": week52_high,
+            "week52Low": week52_low,
             "targetPrice": num_after("목표주가"),
             "opinion": opinion_match.group(1) if opinion_match else None,
         }
@@ -179,7 +202,7 @@ def fetch_financials(code: str) -> dict:
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
-        tables = pd.read_html(io.StringIO(res.text))
+        tables = [flatten_columns(t) for t in pd.read_html(io.StringIO(res.text))]
 
         def latest_value(row_label: str):
             for t in tables:
@@ -213,7 +236,7 @@ def fetch_volume_surge(code: str) -> dict:
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
-        tables = pd.read_html(io.StringIO(res.text))
+        tables = [flatten_columns(t) for t in pd.read_html(io.StringIO(res.text))]
         df = next((t for t in tables if "거래량" in t.columns), None)
         if df is None:
             raise ValueError("거래량 표를 못 찾음")
@@ -257,7 +280,7 @@ def fetch_foreign_institution(code: str) -> dict:
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
-        tables = pd.read_html(io.StringIO(res.text))
+        tables = [flatten_columns(t) for t in pd.read_html(io.StringIO(res.text))]
 
         target = None
         foreign_col = inst_col = None
