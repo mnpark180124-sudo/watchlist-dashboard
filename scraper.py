@@ -5,6 +5,7 @@
 - 결과를 data/stocks.json 에 저장한다 (GitHub Pages가 이 파일을 읽어서 화면에 그림)
 """
 
+import io
 import json
 import os
 import re
@@ -178,7 +179,7 @@ def fetch_financials(code: str) -> dict:
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
-        tables = pd.read_html(res.text)
+        tables = pd.read_html(io.StringIO(res.text))
 
         def latest_value(row_label: str):
             for t in tables:
@@ -212,7 +213,7 @@ def fetch_volume_surge(code: str) -> dict:
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
-        tables = pd.read_html(res.text)
+        tables = pd.read_html(io.StringIO(res.text))
         df = next((t for t in tables if "거래량" in t.columns), None)
         if df is None:
             raise ValueError("거래량 표를 못 찾음")
@@ -256,7 +257,7 @@ def fetch_foreign_institution(code: str) -> dict:
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
-        tables = pd.read_html(res.text)
+        tables = pd.read_html(io.StringIO(res.text))
 
         target = None
         foreign_col = inst_col = None
