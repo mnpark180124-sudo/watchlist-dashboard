@@ -196,33 +196,30 @@ def fetch_extra(code: str) -> dict:
 
 
 def fetch_financials(code: str) -> dict:
-    """부채비율, ROE를 종목분석 페이지 표에서 가져온다 (재무 안전성/실적 참고용).
-    행 라벨(부채비율/ROE) 기준으로 표를 찾아서 가장 최근(마지막) 값을 사용한다."""
-    url = f"https://finance.naver.com/item/coinfo.naver?code={code}"
+    """부채비율, ROE를 재무비율 표에서 가져온다 (재무 안전성/실적 참고용).
+    (item/coinfo.naver는 프레임 구조라 서명 토큰이 필요해서, 표를 바로 반환하는
+    companyinfo.stock.naver.com의 AJAX 엔드포인트를 대신 사용한다)"""
+    url = f"https://companyinfo.stock.naver.com/v1/company/ajax/cF1001.aspx?cmp_cd={code}&fin_typ=0&freq_typ=Y"
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
         res.raise_for_status()
         tables = [flatten_columns(t) for t in pd.read_html(io.StringIO(res.text))]
+        if not tables:
+            raise ValueError("표를 못 찾음")
 
-        def latest_value(row_label: str):
-            for t in tables:
-                first_col = t.iloc[:, 0].astype(str)
-                matches = t[first_col.str.contains(row_label, na=False)]
-                if matches.empty:
-                    continue
-                row = matches.iloc[0]
-                # 뒤에서부터 훑어서 숫자로 변환되는 가장 최근 값을 찾는다
-                for v in reversed(row.tolist()[1:]):
-                    try:
-                        return float(str(v).replace(",", ""))
-                    except (ValueError, TypeError):
-                        continue
-            return None
+        df = tables[0]
+        cols = [str(c) for c in df.columns]
+        debt_col = next((c for c in cols if "부채비율" in c), None)
+        roe_col = next((c for c in cols if "ROE" in c), None)
+        print(f"[디버그:재무] {code} 컬럼일부={cols[:8]}")
 
-        return {
-            "debtRatio": latest_value("부채비율"),
-            "roe": latest_value("ROE"),
-        }
+        def last_valid(col):
+            if col is None:
+                return None
+            series = pd.to_numeric(df[col].astype(str).str.replace(",", ""), errors="coerce").dropna()
+            return float(series.iloc[-1]) if not series.empty else None
+
+        return {"debtRatio": last_valid(debt_col), "roe": last_valid(roe_col)}
     except Exception as e:
         print(f"[재무제표 실패] {code}: {e}")
         return {"debtRatio": None, "roe": None}
@@ -296,6 +293,7 @@ def fetch_foreign_institution(code: str) -> dict:
             raise ValueError("외국인/기관 표를 못 찾음")
 
         row = target.dropna(subset=[foreign_col]).iloc[0]
+        print(f"[디버그:수급] {code} 컬럼={foreign_col}/{inst_col} 원본값={row[foreign_col]!r}/{row[inst_col]!r}")
 
         def clean(v):
             try:
@@ -314,8 +312,10 @@ def fetch_foreign_institution(code: str) -> dict:
 
 
 def fetch_naver_index(code: str, label: str) -> dict:
-    """네이버 지수 일별시세 표에서 가장 최근 값을 가져온다.
-    (표 형식: 날짜/체결가/전일비/등락률/거래량/거래대금, 6칸짜리 행만 데이터로 인정)"""
+    """네이버 지수 일별시세 표에서 최근 2개 거래일의 가격을 가져와 직접 등락을 계산한다.
+    (표 형식: 날짜/체결가/전일비/등락률/거래량/거래대금, 6칸짜리 행만 데이터로 인정)
+    전일비/등락률 컬럼은 상승·하락 아이콘으로 부호를 표시해서 텍스트 파싱이 불안정하기 때문에,
+    가격 두 값의 차이로 직접 계산해 부호 불일치를 원천적으로 막는다."""
     url = f"https://finance.naver.com/sise/sise_index_day.naver?code={code}&page=1"
     try:
         res = requests.get(url, headers=HEADERS, timeout=5)
@@ -325,29 +325,29 @@ def fetch_naver_index(code: str, label: str) -> dict:
         if table is None:
             raise ValueError("표를 못 찾음")
 
+        def clean(v):
+            v = v.replace(",", "").replace("%", "").strip()
+            return float(v) if v else None
+
+        prices = []
         for row in table.find_all("tr"):
             cols = row.find_all("td")
             if len(cols) != 6:
                 continue  # 헤더/빈 행 건너뜀
-
-            def clean(v):
-                v = v.replace(",", "").replace("%", "").strip()
-                return float(v) if v else None
-
             price = clean(cols[1].get_text())
-            diff_text = cols[2].get_text().strip()
-            diff = clean(diff_text)
-            rate = clean(cols[3].get_text())
+            if price is not None:
+                prices.append(price)
+            if len(prices) >= 2:
+                break
 
-            # 전일비 컬럼에 상승/하락 표시가 있는 경우 하락이면 음수로 보정
-            if diff is not None and ("하락" in diff_text or "-" in diff_text) and diff > 0:
-                diff = -diff
-            if rate is not None and diff is not None and diff < 0 and rate > 0:
-                rate = -rate
+        if len(prices) < 2:
+            raise ValueError("최근 2개 거래일 데이터를 못 모음")
 
-            return {"price": price, "change": diff, "changeRate": rate}
+        today, prev = prices[0], prices[1]
+        diff = today - prev
+        rate = round(diff / prev * 100, 2) if prev else None
 
-        raise ValueError("유효한 데이터 행이 없음")
+        return {"price": today, "change": round(diff, 2), "changeRate": rate}
     except Exception as e:
         print(f"[지수 실패] {label}({code}): {e}")
         return {"price": None, "change": None, "changeRate": None}
