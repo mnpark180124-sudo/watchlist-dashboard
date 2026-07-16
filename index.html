@@ -169,6 +169,15 @@
     color: var(--muted);
   }
 
+  #geo-banner {
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  #geo-banner.down { background: rgba(240,68,82,0.1); border: 1px solid rgba(240,68,82,0.3); color: var(--up); }
+  #geo-banner.up { background: rgba(49,130,246,0.1); border: 1px solid rgba(49,130,246,0.3); color: var(--down); }
+
   #macro {
     max-width: 1360px;
     margin: 0 auto;
@@ -249,20 +258,26 @@
   </div>
 </header>
 
+<div id="geo-banner" style="display:none; max-width:1360px; margin:14px auto 0; padding:10px 32px;"></div>
 <div id="macro"></div>
 
 <main>
-  <p id="disclaimer">평가점수는 목표주가 상승여력·투자의견·52주 위치·뉴스 영향도를 합친 참고용 지표이며, 매수/매도 추천이 아닙니다.</p>
+  <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(20%)·뉴스/공시 영향(20%)·재무제표(10%)의 가중합에,
+  환율·미증시·지정학적 리스크를 각각 최대 ±20점 반영해 조정한 참고용 지표입니다. 매수/매도 추천이 아닙니다.</p>
   <div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
 </main>
 
 <script>
   const HEAT_CAP = 10; // 등락률 이 값(%) 이상이면 히트바가 꽉 참
-  const SCORE_WEIGHTS = { target: 0.35, opinion: 0.25, week52: 0.25, news: 0.15 };
-  const OPINION_SCORE = { "강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0 };
 
-  function computeScore(s, newsInfo) {
+  // 기본 점수 가중치 (종목 자체 지표, 합계 100)
+  const SCORE_WEIGHTS = { target: 0.30, opinion: 0.20, week52: 0.20, news: 0.20, financial: 0.10 };
+  const OPINION_SCORE = { "강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0 };
+  // 매크로 조정치 (시장 전체 공통, 각각 최대 ±20점씩 가감 후 합산)
+  const MACRO_ADJUST = 20;
+
+  function computeBaseScore(s, newsInfo) {
     const parts = [];
 
     if (s.targetPrice) {
@@ -288,9 +303,44 @@
     }
     parts.push([newsScore, SCORE_WEIGHTS.news]);
 
+    // 재무제표: 부채비율은 낮을수록, ROE는 높을수록 좋게 평가 (둘 다 있으면 평균)
+    const finParts = [];
+    if (s.debtRatio != null) finParts.push(Math.max(0, Math.min(100, 100 - s.debtRatio / 2)));
+    if (s.roe != null) finParts.push(Math.max(0, Math.min(100, s.roe * 5)));
+    if (finParts.length > 0) {
+      const finScore = finParts.reduce((a, b) => a + b, 0) / finParts.length;
+      parts.push([finScore, SCORE_WEIGHTS.financial]);
+    }
+
     const totalWeight = parts.reduce((sum, [, w]) => sum + w, 0);
     const weighted = parts.reduce((sum, [sc, w]) => sum + sc * w, 0);
     return totalWeight > 0 ? weighted / totalWeight : null;
+  }
+
+  function computeMacroAdjustment(macro, geo) {
+    let adj = 0;
+
+    // 환율: 원화 강세(환율 하락) → +20, 원화 약세(환율 상승) → -20
+    if (macro && macro.usdkrw && macro.usdkrw.changeRate != null) {
+      adj += macro.usdkrw.changeRate < 0 ? MACRO_ADJUST : macro.usdkrw.changeRate > 0 ? -MACRO_ADJUST : 0;
+    }
+    // 미국 증시(나스닥): 상승 → +20, 하락 → -20
+    if (macro && macro.nasdaq && macro.nasdaq.changeRate != null) {
+      adj += macro.nasdaq.changeRate > 0 ? MACRO_ADJUST : macro.nasdaq.changeRate < 0 ? -MACRO_ADJUST : 0;
+    }
+    // 미국-이란 전쟁 리스크: 악재(확전) → -20, 호재(완화) → +20
+    if (geo && geo.hasRisk) {
+      adj += geo.direction === 'down' ? -MACRO_ADJUST : geo.direction === 'up' ? MACRO_ADJUST : 0;
+    }
+
+    return adj;
+  }
+
+  function computeScore(s, newsInfo, macro, geo) {
+    const base = computeBaseScore(s, newsInfo);
+    if (base === null) return null;
+    const adj = computeMacroAdjustment(macro, geo);
+    return Math.max(0, Math.min(100, base + adj));
   }
 
   function scoreClass(score) {
@@ -309,20 +359,36 @@
 
   async function load() {
     try {
-      const [stocksRes, newsRes, macroRes] = await Promise.all([
+      const [stocksRes, newsRes, macroRes, geoRes] = await Promise.all([
         fetch('data/stocks.json?ts=' + Date.now()),
         fetch('data/news.json?ts=' + Date.now()).catch(() => null),
         fetch('data/macro.json?ts=' + Date.now()).catch(() => null),
+        fetch('data/geopolitical.json?ts=' + Date.now()).catch(() => null),
       ]);
       if (!stocksRes.ok) throw new Error('no data yet');
       const data = await stocksRes.json();
       const news = (newsRes && newsRes.ok) ? await newsRes.json() : {};
       const macro = (macroRes && macroRes.ok) ? await macroRes.json() : null;
+      const geo = (geoRes && geoRes.ok) ? await geoRes.json() : null;
       if (macro) renderMacro(macro);
-      render(data, news);
+      renderGeoBanner(geo);
+      render(data, news, macro, geo);
     } catch (e) {
       document.getElementById('empty').style.display = 'block';
       document.getElementById('updated').textContent = '데이터 없음';
+    }
+  }
+
+  function renderGeoBanner(geo) {
+    const el = document.getElementById('geo-banner');
+    if (!el) return;
+    if (geo && geo.hasRisk) {
+      const dir = geo.direction === 'down' ? 'down' : 'up';
+      el.style.display = 'block';
+      el.className = dir;
+      el.textContent = `⚠️ 미국-이란 지정학적 리스크 감지 (${dir === 'down' ? '악재' : '호재'} 반영) — ${geo.summary}`;
+    } else {
+      el.style.display = 'none';
     }
   }
 
@@ -353,7 +419,7 @@
     return rate > 0 ? 'up' : rate < 0 ? 'down' : 'flat';
   }
 
-  function render(data, news) {
+  function render(data, news, macro, geo) {
     document.getElementById('updated').textContent =
       '업데이트: ' + new Date(data.updatedAt).toLocaleString('ko-KR', { hour12: false });
 
@@ -389,16 +455,19 @@
         if (n && n.hasImportantNews) {
           const badgeDir = n.direction === 'down' ? 'down' : 'up';
           const badgeSign = n.direction === 'down' ? '-' : '+';
+          const sourceTag = n.source === '공시' ? '📄 공시' : '📰 뉴스';
+          const dateTag = n.date ? ` · ${n.date}` : '';
           newsHtml = `
             <div class="news-line important">
-              <span class="news-badge ${badgeDir}">영향도 ${badgeSign}${Math.round(n.impactPct)}%</span><br/>
+              <span class="news-badge ${badgeDir}">영향도 ${badgeSign}${Math.round(n.impactPct)}%</span>
+              <span style="color:var(--muted); font-size:9.5px;">${sourceTag}${dateTag}</span><br/>
               ${n.summary}
             </div>`;
         } else {
-          newsHtml = `<div class="news-line empty">특이 뉴스 없음</div>`;
+          newsHtml = `<div class="news-line empty">최근 3일 내 특이 뉴스/공시 없음</div>`;
         }
 
-        const score = computeScore(s, n);
+        const score = computeScore(s, n, macro, geo);
         const scoreHtml = score !== null
           ? `<div class="score-badge ${scoreClass(score)}">${Math.round(score)}점 · ${scoreLabel(score)}</div>`
           : '';
@@ -421,8 +490,21 @@
             </div>`;
         }
 
+        let supportHtml = '';
+        if (s.supportLine) {
+          supportHtml = `<div class="extra-line">지지선(20일 저가) ${Number(s.supportLine).toLocaleString('ko-KR')}</div>`;
+        }
+
+        let finHtml = '';
+        if (s.debtRatio != null || s.roe != null) {
+          const bits = [];
+          if (s.debtRatio != null) bits.push(`부채비율 ${s.debtRatio.toFixed(0)}%`);
+          if (s.roe != null) bits.push(`ROE ${s.roe.toFixed(1)}%`);
+          finHtml = `<div class="extra-line">${bits.join(' · ')}</div>`;
+        }
+
         let flowHtml = '';
-        if (s.volumeRatio || s.foreignNet != null || s.instNet != null) {
+        if (s.volumeRatio || s.foreignNet != null || s.instNet != null || s.indivNet != null) {
           const bits = [];
           if (s.volumeRatio) {
             const surgeClass = s.volumeRatio >= 2 ? 'surge' : '';
@@ -433,6 +515,9 @@
           }
           if (s.instNet != null) {
             bits.push(`기관 ${s.instNet > 0 ? '+' : ''}${(s.instNet / 10000).toFixed(1)}만주`);
+          }
+          if (s.indivNet != null) {
+            bits.push(`개인 ${s.indivNet > 0 ? '+' : ''}${(s.indivNet / 10000).toFixed(1)}만주(추정)`);
           }
           flowHtml = `<div class="flow-line">${bits.join(' · ')}</div>`;
         }
@@ -445,7 +530,9 @@
             <div class="tile-change ${dir}">${sign}${rate.toFixed(2)}%</div>
             <div class="heat-bar"><div class="heat-bar-fill ${dir}" style="width:${heatPct}%; background:currentColor"></div></div>
             ${rangeHtml}
+            ${supportHtml}
             ${flowHtml}
+            ${finHtml}
             ${extraHtml}
             ${newsHtml}
           </div>`;
