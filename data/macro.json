@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-16T16:05:16.709974+09:00",
+  "updatedAt": "2026-07-17T16:36:51.144600+09:00",
   "kospi": {
     "price": 6820.6,
     "change": -463.81,
@@ -16,18 +16,18 @@
     "changeRate": null
   },
   "usdkrw": {
-    "price": 1478.21,
-    "change": -9.67,
-    "changeRate": -0.65
+    "price": 1480.53,
+    "change": -5.67,
+    "changeRate": -0.38
   },
   "nasdaq": {
-    "price": 26269.23,
-    "change": 162.22,
-    "changeRate": 0.62
+    "price": 25881.95,
+    "change": -387.28,
+    "changeRate": -1.47
   },
   "sox": {
-    "price": 12398.89,
-    "change": -263.04,
-    "changeRate": -2.08
+    "price": 11867.5,
+    "change": -531.39,
+    "changeRate": -4.29
   }
 }
