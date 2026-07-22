@@ -159,6 +159,22 @@
     "impactPct": 0,
     "direction": "neutral"
   },
+  "SFA넥셀": {
+    "hasImportantNews": false,
+    "source": "",
+    "date": "",
+    "summary": "",
+    "impactPct": 0,
+    "direction": "neutral"
+  },
+  "한농화성": {
+    "hasImportantNews": false,
+    "source": "",
+    "date": "",
+    "summary": "",
+    "impactPct": 0,
+    "direction": "neutral"
+  },
   "태광": {
     "hasImportantNews": false,
     "source": "",
@@ -168,6 +184,14 @@
     "direction": "neutral"
   },
   "아이쓰리시스템": {
+    "hasImportantNews": false,
+    "source": "",
+    "date": "",
+    "summary": "",
+    "impactPct": 0,
+    "direction": "neutral"
+  },
+  "포스코엠텍": {
     "hasImportantNews": false,
     "source": "",
     "date": "",
