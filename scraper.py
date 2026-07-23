@@ -318,6 +318,44 @@ def fetch_foreign_institution(code: str) -> dict:
         return {"foreignNet": None, "instNet": None, "indivNet": None}
 
 
+def fetch_short_selling(code: str) -> dict:
+    """공매도 잔고비율을 pykrx(KRX 공식 데이터 기반 라이브러리)로 가져온다.
+    최근 5거래일 범위로 조회해서 가장 최근 값을 쓴다 (휴장일 등으로 하루만 조회하면 비어있을 수 있어서)."""
+    try:
+        from pykrx import stock as pykrx_stock
+
+        kst = timezone(timedelta(hours=9))
+        today = datetime.now(kst)
+        from_date = (today - timedelta(days=7)).strftime("%Y%m%d")
+        to_date = today.strftime("%Y%m%d")
+
+        df = pykrx_stock.get_shorting_balance_by_ticker(from_date, to_date, code)
+        if df is None or df.empty:
+            raise ValueError("데이터 없음")
+
+        ratio = float(df["비중"].iloc[-1])
+        return {"shortSellingRatio": ratio}
+    except Exception as e:
+        print(f"[공매도 실패] {code}: {e}")
+        return {"shortSellingRatio": None}
+
+
+def estimate_next_earnings() -> str:
+    """상장사 분기보고서 법정 제출기한 근사치를 기준으로 다음 실적발표 예상일을 추정한다.
+    종목마다 실제 발표일은 다를 수 있어 시장 전체 공통 참고용 날짜다."""
+    kst = timezone(timedelta(hours=9))
+    today = datetime.now(kst).date()
+    year = today.year
+    candidates = [
+        datetime(year, 5, 15, tzinfo=kst).date(),
+        datetime(year, 8, 14, tzinfo=kst).date(),
+        datetime(year, 11, 14, tzinfo=kst).date(),
+        datetime(year + 1, 2, 15, tzinfo=kst).date(),
+    ]
+    upcoming = next((d for d in candidates if d >= today), candidates[-1])
+    return upcoming.isoformat()
+
+
 def fetch_naver_index(code: str, label: str) -> dict:
     """네이버 지수 일별시세 표에서 최근 2개 거래일의 가격을 가져와 직접 등락을 계산한다.
     (표 형식: 날짜/체결가/전일비/등락률/거래량/거래대금, 6칸짜리 행만 데이터로 인정)
@@ -420,6 +458,7 @@ def main():
         volume_info = fetch_volume_surge(code)
         flow_info = fetch_foreign_institution(code)
         financial_info = fetch_financials(code)
+        short_info = fetch_short_selling(code)
 
         results.append({
             "name": name,
@@ -430,6 +469,7 @@ def main():
             **volume_info,
             **flow_info,
             **financial_info,
+            **short_info,
         })
         time.sleep(0.3)  # 페이지 여러 개 긁으니 요청 간격 살짝 늘림
 
@@ -446,6 +486,7 @@ def main():
 
     macro_output = {
         "updatedAt": datetime.now(kst).isoformat(),
+        "nextEarningsEstimate": estimate_next_earnings(),
         **fetch_macro(),
     }
     with open("data/macro.json", "w", encoding="utf-8") as f:
