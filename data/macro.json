@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-07-23T18:08:48.555452+09:00",
+  "updatedAt": "2026-07-23T18:25:20.190901+09:00",
   "nextEarningsEstimate": "2026-08-14",
   "kospi": {
     "price": 7096.89,
@@ -17,9 +17,9 @@
     "changeRate": null
   },
   "usdkrw": {
-    "price": 1470.32,
-    "change": -9.4,
-    "changeRate": -0.64
+    "price": 1469.88,
+    "change": -9.84,
+    "changeRate": -0.66
   },
   "nasdaq": {
     "price": 25690.9,
