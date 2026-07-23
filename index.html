@@ -258,7 +258,8 @@
   </div>
 </header>
 
-<div id="geo-banner" style="display:none; max-width:1360px; margin:14px auto 0; padding:10px 32px;"></div>
+<div id="earnings-banner" style="max-width:1360px; margin:14px auto 0; padding:8px 32px; font-size:11px; color:var(--muted);"></div>
+<div id="geo-banner" style="display:none; max-width:1360px; margin:8px auto 0; padding:10px 32px;"></div>
 <div id="macro"></div>
 
 <main>
@@ -371,6 +372,7 @@
       const macro = (macroRes && macroRes.ok) ? await macroRes.json() : null;
       const geo = (geoRes && geoRes.ok) ? await geoRes.json() : null;
       if (macro) renderMacro(macro);
+      renderEarningsBanner(macro);
       renderGeoBanner(geo);
       render(data, news, macro, geo);
     } catch (e) {
@@ -396,6 +398,20 @@
     kospi: '코스피', kosdaq: '코스닥', vkospi: 'VKOSPI',
     usdkrw: '원/달러', nasdaq: '나스닥', sox: 'SOX(반도체)',
   };
+
+  function renderEarningsBanner(macro) {
+    const el = document.getElementById('earnings-banner');
+    if (!el) return;
+    if (!macro || !macro.nextEarningsEstimate) {
+      el.textContent = '';
+      return;
+    }
+    const target = new Date(macro.nextEarningsEstimate + 'T00:00:00+09:00');
+    const now = new Date();
+    const dday = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
+    const dateStr = target.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
+    el.textContent = `📅 다음 분기 실적발표 예상: ${dateStr} 경 (D-${dday}) — 법정 제출기한 기준 추정치이며 종목별 실제 발표일과 다를 수 있어요`;
+  }
 
   function renderMacro(macro) {
     const el = document.getElementById('macro');
@@ -504,7 +520,7 @@
         }
 
         let flowHtml = '';
-        if (s.volumeRatio || s.foreignNet != null || s.instNet != null || s.indivNet != null) {
+        if (s.volumeRatio || s.foreignNet != null || s.instNet != null || s.indivNet != null || s.shortSellingRatio != null) {
           const bits = [];
           if (s.volumeRatio) {
             const surgeClass = s.volumeRatio >= 2 ? 'surge' : '';
@@ -518,6 +534,10 @@
           }
           if (s.indivNet != null) {
             bits.push(`개인 ${s.indivNet > 0 ? '+' : ''}${(s.indivNet / 10000).toFixed(1)}만주(추정)`);
+          }
+          if (s.shortSellingRatio != null) {
+            const shortClass = s.shortSellingRatio >= 5 ? 'surge' : '';
+            bits.push(`공매도 <span class="${shortClass}">${s.shortSellingRatio.toFixed(1)}%</span>`);
           }
           flowHtml = `<div class="flow-line">${bits.join(' · ')}</div>`;
         }
