@@ -264,8 +264,8 @@
 
 <main>
   <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(20%)·뉴스/공시 영향(20%)·재무제표(10%)의 가중합에,
-  환율·미증시(나스닥)·VIX·미국10년물·지정학적 리스크 5가지를 각각 최대 ±20점씩 반영해 조정한 참고용 지표입니다.
-  매크로 요소가 많아진 만큼 시장 전체 분위기의 영향을 크게 받을 수 있어요. 매수/매도 추천이 아닙니다.</p>
+  환율(±5)·미증시(±5)·지정학적 리스크(±4)·VIX(±3)·미국10년물(±2)을 중요도에 따라 차등 반영해 조정한
+  참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
   <div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
 </main>
@@ -277,7 +277,7 @@
   const SCORE_WEIGHTS = { target: 0.30, opinion: 0.20, week52: 0.20, news: 0.20, financial: 0.10 };
   const OPINION_SCORE = { "강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0 };
   // 매크로 조정치 (시장 전체 공통, 각각 최대 ±20점씩 가감 후 합산)
-  const MACRO_ADJUST = 20;
+  // 매크로 조정치는 MACRO_WEIGHTS(요소별 차등 가중치)로 계산됨
 
   function computeBaseScore(s, newsInfo) {
     const parts = [];
@@ -319,28 +319,36 @@
     return totalWeight > 0 ? weighted / totalWeight : null;
   }
 
+  // 매크로 요소별 최대 조정폭 (중요도 차등, 합계 ±19점)
+  const MACRO_WEIGHTS = { usdkrw: 5, nasdaq: 5, geo: 4, vix: 3, us10y: 2 };
+
   function computeMacroAdjustment(macro, geo) {
     let adj = 0;
 
-    // 환율: 원화 강세(환율 하락) → +20, 원화 약세(환율 상승) → -20
+    // 환율: 원화 강세(환율 하락) → +5, 원화 약세(환율 상승) → -5
     if (macro && macro.usdkrw && macro.usdkrw.changeRate != null) {
-      adj += macro.usdkrw.changeRate < 0 ? MACRO_ADJUST : macro.usdkrw.changeRate > 0 ? -MACRO_ADJUST : 0;
+      const w = MACRO_WEIGHTS.usdkrw;
+      adj += macro.usdkrw.changeRate < 0 ? w : macro.usdkrw.changeRate > 0 ? -w : 0;
     }
-    // 미국 증시(나스닥): 상승 → +20, 하락 → -20
+    // 미국 증시(나스닥): 상승 → +5, 하락 → -5
     if (macro && macro.nasdaq && macro.nasdaq.changeRate != null) {
-      adj += macro.nasdaq.changeRate > 0 ? MACRO_ADJUST : macro.nasdaq.changeRate < 0 ? -MACRO_ADJUST : 0;
+      const w = MACRO_WEIGHTS.nasdaq;
+      adj += macro.nasdaq.changeRate > 0 ? w : macro.nasdaq.changeRate < 0 ? -w : 0;
     }
-    // 미국-이란 전쟁 리스크: 악재(확전) → -20, 호재(완화) → +20
+    // 미국-이란 전쟁 리스크: 악재(확전) → -4, 호재(완화) → +4
     if (geo && geo.hasRisk) {
-      adj += geo.direction === 'down' ? -MACRO_ADJUST : geo.direction === 'up' ? MACRO_ADJUST : 0;
+      const w = MACRO_WEIGHTS.geo;
+      adj += geo.direction === 'down' ? -w : geo.direction === 'up' ? w : 0;
     }
-    // VIX(미국 변동성지수): 상승(불안 심화) → -20, 하락(안정) → +20
+    // VIX(미국 변동성지수): 상승(불안 심화) → -3, 하락(안정) → +3
     if (macro && macro.vix && macro.vix.changeRate != null) {
-      adj += macro.vix.changeRate > 0 ? -MACRO_ADJUST : macro.vix.changeRate < 0 ? MACRO_ADJUST : 0;
+      const w = MACRO_WEIGHTS.vix;
+      adj += macro.vix.changeRate > 0 ? -w : macro.vix.changeRate < 0 ? w : 0;
     }
-    // 미국 10년물 국채금리: 상승(할인율 부담) → -20, 하락(부담 완화) → +20
+    // 미국 10년물 국채금리: 상승(할인율 부담) → -2, 하락(부담 완화) → +2
     if (macro && macro.us10y && macro.us10y.changeRate != null) {
-      adj += macro.us10y.changeRate > 0 ? -MACRO_ADJUST : macro.us10y.changeRate < 0 ? MACRO_ADJUST : 0;
+      const w = MACRO_WEIGHTS.us10y;
+      adj += macro.us10y.changeRate > 0 ? -w : macro.us10y.changeRate < 0 ? w : 0;
     }
 
     return adj;
