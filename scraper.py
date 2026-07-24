@@ -415,8 +415,20 @@ def fetch_yf_quote(ticker: str, label: str) -> dict:
         return {"price": None, "change": None, "changeRate": None}
 
 
+def fetch_treasury_yield_10y() -> dict:
+    """미국 10년물 국채금리. 야후 티커 ^TNX는 실제 금리의 10배 값으로 표시되므로 10으로 나눠 보정한다."""
+    q = fetch_yf_quote("^TNX", "미국10년물")
+    if q["price"] is None:
+        return q
+    return {
+        "price": round(q["price"] / 10, 2),
+        "change": round(q["change"] / 10, 3) if q["change"] is not None else None,
+        "changeRate": q["changeRate"],  # 비율(%)은 10배 보정해도 동일
+    }
+
+
 def fetch_macro() -> dict:
-    """코스피/코스닥/VKOSPI + 원달러 환율/나스닥/필라델피아반도체지수(SOX)를 모아온다."""
+    """코스피/코스닥/VKOSPI + 원달러 환율/나스닥/필라델피아반도체지수(SOX)/VIX/미국10년물을 모아온다."""
     return {
         "kospi": fetch_naver_index("KOSPI", "코스피"),
         "kosdaq": fetch_naver_index("KOSDAQ", "코스닥"),
@@ -425,6 +437,8 @@ def fetch_macro() -> dict:
         "usdkrw": fetch_yf_quote("KRW=X", "원/달러"),
         "nasdaq": fetch_yf_quote("^IXIC", "나스닥"),
         "sox": fetch_yf_quote("^SOX", "필라델피아반도체지수"),
+        "vix": fetch_yf_quote("^VIX", "VIX"),
+        "us10y": fetch_treasury_yield_10y(),
     }
 
 
