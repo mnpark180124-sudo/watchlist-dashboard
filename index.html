@@ -264,7 +264,8 @@
 
 <main>
   <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(20%)·뉴스/공시 영향(20%)·재무제표(10%)의 가중합에,
-  환율·미증시·지정학적 리스크를 각각 최대 ±20점 반영해 조정한 참고용 지표입니다. 매수/매도 추천이 아닙니다.</p>
+  환율·미증시(나스닥)·VIX·미국10년물·지정학적 리스크 5가지를 각각 최대 ±20점씩 반영해 조정한 참고용 지표입니다.
+  매크로 요소가 많아진 만큼 시장 전체 분위기의 영향을 크게 받을 수 있어요. 매수/매도 추천이 아닙니다.</p>
   <div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
 </main>
@@ -333,6 +334,14 @@
     if (geo && geo.hasRisk) {
       adj += geo.direction === 'down' ? -MACRO_ADJUST : geo.direction === 'up' ? MACRO_ADJUST : 0;
     }
+    // VIX(미국 변동성지수): 상승(불안 심화) → -20, 하락(안정) → +20
+    if (macro && macro.vix && macro.vix.changeRate != null) {
+      adj += macro.vix.changeRate > 0 ? -MACRO_ADJUST : macro.vix.changeRate < 0 ? MACRO_ADJUST : 0;
+    }
+    // 미국 10년물 국채금리: 상승(할인율 부담) → -20, 하락(부담 완화) → +20
+    if (macro && macro.us10y && macro.us10y.changeRate != null) {
+      adj += macro.us10y.changeRate > 0 ? -MACRO_ADJUST : macro.us10y.changeRate < 0 ? MACRO_ADJUST : 0;
+    }
 
     return adj;
   }
@@ -397,6 +406,7 @@
   const MACRO_LABELS = {
     kospi: '코스피', kosdaq: '코스닥', vkospi: 'VKOSPI',
     usdkrw: '원/달러', nasdaq: '나스닥', sox: 'SOX(반도체)',
+    vix: 'VIX', us10y: '미국10년물(%)',
   };
 
   function renderEarningsBanner(macro) {
