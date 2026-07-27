@@ -1,0 +1,32 @@
+name: Snapshot Score History
+
+on:
+  schedule:
+    # 장 마감 후 15:35 KST = 06:35 UTC (월~금)
+    - cron: "35 6 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - run: python snapshot.py
+
+      - name: Commit snapshot data
+        run: |
+          git config user.name "watchlist-bot"
+          git config user.email "actions@github.com"
+          git add data/score_history.json data/backtest.json
+          git diff --staged --quiet || git commit -m "chore: daily score snapshot"
+          git push
