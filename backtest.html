@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>평가점수 백테스트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e11; --panel: #12161c; --panel-hover: #171c24;
+    --line: #1f2530; --line-strong: #2a3140; --text: #e8eaed; --muted: #6b7684;
+    --up: #f04452; --down: #3182f6; --flat: #6b7684;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'JetBrains Mono', monospace; -webkit-font-smoothing:antialiased; }
+  header { padding:26px 32px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; }
+  h1 { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:22px; margin:0; }
+  a.back { color:var(--muted); font-size:12px; text-decoration:none; border:1px solid var(--line); padding:6px 12px; border-radius:6px; }
+  a.back:hover { background:var(--panel-hover); }
+  main { max-width:1000px; margin:0 auto; padding:28px 32px 80px; }
+
+  #progress { font-size:13px; color:var(--muted); margin-bottom:8px; }
+  #progress-bar { height:8px; background:var(--panel); border-radius:4px; overflow:hidden; margin-bottom:28px; }
+  #progress-fill { height:100%; background:linear-gradient(90deg, var(--down), var(--up)); }
+
+  .groups { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; margin-bottom:32px; }
+  .group-card { border:1px solid var(--line); border-radius:10px; background:var(--panel); padding:18px; }
+  .group-title { font-family:'Space Grotesk', sans-serif; font-size:13px; font-weight:700; margin-bottom:10px; }
+  .group-stat { font-size:26px; font-weight:700; font-family:'Space Grotesk', sans-serif; }
+  .group-sub { font-size:11px; color:var(--muted); margin-top:6px; }
+
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:500; }
+  .up { color:var(--up); } .down { color:var(--down); } .flat { color:var(--flat); }
+
+  #disclaimer { font-size:11px; color:var(--muted); margin-bottom:24px; line-height:1.6; }
+  #empty { color:var(--muted); font-size:13px; padding:40px 0; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>평가점수 백테스트 기록</h1>
+  <a class="back" href="index.html">← 대시보드로</a>
+</header>
+
+<main>
+  <p id="disclaimer">전날 평가점수와 다음날 실제 등락률을 계속 짝지어 쌓은 기록입니다. 표본이 적으면
+  (특히 100일 미만) 우연에 의한 결과일 수 있으니 참고용으로만 봐주세요. 이 페이지는 투자 조언이 아닙니다.</p>
+
+  <div id="progress"></div>
+  <div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
+
+  <div class="groups" id="groups"></div>
+
+  <div id="table-wrap"></div>
+  <div id="empty" style="display:none">아직 쌓인 기록이 없어요. snapshot.py가 매일 장 마감 후 자동으로 기록을 쌓습니다.</div>
+</main>
+
+<script>
+  const GOAL_DAYS = 100;
+
+  async function load() {
+    try {
+      const [btRes, histRes] = await Promise.all([
+        fetch('data/backtest.json?ts=' + Date.now()),
+        fetch('data/score_history.json?ts=' + Date.now()),
+      ]);
+      const backtest = btRes.ok ? await btRes.json() : { entries: [] };
+      const history = histRes.ok ? await histRes.json() : { days: [] };
+      render(backtest.entries, history.days.length);
+    } catch (e) {
+      document.getElementById('empty').style.display = 'block';
+    }
+  }
+
+  function render(entries, dayCount) {
+    const pct = Math.min(100, (dayCount / GOAL_DAYS) * 100);
+    document.getElementById('progress').textContent =
+      `누적 기록: ${dayCount}일 / 목표 ${GOAL_DAYS}일 (${pct.toFixed(0)}%) · 수익률 표본 ${entries.length}건`;
+    document.getElementById('progress-fill').style.width = pct + '%';
+
+    if (!entries.length) {
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    const high = entries.filter(e => e.prevScore >= 70);
+    const low = entries.filter(e => e.prevScore <= 30);
+    const mid = entries.filter(e => e.prevScore > 30 && e.prevScore < 70);
+
+    const avg = arr => arr.length ? arr.reduce((s, e) => s + e.nextDayReturn, 0) / arr.length : null;
+    const winRate = arr => arr.length ? (arr.filter(e => e.nextDayReturn > 0).length / arr.length * 100) : null;
+
+    const groups = [
+      { label: '고점수군 (70점 이상)', data: high },
+      { label: '중간 (30~70점)', data: mid },
+      { label: '저점수군 (30점 이하)', data: low },
+    ];
+
+    document.getElementById('groups').innerHTML = groups.map(g => {
+      const a = avg(g.data);
+      const w = winRate(g.data);
+      const dir = a == null ? 'flat' : a > 0 ? 'up' : a < 0 ? 'down' : 'flat';
+      return `
+        <div class="group-card">
+          <div class="group-title">${g.label}</div>
+          <div class="group-stat ${dir}">${a == null ? '-' : (a > 0 ? '+' : '') + a.toFixed(2) + '%'}</div>
+          <div class="group-sub">평균 다음날 수익률 · 표본 ${g.data.length}건${w == null ? '' : ` · 상승 비율 ${w.toFixed(0)}%`}</div>
+        </div>`;
+    }).join('');
+
+    const recent = [...entries].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 50);
+    document.getElementById('table-wrap').innerHTML = `
+      <table>
+        <thead><tr><th>날짜</th><th>종목</th><th>전날 점수</th><th>다음날 수익률</th></tr></thead>
+        <tbody>
+          ${recent.map(e => {
+            const dir = e.nextDayReturn > 0 ? 'up' : e.nextDayReturn < 0 ? 'down' : 'flat';
+            return `<tr>
+              <td>${e.date}</td>
+              <td>${e.name}</td>
+              <td>${e.prevScore.toFixed(1)}</td>
+              <td class="${dir}">${e.nextDayReturn > 0 ? '+' : ''}${e.nextDayReturn.toFixed(2)}%</td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  load();
+</script>
+
+</body>
+</html>
