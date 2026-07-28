@@ -1,315 +1,314 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>뉴스·공시 모니터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0b0e14;
-    --panel:#12161f;
-    --panel-border:#1f2530;
-    --text:#e6e9ef;
-    --text-dim:#8b93a3;
-    --up:#e5484d;      /* 한국 관행: 상승 = 빨강 */
-    --down:#3b82f6;    /* 하락 = 파랑 */
-    --neutral:#4b5563;
-    --accent:#f2b544;
+  :root {
+    --bg: #0b0e11;
+    --panel: #12161c;
+    --panel-hover: #171c24;
+    --line: #1f2530;
+    --line-strong: #2a3140;
+    --text: #e8eaed;
+    --muted: #6b7684;
+    --up: #f04452;
+    --down: #3182f6;
+    --flat: #6b7684;
   }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:-apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", sans-serif;
-    padding:24px 16px 60px;
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    -webkit-font-smoothing: antialiased;
   }
-  .wrap{max-width:920px;margin:0 auto;}
-  .topnav{
-    display:flex;justify-content:space-between;align-items:center;
-    margin-bottom:20px;
+  header {
+    padding: 26px 32px 18px;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    background: rgba(11,14,17,0.92);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
   }
-  .topnav a{
-    color:var(--text-dim);
-    text-decoration:none;
-    font-size:14px;
-    border:1px solid var(--panel-border);
-    padding:6px 12px;
-    border-radius:6px;
+  h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    margin: 0;
+    letter-spacing: -0.01em;
   }
-  .topnav a:hover{color:var(--text);border-color:var(--text-dim);}
-  h1{
-    font-size:22px;
-    letter-spacing:-0.02em;
-    margin:0 0 4px;
+  #meta {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    gap: 14px;
+    align-items: center;
   }
-  .updated{
-    color:var(--text-dim);
-    font-size:13px;
-    margin-bottom:20px;
+  #meta a, #meta button {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--muted);
+    font-family: inherit;
+    font-size: 11px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
   }
-  .geo-banner{
-    display:none;
-    background:linear-gradient(90deg, rgba(229,72,77,0.12), transparent);
-    border:1px solid rgba(229,72,77,0.35);
-    border-radius:8px;
-    padding:12px 16px;
-    margin-bottom:20px;
-    font-size:13px;
-    line-height:1.5;
+  #meta a:hover, #meta button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
+
+  main {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 20px 32px 80px;
   }
-  .geo-banner.show{display:block;}
-  .geo-banner .label{
-    color:var(--up);
-    font-weight:600;
-    margin-right:6px;
+
+  #geo-banner {
+    display: none;
+    font-size: 12px;
+    font-weight: 500;
+    border-radius: 8px;
+    padding: 10px 14px;
+    margin-bottom: 20px;
   }
-  .summary-strip{
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    padding-bottom:4px;
-    margin-bottom:28px;
+  #geo-banner.down { display: block; background: rgba(240,68,82,0.1); border: 1px solid rgba(240,68,82,0.3); color: var(--up); }
+  #geo-banner.up { display: block; background: rgba(49,130,246,0.1); border: 1px solid rgba(49,130,246,0.3); color: var(--down); }
+
+  #summary-strip {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 24px;
   }
-  .summary-pill{
-    flex:0 0 auto;
-    background:var(--panel);
-    border:1px solid var(--panel-border);
-    border-radius:20px;
-    padding:6px 14px;
-    font-size:12px;
-    color:var(--text-dim);
-    white-space:nowrap;
+  .summary-pill {
+    flex: 0 0 auto;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
   }
-  .summary-pill b{color:var(--text);font-weight:600;}
-  .sector{margin-bottom:32px;}
-  .sector-head{
-    display:flex;
-    align-items:baseline;
-    gap:8px;
-    border-bottom:1px solid var(--panel-border);
-    padding-bottom:8px;
-    margin-bottom:12px;
+  .summary-pill b { color: var(--text); }
+
+  #sectors {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
   }
-  .sector-head .name{
-    font-size:15px;
-    font-weight:700;
-    letter-spacing:-0.01em;
+
+  .sector-card {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--panel);
+    overflow: hidden;
   }
-  .sector-head .count{
-    font-size:12px;
-    color:var(--text-dim);
+  .sector-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--line);
   }
-  .cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-    gap:10px;
+  .sector-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.02em;
   }
-  .card{
-    background:var(--panel);
-    border:1px solid var(--panel-border);
-    border-radius:10px;
-    padding:14px;
-    position:relative;
+  .sector-count { font-size: 11px; color: var(--muted); }
+
+  .news-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--line);
   }
-  .card.quiet{opacity:0.45;}
-  .card-top{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    margin-bottom:6px;
+  .news-item:last-child { border-bottom: none; }
+  .news-item.quiet { opacity: 0.4; }
+  .news-item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
   }
-  .card-top .ticker{
-    font-weight:700;
-    font-size:14px;
+  .news-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12.5px;
+    font-weight: 500;
   }
-  .badge{
-    font-size:10px;
-    padding:2px 7px;
-    border-radius:10px;
-    font-weight:600;
-    white-space:nowrap;
+  .news-badge {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
   }
-  .badge.up{background:rgba(229,72,77,0.15);color:var(--up);}
-  .badge.down{background:rgba(59,130,246,0.15);color:var(--down);}
-  .badge.neutral{background:rgba(75,85,99,0.25);color:var(--text-dim);}
-  .meta{
-    font-size:11px;
-    color:var(--text-dim);
-    margin-bottom:6px;
+  .news-badge.up { background: rgba(240,68,82,0.15); color: var(--up); }
+  .news-badge.down { background: rgba(49,130,246,0.15); color: var(--down); }
+  .news-badge.neutral { background: rgba(107,118,132,0.18); color: var(--muted); }
+  .news-meta { font-size: 10px; color: var(--muted); margin-bottom: 5px; }
+  .news-summary { font-size: 11.5px; line-height: 1.55; }
+  .news-item.quiet .news-summary { color: var(--muted); }
+  .impact-bar {
+    margin-top: 8px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--line);
+    overflow: hidden;
   }
-  .summary{
-    font-size:13px;
-    line-height:1.5;
-    color:var(--text);
-  }
-  .card.quiet .summary{color:var(--text-dim);}
-  .impact-bar{
-    height:3px;
-    border-radius:2px;
-    background:var(--panel-border);
-    margin-top:10px;
-    overflow:hidden;
-  }
-  .impact-bar-fill{
-    height:100%;
-  }
-  .impact-bar-fill.up{background:var(--up);}
-  .impact-bar-fill.down{background:var(--down);}
-  .impact-bar-fill.neutral{background:var(--neutral);}
-  .empty-state{
-    color:var(--text-dim);
-    font-size:13px;
-    text-align:center;
-    padding:60px 0;
+  .impact-bar-fill { height: 100%; background: currentColor; }
+
+  #empty {
+    color: var(--muted);
+    font-size: 13px;
+    padding: 60px 8px;
+    text-align: center;
   }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="topnav">
-    <div>
-      <h1>뉴스·공시 모니터</h1>
-      <div class="updated" id="updated-at">불러오는 중...</div>
-    </div>
-    <a href="index.html">← 관심종목으로</a>
-  </div>
 
-  <div class="geo-banner" id="geo-banner">
-    <span class="label">지정학적 리스크</span>
-    <span id="geo-summary"></span>
+<header>
+  <h1>뉴스·공시 모니터</h1>
+  <div id="meta">
+    <span id="updated">불러오는 중…</span>
+    <a href="index.html">← 관심종목</a>
+    <a href="backtest.html">백테스트 기록</a>
   </div>
+</header>
 
-  <div class="summary-strip" id="summary-strip"></div>
-
-  <div id="content">
-    <div class="empty-state">불러오는 중...</div>
-  </div>
-</div>
+<main>
+  <div id="geo-banner"></div>
+  <div id="summary-strip"></div>
+  <div id="sectors"></div>
+  <div id="empty" style="display:none">아직 데이터가 없어요.</div>
+</main>
 
 <script>
-async function loadJSON(path) {
-  try {
-    const res = await fetch(path, { cache: "no-store" });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (e) {
-    return null;
+  function dirOf(direction) {
+    return direction === 'down' ? 'down' : direction === 'up' ? 'up' : 'neutral';
   }
-}
 
-function fmtImpact(pct) {
-  const v = Math.max(0, Math.min(100, Number(pct) || 0));
-  return v;
-}
+  async function load() {
+    try {
+      const [stocksRes, newsRes, geoRes] = await Promise.all([
+        fetch('data/stocks.json?ts=' + Date.now()),
+        fetch('data/news.json?ts=' + Date.now()),
+        fetch('data/geopolitical.json?ts=' + Date.now()).catch(() => null),
+      ]);
+      if (!stocksRes.ok || !newsRes.ok) throw new Error('no data yet');
+      const stocks = await stocksRes.json();
+      const news = await newsRes.json();
+      const geo = (geoRes && geoRes.ok) ? await geoRes.json() : null;
 
-function renderGeo(geo) {
-  if (!geo || !geo.hasRisk) return;
-  const banner = document.getElementById("geo-banner");
-  banner.classList.add("show");
-  document.getElementById("geo-summary").textContent = geo.summary || "";
-}
-
-function renderUpdatedAt(geo) {
-  const el = document.getElementById("updated-at");
-  if (geo && geo.updatedAt) {
-    const d = new Date(geo.updatedAt);
-    el.textContent = "마지막 갱신 " + d.toLocaleString("ko-KR", { hour12: false });
-  } else {
-    el.textContent = "";
+      renderGeo(geo);
+      renderUpdated(stocks, geo);
+      render(stocks, news);
+    } catch (e) {
+      document.getElementById('empty').style.display = 'block';
+      document.getElementById('updated').textContent = '데이터 없음';
+    }
   }
-}
 
-function renderSummaryStrip(bySector) {
-  const strip = document.getElementById("summary-strip");
-  strip.innerHTML = "";
-  Object.entries(bySector).forEach(([sector, items]) => {
-    const withNews = items.filter(i => i.hasImportantNews).length;
-    if (withNews === 0) return;
-    const pill = document.createElement("div");
-    pill.className = "summary-pill";
-    pill.innerHTML = `${sector} <b>${withNews}건</b>`;
-    strip.appendChild(pill);
-  });
-  if (!strip.children.length) {
-    strip.innerHTML = `<div class="summary-pill">오늘 특이 뉴스·공시 없음</div>`;
+  function renderGeo(geo) {
+    const el = document.getElementById('geo-banner');
+    if (geo && geo.hasRisk) {
+      const dir = geo.direction === 'down' ? 'down' : 'up';
+      el.className = dir;
+      el.textContent = `⚠️ 미국-이란 지정학적 리스크 감지 (${dir === 'down' ? '악재' : '호재'}) — ${geo.summary}`;
+    } else {
+      el.className = '';
+      el.style.display = 'none';
+    }
   }
-}
 
-function renderSectors(bySector) {
-  const content = document.getElementById("content");
-  content.innerHTML = "";
+  function renderUpdated(stocks, geo) {
+    const el = document.getElementById('updated');
+    const ts = geo && geo.updatedAt ? geo.updatedAt : (stocks && stocks.updatedAt);
+    el.textContent = ts ? '업데이트: ' + new Date(ts).toLocaleString('ko-KR', { hour12: false }) : '';
+  }
 
-  // 이슈 있는 종목 많은 섹터 먼저
-  const sectorEntries = Object.entries(bySector).sort((a, b) => {
-    const aCount = a[1].filter(i => i.hasImportantNews).length;
-    const bCount = b[1].filter(i => i.hasImportantNews).length;
-    return bCount - aCount;
-  });
+  function render(stocksData, news) {
+    // 종목명 -> 섹터 매핑은 stocks.json 재사용 (별도 파일 필요 없음)
+    const bySector = {};
+    for (const s of stocksData.stocks) {
+      const sector = s.sector || '기타';
+      (bySector[sector] ||= []).push(s.name);
+    }
 
-  sectorEntries.forEach(([sector, items]) => {
-    // 섹터 내에서도 이슈 있는 종목 먼저
-    const sorted = [...items].sort((a, b) => (b.hasImportantNews - a.hasImportantNews) || (b.impactPct - a.impactPct));
-    const withNews = sorted.filter(i => i.hasImportantNews).length;
+    const strip = document.getElementById('summary-strip');
+    strip.innerHTML = '';
 
-    const section = document.createElement("div");
-    section.className = "sector";
-    section.innerHTML = `
-      <div class="sector-head">
-        <span class="name">${sector}</span>
-        <span class="count">${withNews}/${sorted.length}개 종목 이슈</span>
-      </div>
-      <div class="cards"></div>
-    `;
-    const cardsEl = section.querySelector(".cards");
-
-    sorted.forEach(item => {
-      const dir = item.direction === "up" || item.direction === "down" ? item.direction : "neutral";
-      const card = document.createElement("div");
-      card.className = "card" + (item.hasImportantNews ? "" : " quiet");
-      card.innerHTML = `
-        <div class="card-top">
-          <span class="ticker">${item.name}</span>
-          <span class="badge ${dir}">${item.hasImportantNews ? (item.source || "이슈") : "특이사항 없음"}</span>
-        </div>
-        <div class="meta">${item.date || ""}</div>
-        <div class="summary">${item.summary || "최근 3일 내 확인된 주요 뉴스·공시가 없습니다."}</div>
-        ${item.hasImportantNews ? `<div class="impact-bar"><div class="impact-bar-fill ${dir}" style="width:${fmtImpact(item.impactPct)}%"></div></div>` : ""}
-      `;
-      cardsEl.appendChild(card);
+    const sectorNames = Object.keys(bySector).sort((a, b) => {
+      const countA = bySector[a].filter(name => news[name] && news[name].hasImportantNews).length;
+      const countB = bySector[b].filter(name => news[name] && news[name].hasImportantNews).length;
+      return countB - countA;
     });
 
-    content.appendChild(section);
-  });
-}
+    sectorNames.forEach(sector => {
+      const withNews = bySector[sector].filter(name => news[name] && news[name].hasImportantNews).length;
+      if (withNews === 0) return;
+      const pill = document.createElement('div');
+      pill.className = 'summary-pill';
+      pill.innerHTML = `${sector} <b>${withNews}건</b>`;
+      strip.appendChild(pill);
+    });
+    if (!strip.children.length) {
+      strip.innerHTML = `<div class="summary-pill">오늘 특이 뉴스·공시 없음</div>`;
+    }
 
-async function init() {
-  const [news, geo] = await Promise.all([
-    loadJSON("data/news.json"),
-    loadJSON("data/geopolitical.json"),
-  ]);
+    const container = document.getElementById('sectors');
+    container.innerHTML = sectorNames.map(sector => {
+      const names = [...bySector[sector]].sort((a, b) => {
+        const nA = news[a], nB = news[b];
+        const impA = nA && nA.hasImportantNews ? (nA.impactPct || 0) : -1;
+        const impB = nB && nB.hasImportantNews ? (nB.impactPct || 0) : -1;
+        return impB - impA;
+      });
+      const withNews = names.filter(name => news[name] && news[name].hasImportantNews).length;
 
-  renderGeo(geo);
-  renderUpdatedAt(geo);
+      const items = names.map(name => {
+        const n = news[name];
+        const has = n && n.hasImportantNews;
+        const dir = has ? dirOf(n.direction) : 'neutral';
+        const sourceTag = n && n.source === '공시' ? '📄 공시' : '📰 뉴스';
+        const dateTag = n && n.date ? ` · ${n.date}` : '';
 
-  if (!news) {
-    document.getElementById("content").innerHTML = `<div class="empty-state">뉴스 데이터를 불러오지 못했습니다.</div>`;
-    return;
+        return `
+          <div class="news-item${has ? '' : ' quiet'}">
+            <div class="news-item-top">
+              <span class="news-name">${name}</span>
+              <span class="news-badge ${dir}">${has ? sourceTag : '특이사항 없음'}</span>
+            </div>
+            ${has ? `<div class="news-meta">${dateTag.replace(' · ', '')}</div>` : ''}
+            <div class="news-summary">${has ? n.summary : '최근 3일 내 확인된 주요 뉴스·공시가 없습니다.'}</div>
+            ${has ? `<div class="impact-bar" style="color:var(--${dir === 'down' ? 'down' : dir === 'up' ? 'up' : 'flat'})"><div class="impact-bar-fill" style="width:${Math.min(100, n.impactPct || 0)}%"></div></div>` : ''}
+          </div>`;
+      }).join('');
+
+      return `
+        <div class="sector-card">
+          <div class="sector-head">
+            <span class="sector-name">${sector}</span>
+            <span class="sector-count">${withNews}/${names.length}개 종목 이슈</span>
+          </div>
+          ${items}
+        </div>`;
+    }).join('');
   }
 
-  // name -> sector 데이터를 섹터별 그룹으로 재구성
-  const bySector = {};
-  Object.entries(news).forEach(([name, item]) => {
-    const sector = item.sector || "미분류";
-    if (!bySector[sector]) bySector[sector] = [];
-    bySector[sector].push({ name, ...item });
-  });
-
-  renderSummaryStrip(bySector);
-  renderSectors(bySector);
-}
-
-init();
+  load();
 </script>
+
 </body>
 </html>
