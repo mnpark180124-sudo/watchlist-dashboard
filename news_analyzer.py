@@ -161,7 +161,11 @@ def main():
         print(f"배치 {i}/{len(batches)} 분석 중: {', '.join(batch)}")
         results.update(analyze_batch(batch))
         time.sleep(5)  # 무료 티어 분당 요청 제한(RPM)에 안전하게 걸리도록 대기
-
+      
+for name, sector in WATCHLIST.items():
+        if name in results:
+            results[name]["sector"] = sector
+  
     with open("data/news.json", "w", encoding="utf-8") as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
 
