@@ -16,23 +16,33 @@
   body { margin:0; background:var(--bg); color:var(--text); font-family:'JetBrains Mono', monospace; -webkit-font-smoothing:antialiased; }
   header { padding:26px 32px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; }
   h1 { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:22px; margin:0; }
-  .nav-links { display:flex; gap:8px; }
   a.back { color:var(--muted); font-size:12px; text-decoration:none; border:1px solid var(--line); padding:6px 12px; border-radius:6px; }
   a.back:hover { background:var(--panel-hover); }
-  main { max-width:1000px; margin:0 auto; padding:28px 32px 80px; }
+  main { max-width:1100px; margin:0 auto; padding:28px 32px 80px; }
 
-  #disclaimer { font-size:11px; color:var(--muted); margin-bottom:24px; line-height:1.6; }
-  #meta { font-size:13px; color:var(--muted); margin-bottom:20px; }
+  #disclaimer { font-size:11px; color:var(--muted); margin-bottom:20px; line-height:1.6; }
 
-  .day-section { border:1px solid var(--line); border-radius:10px; background:var(--panel); margin-bottom:16px; overflow:hidden; }
-  .day-head { padding:12px 16px; border-bottom:1px solid var(--line); background:var(--panel-hover); font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:14px; }
+  #week-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px; }
+  .week-tab {
+    background:var(--panel); border:1px solid var(--line); color:var(--muted);
+    font-family:'JetBrains Mono', monospace; font-size:11.5px; padding:7px 12px;
+    border-radius:6px; cursor:pointer;
+  }
+  .week-tab:hover { background:var(--panel-hover); }
+  .week-tab.active { background:var(--text); color:var(--bg); border-color:var(--text); font-weight:700; }
 
   table { width:100%; border-collapse:collapse; font-size:12px; }
-  th, td { text-align:left; padding:7px 16px; border-bottom:1px solid var(--line); }
-  th { color:var(--muted); font-weight:500; }
-  .score-cell { font-weight:700; }
-  .s-pos { color:var(--up); } .s-mid { color:var(--muted); } .s-neg { color:var(--down); }
+  th, td { text-align:center; padding:9px 8px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th { color:var(--muted); font-weight:500; font-size:11px; }
+  td:first-child, th:first-child { text-align:left; font-family:'Space Grotesk', sans-serif; font-weight:500; position:sticky; left:0; background:var(--panel); }
 
+  .score-cell { font-weight:700; }
+  .s-pos { color:var(--up); } .s-mid { color:var(--text); } .s-neg { color:var(--down); }
+  .delta { font-size:9.5px; display:block; margin-top:1px; }
+  .delta.up { color:var(--up); } .delta.down { color:var(--down); } .delta.flat { color:var(--muted); }
+  .no-data { color:var(--line-strong); }
+
+  #table-wrap { border:1px solid var(--line); border-radius:10px; background:var(--panel); overflow-x:auto; }
   #empty { color:var(--muted); font-size:13px; padding:40px 0; text-align:center; }
 </style>
 </head>
@@ -40,17 +50,18 @@
 
 <header>
   <h1>일별 평가점수 기록</h1>
-  <div class="nav-links">
+  <div style="display:flex; gap:8px;">
     <a class="back" href="backtest.html">백테스트 기록</a>
     <a class="back" href="index.html">← 대시보드로</a>
   </div>
 </header>
 
 <main>
-  <p id="disclaimer">매일 장 마감 후 각 종목의 그날 평가점수를 그대로 기록한 로그입니다.
-  다음날 수익률과 비교한 통계는 "백테스트 기록" 페이지에서 볼 수 있어요.</p>
-  <div id="meta"></div>
-  <div id="days"></div>
+  <p id="disclaimer">매일 장 마감 후 각 종목의 그날 평가점수를 기록한 로그예요. 점수 아래 작은 숫자는
+  전날 대비 등락폭입니다. 한 주(월~금) 단위로 표를 나눠서, 위 탭으로 주를 바꿔가며 볼 수 있어요.</p>
+
+  <div id="week-tabs"></div>
+  <div id="table-wrap"></div>
   <div id="empty" style="display:none">아직 쌓인 기록이 없어요. snapshot.py가 매일 장 마감 후 자동으로 기록을 쌓습니다.</div>
 </main>
 
@@ -61,45 +72,139 @@
     return 's-neg';
   }
 
+  function mondayOf(dateStr) {
+    // getDay()는 서버(브라우저) 로컬 시간대 영향을 받아 요일이 하루씩 어긋날 수 있어서,
+    // 시간대 개념 없는 순수 UTC 날짜로 계산한다.
+    const [y, m, d] = dateStr.split('-').map(Number);
+    const utcDate = new Date(Date.UTC(y, m - 1, d));
+    const day = utcDate.getUTCDay(); // 0=일 1=월 ...
+    const diff = (day === 0 ? -6 : 1 - day);
+    utcDate.setUTCDate(utcDate.getUTCDate() + diff);
+    return utcDate.toISOString().slice(0, 10);
+  }
+
+  let allWeeks = [];
+  let currentWeekIdx = 0;
+
   async function load() {
     try {
       const res = await fetch('data/score_history.json?ts=' + Date.now());
       if (!res.ok) throw new Error('no data');
       const data = await res.json();
-      render(data.days || []);
+      prepare(data.days || []);
     } catch (e) {
       document.getElementById('empty').style.display = 'block';
     }
   }
 
-  function render(days) {
+  function prepare(days) {
     if (!days.length) {
       document.getElementById('empty').style.display = 'block';
       return;
     }
 
-    const sorted = [...days].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30); // 최신 30일치
+    const sortedDays = [...days].sort((a, b) => a.date.localeCompare(b.date)); // 오래된 순
 
-    document.getElementById('meta').textContent = `누적 ${days.length}일치 기록 · 최근 ${sorted.length}일 표시`;
+    // 전날 대비 등락폭 계산 (종목코드 기준, 바로 전 거래일과 비교)
+    const scoreByDate = {}; // date -> {code: score}
+    for (const day of sortedDays) {
+      scoreByDate[day.date] = {};
+      for (const s of day.stocks) scoreByDate[day.date][s.code] = s.score;
+    }
 
-    document.getElementById('days').innerHTML = sorted.map(day => {
-      const stocks = [...day.stocks].sort((a, b) => b.score - a.score);
-      const rows = stocks.map(s => `
-        <tr>
-          <td>${s.name}</td>
-          <td class="score-cell ${scoreClass(s.score)}">${s.score.toFixed(1)}</td>
-          <td>${Number(s.price).toLocaleString('ko-KR')}</td>
-        </tr>`).join('');
+    const deltas = {}; // date -> {code: delta}
+    for (let i = 0; i < sortedDays.length; i++) {
+      const day = sortedDays[i];
+      const prevDay = i > 0 ? sortedDays[i - 1] : null;
+      deltas[day.date] = {};
+      for (const s of day.stocks) {
+        const prevScore = prevDay ? scoreByDate[prevDay.date][s.code] : undefined;
+        deltas[day.date][s.code] = (prevScore == null) ? null : Math.round((s.score - prevScore) * 10) / 10;
+      }
+    }
 
-      return `
-        <div class="day-section">
-          <div class="day-head">${day.date} <span style="color:var(--muted); font-weight:500; font-size:11px;">(${stocks.length}종목)</span></div>
-          <table>
-            <thead><tr><th>종목</th><th>점수</th><th>가격</th></tr></thead>
-            <tbody>${rows}</tbody>
-          </table>
-        </div>`;
+    // 주(월요일 기준) 단위로 묶기
+    const byWeek = {};
+    for (const day of sortedDays) {
+      const wk = mondayOf(day.date);
+      (byWeek[wk] ||= []).push(day);
+    }
+    allWeeks = Object.keys(byWeek).sort((a, b) => b.localeCompare(a)) // 최신 주 먼저
+      .map(wk => ({ weekStart: wk, days: byWeek[wk].sort((a, b) => a.date.localeCompare(b.date)) }));
+
+    // 각 날짜의 등락폭/점수 참조를 위해 저장
+    allWeeks.forEach(w => { w.deltas = deltas; });
+
+    currentWeekIdx = 0;
+    renderTabs();
+    renderWeek();
+  }
+
+  function renderTabs() {
+    document.getElementById('week-tabs').innerHTML = allWeeks.map((w, i) => {
+      const start = w.days[0].date.slice(5).replace('-', '/');
+      const end = w.days[w.days.length - 1].date.slice(5).replace('-', '/');
+      return `<button class="week-tab ${i === currentWeekIdx ? 'active' : ''}" onclick="selectWeek(${i})">${start}~${end}</button>`;
     }).join('');
+  }
+
+  function selectWeek(i) {
+    currentWeekIdx = i;
+    renderTabs();
+    renderWeek();
+  }
+  window.selectWeek = selectWeek;
+
+  function renderWeek() {
+    const week = allWeeks[currentWeekIdx];
+    if (!week) return;
+
+    const dates = week.days.map(d => d.date);
+
+    // 이 주에 등장하는 전체 종목 목록 (가장 최근 날짜 점수 기준 내림차순 정렬)
+    const lastDay = week.days[week.days.length - 1];
+    const codeToName = {};
+    week.days.forEach(d => d.stocks.forEach(s => { codeToName[s.code] = s.name; }));
+
+    const scoreOnLastDay = {};
+    lastDay.stocks.forEach(s => { scoreOnLastDay[s.code] = s.score; });
+
+    const codes = Object.keys(codeToName).sort((a, b) => {
+      const sa = scoreOnLastDay[a] ?? -1;
+      const sb = scoreOnLastDay[b] ?? -1;
+      return sb - sa;
+    });
+
+    // 날짜별 code -> score 맵
+    const scoreMap = {};
+    week.days.forEach(d => {
+      scoreMap[d.date] = {};
+      d.stocks.forEach(s => { scoreMap[d.date][s.code] = s.score; });
+    });
+
+    const headerCells = dates.map(d => `<th>${d.slice(5).replace('-', '/')}</th>`).join('');
+
+    const rows = codes.map(code => {
+      const cells = dates.map(date => {
+        const score = scoreMap[date][code];
+        if (score == null) return `<td class="no-data">-</td>`;
+        const delta = week.deltas[date][code];
+        let deltaHtml = '';
+        if (delta != null) {
+          const dir = delta > 0 ? 'up' : delta < 0 ? 'down' : 'flat';
+          const sign = delta > 0 ? '+' : '';
+          deltaHtml = `<span class="delta ${dir}">${sign}${delta.toFixed(1)}</span>`;
+        }
+        return `<td><span class="score-cell ${scoreClass(score)}">${score.toFixed(1)}</span>${deltaHtml}</td>`;
+      }).join('');
+      return `<tr><td>${codeToName[code]}</td>${cells}</tr>`;
+    }).join('');
+
+    document.getElementById('table-wrap').innerHTML = `
+      <table>
+        <thead><tr><th>종목</th>${headerCells}</tr></thead>
+        <tbody>${rows}</tbody>
+      </table>`;
   }
 
   load();
