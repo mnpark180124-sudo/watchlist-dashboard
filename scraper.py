@@ -416,30 +416,43 @@ def fetch_yf_quote(ticker: str, label: str) -> dict:
 
 
 def fetch_treasury_yield_10y() -> dict:
-    """미국 10년물 국채금리. 야후 티커 ^TNX는 실제 금리의 10배 값으로 표시되므로 10으로 나눠 보정한다."""
+    """미국 10년물 국채금리. 야후 티커 ^TNX가 실제 금리의 10배로 오는 경우와
+    이미 실제 %로 오는 경우가 둘 다 있어서, 결과값이 국채금리로는 비정상적으로 낮으면(1% 미만)
+    10배 보정을 하지 않은 원래 값을 그대로 쓴다."""
     q = fetch_yf_quote("^TNX", "미국10년물")
     if q["price"] is None:
         return q
+
+    corrected_price = round(q["price"] / 10, 2)
+    if corrected_price < 1:
+        # 10으로 나눈 값이 1% 미만이면 보정이 오히려 잘못된 것 → 원래 값을 그대로 사용
+        return q
+
     return {
-        "price": round(q["price"] / 10, 2),
+        "price": corrected_price,
         "change": round(q["change"] / 10, 3) if q["change"] is not None else None,
         "changeRate": q["changeRate"],  # 비율(%)은 10배 보정해도 동일
     }
 
 
 def fetch_macro() -> dict:
-    """코스피/코스닥/VKOSPI + 원달러 환율/나스닥/필라델피아반도체지수(SOX)/VIX/미국10년물을 모아온다."""
-    return {
+    """코스피/코스닥 + 원달러 환율/나스닥/필라델피아반도체지수(SOX)/VIX/미국10년물을 모아온다."""
+    import time as _time
+
+    result = {
         "kospi": fetch_naver_index("KOSPI", "코스피"),
         "kosdaq": fetch_naver_index("KOSDAQ", "코스닥"),
-        # VKOSPI는 네이버 지수 코드가 바뀌었을 수 있어 실패하면 None으로 채워짐 (README 참고)
-        "vkospi": fetch_naver_index("VKOSPI", "VKOSPI"),
         "usdkrw": fetch_yf_quote("KRW=X", "원/달러"),
-        "nasdaq": fetch_yf_quote("^IXIC", "나스닥"),
-        "sox": fetch_yf_quote("^SOX", "필라델피아반도체지수"),
-        "vix": fetch_yf_quote("^VIX", "VIX"),
-        "us10y": fetch_treasury_yield_10y(),
     }
+    _time.sleep(1)
+    result["nasdaq"] = fetch_yf_quote("^IXIC", "나스닥")
+    _time.sleep(1)
+    result["sox"] = fetch_yf_quote("^SOX", "필라델피아반도체지수")
+    _time.sleep(1)
+    result["vix"] = fetch_yf_quote("^VIX", "VIX")
+    _time.sleep(1)
+    result["us10y"] = fetch_treasury_yield_10y()
+    return result
 
 
 def sanitize_for_json(obj):
