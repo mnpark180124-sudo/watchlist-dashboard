@@ -220,6 +220,26 @@
   }
   .heat-bar-fill { height: 100%; }
 
+  .news-line {
+    margin-top: 9px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
+    font-size: 10.5px;
+    line-height: 1.5;
+  }
+  .news-line.empty { color: var(--muted); }
+  .news-line.important { color: var(--text); }
+  .news-badge {
+    display: inline-block;
+    font-size: 9.5px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-bottom: 4px;
+  }
+  .news-badge.up { background: rgba(240,68,82,0.15); color: var(--up); }
+  .news-badge.down { background: rgba(49,130,246,0.15); color: var(--down); }
+
   #empty {
     color: var(--muted);
     font-size: 13px;
@@ -235,7 +255,6 @@
   <div id="meta">
     <span id="updated">불러오는 중…</span>
     <a href="backtest.html" style="color:var(--muted); font-size:11px; text-decoration:none; border:1px solid var(--line); padding:6px 12px; border-radius:6px;">백테스트 기록</a>
-    <a href="news.html" style="color:var(--muted); font-size:11px; text-decoration:none; border:1px solid var(--line); padding:6px 12px; border-radius:6px;">뉴스·공시</a>
     <button onclick="load()">새로고침</button>
   </div>
 </header>
@@ -394,7 +413,7 @@
   }
 
   const MACRO_LABELS = {
-    kospi: '코스피', kosdaq: '코스닥', vkospi: 'VKOSPI',
+    kospi: '코스피', kosdaq: '코스닥',
     usdkrw: '원/달러', nasdaq: '나스닥', sox: 'SOX(반도체)',
     vix: 'VIX', us10y: '미국10년물(%)',
   };
@@ -467,6 +486,22 @@
         const sign = rate > 0 ? '+' : '';
 
         const n = news[s.name];
+        let newsHtml;
+        if (n && n.hasImportantNews) {
+          const badgeDir = n.direction === 'down' ? 'down' : 'up';
+          const badgeSign = n.direction === 'down' ? '-' : '+';
+          const sourceTag = n.source === '공시' ? '📄 공시' : '📰 뉴스';
+          const dateTag = n.date ? ` · ${n.date}` : '';
+          newsHtml = `
+            <div class="news-line important">
+              <span class="news-badge ${badgeDir}">영향도 ${badgeSign}${Math.round(n.impactPct)}%</span>
+              <span style="color:var(--muted); font-size:9.5px;">${sourceTag}${dateTag}</span><br/>
+              ${n.summary}
+            </div>`;
+        } else {
+          newsHtml = `<div class="news-line empty">최근 3일 내 특이 뉴스/공시 없음</div>`;
+        }
+
         const score = computeScore(s, n, macro, geo);
         const scoreHtml = score !== null
           ? `<div class="score-badge ${scoreClass(score)}">${Math.round(score)}점 · ${scoreLabel(score)}</div>`
@@ -538,6 +573,7 @@
             ${flowHtml}
             ${finHtml}
             ${extraHtml}
+            ${newsHtml}
           </div>`;
       }).join('');
 
