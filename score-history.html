@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>일별 평가점수 기록</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0e11; --panel: #12161c; --panel-hover: #171c24;
+    --line: #1f2530; --line-strong: #2a3140; --text: #e8eaed; --muted: #6b7684;
+    --up: #f04452; --down: #3182f6; --flat: #6b7684;
+  }
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'JetBrains Mono', monospace; -webkit-font-smoothing:antialiased; }
+  header { padding:26px 32px 18px; border-bottom:1px solid var(--line); display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:10px; }
+  h1 { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:22px; margin:0; }
+  .nav-links { display:flex; gap:8px; }
+  a.back { color:var(--muted); font-size:12px; text-decoration:none; border:1px solid var(--line); padding:6px 12px; border-radius:6px; }
+  a.back:hover { background:var(--panel-hover); }
+  main { max-width:1000px; margin:0 auto; padding:28px 32px 80px; }
+
+  #disclaimer { font-size:11px; color:var(--muted); margin-bottom:24px; line-height:1.6; }
+  #meta { font-size:13px; color:var(--muted); margin-bottom:20px; }
+
+  .day-section { border:1px solid var(--line); border-radius:10px; background:var(--panel); margin-bottom:16px; overflow:hidden; }
+  .day-head { padding:12px 16px; border-bottom:1px solid var(--line); background:var(--panel-hover); font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:14px; }
+
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th, td { text-align:left; padding:7px 16px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-weight:500; }
+  .score-cell { font-weight:700; }
+  .s-pos { color:var(--up); } .s-mid { color:var(--muted); } .s-neg { color:var(--down); }
+
+  #empty { color:var(--muted); font-size:13px; padding:40px 0; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>일별 평가점수 기록</h1>
+  <div class="nav-links">
+    <a class="back" href="backtest.html">백테스트 기록</a>
+    <a class="back" href="index.html">← 대시보드로</a>
+  </div>
+</header>
+
+<main>
+  <p id="disclaimer">매일 장 마감 후 각 종목의 그날 평가점수를 그대로 기록한 로그입니다.
+  다음날 수익률과 비교한 통계는 "백테스트 기록" 페이지에서 볼 수 있어요.</p>
+  <div id="meta"></div>
+  <div id="days"></div>
+  <div id="empty" style="display:none">아직 쌓인 기록이 없어요. snapshot.py가 매일 장 마감 후 자동으로 기록을 쌓습니다.</div>
+</main>
+
+<script>
+  function scoreClass(score) {
+    if (score >= 60) return 's-pos';
+    if (score >= 40) return 's-mid';
+    return 's-neg';
+  }
+
+  async function load() {
+    try {
+      const res = await fetch('data/score_history.json?ts=' + Date.now());
+      if (!res.ok) throw new Error('no data');
+      const data = await res.json();
+      render(data.days || []);
+    } catch (e) {
+      document.getElementById('empty').style.display = 'block';
+    }
+  }
+
+  function render(days) {
+    if (!days.length) {
+      document.getElementById('empty').style.display = 'block';
+      return;
+    }
+
+    const sorted = [...days].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 30); // 최신 30일치
+
+    document.getElementById('meta').textContent = `누적 ${days.length}일치 기록 · 최근 ${sorted.length}일 표시`;
+
+    document.getElementById('days').innerHTML = sorted.map(day => {
+      const stocks = [...day.stocks].sort((a, b) => b.score - a.score);
+      const rows = stocks.map(s => `
+        <tr>
+          <td>${s.name}</td>
+          <td class="score-cell ${scoreClass(s.score)}">${s.score.toFixed(1)}</td>
+          <td>${Number(s.price).toLocaleString('ko-KR')}</td>
+        </tr>`).join('');
+
+      return `
+        <div class="day-section">
+          <div class="day-head">${day.date} <span style="color:var(--muted); font-weight:500; font-size:11px;">(${stocks.length}종목)</span></div>
+          <table>
+            <thead><tr><th>종목</th><th>점수</th><th>가격</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    }).join('');
+  }
+
+  load();
+</script>
+
+</body>
+</html>
