@@ -35,6 +35,13 @@
   th { color:var(--muted); font-weight:500; }
   .up { color:var(--up); } .down { color:var(--down); } .flat { color:var(--flat); }
 
+  .day-section { border:1px solid var(--line); border-radius:10px; background:var(--panel); margin-bottom:16px; overflow:hidden; }
+  .day-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line); background:var(--panel-hover); }
+  .day-date { font-family:'Space Grotesk', sans-serif; font-weight:700; font-size:14px; }
+  .day-summary { font-size:11px; color:var(--muted); }
+  .day-section table { font-size:12px; }
+  .day-section th, .day-section td { padding:7px 16px; }
+
   #disclaimer { font-size:11px; color:var(--muted); margin-bottom:24px; line-height:1.6; }
   #empty { color:var(--muted); font-size:13px; padding:40px 0; text-align:center; }
 </style>
@@ -112,22 +119,50 @@
         </div>`;
     }).join('');
 
-    const recent = [...entries].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 50);
-    document.getElementById('table-wrap').innerHTML = `
-      <table>
-        <thead><tr><th>날짜</th><th>종목</th><th>전날 점수</th><th>다음날 수익률</th></tr></thead>
-        <tbody>
-          ${recent.map(e => {
-            const dir = e.nextDayReturn > 0 ? 'up' : e.nextDayReturn < 0 ? 'down' : 'flat';
-            return `<tr>
-              <td>${e.date}</td>
-              <td>${e.name}</td>
-              <td>${e.prevScore.toFixed(1)}</td>
-              <td class="${dir}">${e.nextDayReturn > 0 ? '+' : ''}${e.nextDayReturn.toFixed(2)}%</td>
-            </tr>`;
-          }).join('')}
-        </tbody>
-      </table>`;
+    renderByDate(entries);
+  }
+
+  function renderByDate(entries) {
+    const avg = arr => arr.length ? arr.reduce((s, e) => s + e.nextDayReturn, 0) / arr.length : null;
+
+    // 날짜별로 묶기
+    const byDate = {};
+    for (const e of entries) {
+      (byDate[e.date] ||= []).push(e);
+    }
+    const dates = Object.keys(byDate).sort((a, b) => b.localeCompare(a)).slice(0, 30); // 최신 30일치만
+
+    document.getElementById('table-wrap').innerHTML = dates.map(date => {
+      const dayEntries = [...byDate[date]].sort((a, b) => b.prevScore - a.prevScore);
+      const dayHigh = dayEntries.filter(e => e.prevScore >= 70);
+      const dayLow = dayEntries.filter(e => e.prevScore <= 30);
+      const highAvg = avg(dayHigh);
+      const lowAvg = avg(dayLow);
+
+      const rows = dayEntries.map(e => {
+        const dir = e.nextDayReturn > 0 ? 'up' : e.nextDayReturn < 0 ? 'down' : 'flat';
+        return `<tr>
+          <td>${e.name}</td>
+          <td>${e.prevScore.toFixed(1)}</td>
+          <td class="${dir}">${e.nextDayReturn > 0 ? '+' : ''}${e.nextDayReturn.toFixed(2)}%</td>
+        </tr>`;
+      }).join('');
+
+      return `
+        <div class="day-section">
+          <div class="day-head">
+            <span class="day-date">${date}</span>
+            <span class="day-summary">
+              고점수군 평균 ${highAvg == null ? '-' : (highAvg > 0 ? '+' : '') + highAvg.toFixed(2) + '%'} (${dayHigh.length}건)
+              · 저점수군 평균 ${lowAvg == null ? '-' : (lowAvg > 0 ? '+' : '') + lowAvg.toFixed(2) + '%'} (${dayLow.length}건)
+            </span>
+          </div>
+          <table>
+            <thead><tr><th>종목</th><th>전날 점수</th><th>다음날 수익률</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+    }).join('');
   }
 
   load();
