@@ -2911,6 +2911,214 @@
       "prevDate": "2026-08-14",
       "prevScore": 61.7,
       "nextDayReturn": 0.0
+    },
+    {
+      "date": "2026-08-18",
+      "code": "005930",
+      "name": "삼성전자",
+      "prevDate": "2026-08-17",
+      "prevScore": 42.3,
+      "nextDayReturn": -2.19
+    },
+    {
+      "date": "2026-08-18",
+      "code": "005935",
+      "name": "삼성전자우",
+      "prevDate": "2026-08-17",
+      "prevScore": 38.7,
+      "nextDayReturn": -3.73
+    },
+    {
+      "date": "2026-08-18",
+      "code": "000660",
+      "name": "SK하이닉스",
+      "prevDate": "2026-08-17",
+      "prevScore": 50.5,
+      "nextDayReturn": 1.03
+    },
+    {
+      "date": "2026-08-18",
+      "code": "006400",
+      "name": "삼성SDI",
+      "prevDate": "2026-08-17",
+      "prevScore": 45.7,
+      "nextDayReturn": -5.43
+    },
+    {
+      "date": "2026-08-18",
+      "code": "0117V0",
+      "name": "TIGER 코리아AI전기전자",
+      "prevDate": "2026-08-17",
+      "prevScore": 56.4,
+      "nextDayReturn": 0.0
+    },
+    {
+      "date": "2026-08-18",
+      "code": "395160",
+      "name": "KODEX AI반도체",
+      "prevDate": "2026-08-17",
+      "prevScore": 47.5,
+      "nextDayReturn": -2.32
+    },
+    {
+      "date": "2026-08-18",
+      "code": "079550",
+      "name": "LIG디펜스앤에어로스페이스",
+      "prevDate": "2026-08-17",
+      "prevScore": 46.0,
+      "nextDayReturn": -2.45
+    },
+    {
+      "date": "2026-08-18",
+      "code": "267270",
+      "name": "HD건설기계",
+      "prevDate": "2026-08-17",
+      "prevScore": 55.8,
+      "nextDayReturn": -3.68
+    },
+    {
+      "date": "2026-08-18",
+      "code": "443060",
+      "name": "HD현대마린솔루션",
+      "prevDate": "2026-08-17",
+      "prevScore": 61.0,
+      "nextDayReturn": 3.66
+    },
+    {
+      "date": "2026-08-18",
+      "code": "010060",
+      "name": "OCI홀딩스",
+      "prevDate": "2026-08-17",
+      "prevScore": 46.4,
+      "nextDayReturn": -2.33
+    },
+    {
+      "date": "2026-08-18",
+      "code": "456040",
+      "name": "OCI",
+      "prevDate": "2026-08-17",
+      "prevScore": 63.2,
+      "nextDayReturn": -1.36
+    },
+    {
+      "date": "2026-08-18",
+      "code": "298020",
+      "name": "효성티앤씨",
+      "prevDate": "2026-08-17",
+      "prevScore": 57.6,
+      "nextDayReturn": -2.42
+    },
+    {
+      "date": "2026-08-18",
+      "code": "006260",
+      "name": "LS",
+      "prevDate": "2026-08-17",
+      "prevScore": 56.8,
+      "nextDayReturn": 6.18
+    },
+    {
+      "date": "2026-08-18",
+      "code": "028050",
+      "name": "삼성E&A",
+      "prevDate": "2026-08-17",
+      "prevScore": 45.8,
+      "nextDayReturn": -3.82
+    },
+    {
+      "date": "2026-08-18",
+      "code": "278470",
+      "name": "에이피알",
+      "prevDate": "2026-08-17",
+      "prevScore": 41.3,
+      "nextDayReturn": 1.54
+    },
+    {
+      "date": "2026-08-18",
+      "code": "161890",
+      "name": "한국콜마",
+      "prevDate": "2026-08-17",
+      "prevScore": 30.4,
+      "nextDayReturn": -5.12
+    },
+    {
+      "date": "2026-08-18",
+      "code": "237690",
+      "name": "에스티팜",
+      "prevDate": "2026-08-17",
+      "prevScore": 63.3,
+      "nextDayReturn": -5.73
+    },
+    {
+      "date": "2026-08-18",
+      "code": "036620",
+      "name": "감성코퍼레이션",
+      "prevDate": "2026-08-17",
+      "prevScore": 66.4,
+      "nextDayReturn": -9.91
+    },
+    {
+      "date": "2026-08-18",
+      "code": "336260",
+      "name": "두산퓨얼셀",
+      "prevDate": "2026-08-17",
+      "prevScore": 65.2,
+      "nextDayReturn": -4.36
+    },
+    {
+      "date": "2026-08-18",
+      "code": "034020",
+      "name": "두산에너빌리티",
+      "prevDate": "2026-08-17",
+      "prevScore": 58.1,
+      "nextDayReturn": -5.69
+    },
+    {
+      "date": "2026-08-18",
+      "code": "222080",
+      "name": "SFA넥셀",
+      "prevDate": "2026-08-17",
+      "prevScore": 66.4,
+      "nextDayReturn": -6.06
+    },
+    {
+      "date": "2026-08-18",
+      "code": "011500",
+      "name": "한농화성",
+      "prevDate": "2026-08-17",
+      "prevScore": 64.3,
+      "nextDayReturn": -3.58
+    },
+    {
+      "date": "2026-08-18",
+      "code": "023160",
+      "name": "태광",
+      "prevDate": "2026-08-17",
+      "prevScore": 70.1,
+      "nextDayReturn": -3.45
+    },
+    {
+      "date": "2026-08-18",
+      "code": "214430",
+      "name": "아이쓰리시스템",
+      "prevDate": "2026-08-17",
+      "prevScore": 63.2,
+      "nextDayReturn": -6.39
+    },
+    {
+      "date": "2026-08-18",
+      "code": "009520",
+      "name": "포스코엠텍",
+      "prevDate": "2026-08-17",
+      "prevScore": 62.1,
+      "nextDayReturn": -4.84
+    },
+    {
+      "date": "2026-08-18",
+      "code": "356860",
+      "name": "티엘비",
+      "prevDate": "2026-08-17",
+      "prevScore": 63.7,
+      "nextDayReturn": 9.39
     }
   ]
 }
