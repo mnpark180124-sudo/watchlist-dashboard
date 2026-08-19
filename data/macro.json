@@ -1,25 +1,25 @@
 {
-  "updatedAt": "2026-08-19T14:30:19.025756+09:00",
+  "updatedAt": "2026-08-19T15:00:03.151257+09:00",
   "nextEarningsEstimate": "2026-11-14",
   "kospi": {
-    "price": 6508.15,
-    "change": -361.68,
-    "changeRate": -5.26
+    "price": 6460.52,
+    "change": -409.31,
+    "changeRate": -5.96
   },
   "kosdaq": {
-    "price": 832.16,
-    "change": -2.04,
-    "changeRate": -0.24
-  },
-  "usdkrw": {
-    "price": 1397.98,
-    "change": -16.75,
+    "price": 824.35,
+    "change": -9.85,
     "changeRate": -1.18
   },
+  "usdkrw": {
+    "price": 1398.48,
+    "change": -16.25,
+    "changeRate": -1.15
+  },
   "nasdaq": {
-    "price": 26289.71,
-    "change": -355.2,
-    "changeRate": -1.33
+    "price": null,
+    "change": null,
+    "changeRate": null
   },
   "sox": {
     "price": 12621.0,
@@ -32,8 +32,8 @@
     "changeRate": 6.6
   },
   "us10y": {
-    "price": 4.71,
-    "change": -0.02,
-    "changeRate": -0.38
+    "price": 4.72,
+    "change": 0.03,
+    "changeRate": 0.6
   }
 }
