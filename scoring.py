@@ -6,7 +6,7 @@
 점수가 서로 달라진다.
 """
 
-SCORE_WEIGHTS = {"target": 0.30, "opinion": 0.20, "week52": 0.20, "news": 0.20, "financial": 0.10}
+SCORE_WEIGHTS = {"target": 0.30, "opinion": 0.20, "week52": 0.15, "news": 0.15, "financial": 0.10, "shortSelling": 0.10}
 OPINION_SCORE = {"강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0}
 MACRO_WEIGHTS = {"usdkrw": 5, "nasdaq": 5, "geo": 4, "vix": 3, "us10y": 2}
 
@@ -49,6 +49,11 @@ def compute_base_score(stock: dict, news_info: dict | None) -> float | None:
         fin_parts.append(max(0, min(100, roe * 5)))
     if fin_parts:
         parts.append((sum(fin_parts) / len(fin_parts), SCORE_WEIGHTS["financial"]))
+
+    short_ratio = stock.get("shortSellingRatio")
+    if short_ratio is not None:
+        short_score = max(0, min(100, 100 - short_ratio * 10))
+        parts.append((short_score, SCORE_WEIGHTS["shortSelling"]))
 
     total_weight = sum(w for _, w in parts)
     if total_weight <= 0:
