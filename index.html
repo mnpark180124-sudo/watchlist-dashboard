@@ -265,8 +265,8 @@
 <div id="macro"></div>
 
 <main>
-  <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(20%)·뉴스/공시 영향(20%)·재무제표(10%)의 가중합에,
-  환율(±5)·미증시(±5)·지정학적 리스크(±4)·VIX(±3)·미국10년물(±2)을 중요도에 따라 차등 반영해 조정한
+  <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(15%)·뉴스/공시 영향(15%)·재무제표(10%)·공매도 비중(10%)의
+  가중합에, 환율(±5)·미증시(±5)·지정학적 리스크(±4)·VIX(±3)·미국10년물(±2)을 중요도에 따라 차등 반영해 조정한
   참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
   <div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
@@ -276,7 +276,7 @@
   const HEAT_CAP = 10; // 등락률 이 값(%) 이상이면 히트바가 꽉 참
 
   // 기본 점수 가중치 (종목 자체 지표, 합계 100)
-  const SCORE_WEIGHTS = { target: 0.30, opinion: 0.20, week52: 0.20, news: 0.20, financial: 0.10 };
+  const SCORE_WEIGHTS = { target: 0.30, opinion: 0.20, week52: 0.15, news: 0.15, financial: 0.10, shortSelling: 0.10 };
   const OPINION_SCORE = { "강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0 };
   // 매크로 조정치 (시장 전체 공통, 각각 최대 ±20점씩 가감 후 합산)
   // 매크로 조정치는 MACRO_WEIGHTS(요소별 차등 가중치)로 계산됨
@@ -314,6 +314,12 @@
     if (finParts.length > 0) {
       const finScore = finParts.reduce((a, b) => a + b, 0) / finParts.length;
       parts.push([finScore, SCORE_WEIGHTS.financial]);
+    }
+
+    // 공매도 비중: 높을수록 하락 베팅이 많다는 뜻이라 감점 (비중 10%면 0점에 수렴)
+    if (s.shortSellingRatio != null) {
+      const shortScore = Math.max(0, Math.min(100, 100 - s.shortSellingRatio * 10));
+      parts.push([shortScore, SCORE_WEIGHTS.shortSelling]);
     }
 
     const totalWeight = parts.reduce((sum, [, w]) => sum + w, 0);
