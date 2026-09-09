@@ -37,7 +37,7 @@ WATCHLIST = {
     "삼성전자": "반도체/전자",
     "삼성전자우": "반도체/전자",
     "SK하이닉스": "반도체/전자",
-    "삼성SDI": "반도체/전자",
+    "삼성SDI": "2차전지",
     "TIGER 코리아AI전기전자": "반도체/전자",
     "KODEX AI반도체": "반도체/전자",
 
@@ -67,6 +67,18 @@ WATCHLIST = {
     "아이쓰리시스템": "기타",
     "포스코엠텍": "기타",
     "티엘비": "기타",
+
+    "LG에너지솔루션": "2차전지",
+    "에코프로": "2차전지",
+    "포스코퓨처엠": "2차전지",
+
+    "KB금융": "금융",
+    "신한지주": "금융",
+    "하나금융지주": "금융",
+
+    "현대차": "자동차",
+    "기아": "자동차",
+    "현대모비스": "자동차",
 }
 
 # 자동 검색이 실패하거나 엉뚱한 종목을 찾아올 경우를 대비한 수동 지정
@@ -99,6 +111,15 @@ CODE_OVERRIDES = {
     "SFA넥셀": "222080",
     "한농화성": "011500",
     "포스코엠텍": "009520",
+    "LG에너지솔루션": "373220",
+    "에코프로": "086520",
+    "포스코퓨처엠": "003670",
+    "KB금융": "105560",
+    "신한지주": "055550",
+    "하나금융지주": "086790",
+    "현대차": "005380",
+    "기아": "000270",
+    "현대모비스": "012330",
 }
 
 SEARCH_URL = "https://ac.stock.naver.com/ac"
@@ -482,10 +503,14 @@ def main():
             continue
 
         extra_info = fetch_extra(code)
+        time.sleep(0.2)
         volume_info = fetch_volume_surge(code)
+        time.sleep(0.2)
         flow_info = fetch_foreign_institution(code)
+        time.sleep(0.2)
         financial_info = fetch_financials(code)
-        short_info = fetch_short_selling(code)
+        time.sleep(0.2)
+        short_info = fetch_short_selling(code)  # pykrx라 네이버 요청 아님, 대기 불필요
 
         results.append({
             "name": name,
@@ -498,7 +523,7 @@ def main():
             **financial_info,
             **short_info,
         })
-        time.sleep(0.3)  # 페이지 여러 개 긁으니 요청 간격 살짝 늘림
+        time.sleep(0.6)  # 종목 간 대기시간 (종목 수가 늘어도 네이버 차단 위험을 줄이기 위해 늘림)
 
     kst = timezone(timedelta(hours=9))
     output = {
