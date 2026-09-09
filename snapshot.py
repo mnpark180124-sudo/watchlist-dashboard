@@ -62,6 +62,13 @@ def main():
         json.dump(history, f, ensure_ascii=False, indent=2)
 
     # ---- 3) 어제 점수 vs 오늘 실제 수익률 짝짓기 ----
+    # 오늘자 코스피 등락률 = 오늘 macro.json의 changeRate (어제 종가 대비 오늘 종가와 동일한 기간이라
+    # 종목의 nextDayReturn과 정확히 같은 기간의 "시장 수익률"로 쓸 수 있다)
+    market_return = None
+    kospi = macro_data.get("kospi")
+    if kospi and kospi.get("changeRate") is not None:
+        market_return = kospi["changeRate"]
+
     prev_days = [d for d in history["days"] if d["date"] < today]
     backtest_entries = []
     if prev_days:
@@ -73,6 +80,9 @@ def main():
             if not prev or not prev.get("price"):
                 continue
             next_day_return = round((s["price"] / prev["price"] - 1) * 100, 2)
+            excess_return = (
+                round(next_day_return - market_return, 2) if market_return is not None else None
+            )
             backtest_entries.append({
                 "date": today,
                 "code": s["code"],
@@ -80,6 +90,8 @@ def main():
                 "prevDate": prev_day["date"],
                 "prevScore": prev["score"],
                 "nextDayReturn": next_day_return,
+                "marketReturn": market_return,
+                "excessReturn": excess_return,
             })
 
     backtest = load_json("data/backtest.json", {"entries": []})
