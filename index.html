@@ -71,6 +71,20 @@
     padding: 28px 32px 80px;
   }
 
+  .v41-summary {
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    background: var(--panel);
+    padding: 12px 14px;
+    font-size: 10px;
+  }
+  .v41-summary-head { display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:7px; }
+  .v41-summary-title { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; }
+  .v41-summary-note { color:var(--muted); }
+  .v41-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .v41-chip { border:1px solid var(--line-strong); border-radius:5px; padding:4px 7px; color:var(--muted); }
+  .v41-chip strong { color:var(--text); }
+
   #sectors {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
@@ -139,6 +153,26 @@
   .score-badge.s-mid { background: rgba(107,118,132,0.18); color: var(--muted); }
   .score-badge.s-neg { background: rgba(49,130,246,0.15); color: var(--down); }
 
+  .v41-wrap {
+    margin-top: 9px;
+    padding: 8px 9px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: rgba(255,255,255,0.015);
+  }
+  .v41-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; }
+  .v41-title { font-size:9px; color:var(--muted); letter-spacing:.02em; }
+  .v41-pattern { font-size:9px; font-weight:700; padding:2px 5px; border-radius:4px; border:1px solid var(--line-strong); }
+  .v41-pattern.good { color:var(--up); border-color:rgba(240,68,82,.35); }
+  .v41-pattern.warn { color:#d99a2b; border-color:rgba(217,154,43,.35); }
+  .v41-pattern.bad { color:var(--down); border-color:rgba(49,130,246,.35); }
+  .v41-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 10px; }
+  .v41-item { font-size:9.5px; color:var(--muted); white-space:nowrap; }
+  .v41-item strong { color:var(--text); font-weight:700; }
+  .v41-note { margin-top:5px; font-size:8.5px; color:var(--muted); line-height:1.35; }
+  .trend-up { color:var(--up) !important; }
+  .trend-down { color:var(--down) !important; }
+  .trend-flat { color:var(--muted) !important; }
   .range-wrap { margin-top: 8px; }
   .range-labels {
     display: flex;
@@ -268,6 +302,8 @@
   <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(15%)·뉴스/공시 영향(15%)·재무제표(10%)·공매도 비중(10%)의
   가중합에, 환율(±5)·미증시(±5)·지정학적 리스크(±4)·VIX(±3)·미국10년물(±2)을 중요도에 따라 차등 반영해 조정한
   참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
+  <div id="v41-summary" class="v41-summary" style="margin-bottom:18px; display:none;"></div>
+
   <div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
 </main>
@@ -383,23 +419,125 @@
     return '부정적';
   }
 
+  // V4-1: 가격 위치 + 최근 추세 분석
+  // score_history.json의 일별 종가 기록을 이용합니다.
+  const V41_SIDEWAYS_5D = 2.0;
+  const V41_SIDEWAYS_20D = 5.0;
+
+  function signedPct(v) {
+    if (v == null || !Number.isFinite(v)) return '-';
+    return `${v > 0 ? '+' : ''}${v.toFixed(1)}%`;
+  }
+
+  function getHistoryMap(history) {
+    const map = {};
+    if (!history || !Array.isArray(history.days)) return map;
+    for (const day of history.days) {
+      for (const s of (day.stocks || [])) {
+        if (!map[s.code]) map[s.code] = [];
+        if (Number.isFinite(Number(s.price))) map[s.code].push({ date: day.date, price: Number(s.price) });
+      }
+    }
+    for (const code of Object.keys(map)) map[code].sort((a,b) => a.date.localeCompare(b.date));
+    return map;
+  }
+
+  function calcV41(s, historyMap) {
+    const high = Number(s.week52High), low = Number(s.week52Low), price = Number(s.price);
+    const result = { highDrop:null, lowRise:null, pos:null, r5:null, r20:null,
+      state5:'데이터 부족', state20:'데이터 부족', pattern:'관찰', patternClass:'warn' };
+
+    if (Number.isFinite(high) && high > 0 && Number.isFinite(price)) result.highDrop = (price / high - 1) * 100;
+    if (Number.isFinite(low) && low > 0 && Number.isFinite(price)) result.lowRise = (price / low - 1) * 100;
+    if (Number.isFinite(high) && Number.isFinite(low) && high > low && Number.isFinite(price))
+      result.pos = Math.max(0, Math.min(100, (price-low)/(high-low)*100));
+
+    const arr = historyMap[s.code] || [];
+    if (arr.length >= 6) {
+      const latest = arr[arr.length-1].price, p5 = arr[arr.length-6].price;
+      if (p5 > 0) result.r5 = (latest/p5-1)*100;
+    }
+    if (arr.length >= 21) {
+      const latest = arr[arr.length-1].price, p20 = arr[arr.length-21].price;
+      if (p20 > 0) result.r20 = (latest/p20-1)*100;
+    }
+
+    const state = (r,t) => r == null ? '데이터 부족' : Math.abs(r) <= t ? '횡보' : r > 0 ? '상승' : '하락';
+    result.state5 = state(result.r5, V41_SIDEWAYS_5D);
+    result.state20 = state(result.r20, V41_SIDEWAYS_20D);
+
+    if (result.highDrop != null && result.highDrop > -10 && result.r5 != null && result.r5 > 3) {
+      result.pattern='고점 추격 주의'; result.patternClass='bad';
+    } else if (result.highDrop != null && result.highDrop <= -15 && result.r20 != null && result.r20 < 0 &&
+               result.r5 != null && Math.abs(result.r5) <= V41_SIDEWAYS_5D) {
+      result.pattern='조정 후 횡보'; result.patternClass='good';
+    } else if (result.r5 != null && result.r20 != null && result.r5 > 0 && result.r20 > 0) {
+      result.pattern='상승 추세'; result.patternClass='good';
+    } else if (result.r5 != null && result.r20 != null && result.r5 < -3 && result.r20 < -5) {
+      result.pattern='하락 추세'; result.patternClass='bad';
+    } else if (result.r5 != null && Math.abs(result.r5) <= V41_SIDEWAYS_5D) {
+      result.pattern='단기 횡보'; result.patternClass='warn';
+    }
+    return result;
+  }
+
+  function renderV41(s, historyMap) {
+    const v = calcV41(s, historyMap);
+    const highText = v.highDrop == null ? '-' : `${v.highDrop.toFixed(1)}%`;
+    const posText = v.pos == null ? '-' : `${v.pos.toFixed(0)}%`;
+    const r5Text = signedPct(v.r5), r20Text = signedPct(v.r20);
+    const c5 = v.state5==='상승' ? 'trend-up' : v.state5==='하락' ? 'trend-down' : 'trend-flat';
+    const c20 = v.state20==='상승' ? 'trend-up' : v.state20==='하락' ? 'trend-down' : 'trend-flat';
+    return `
+      <div class="v41-wrap">
+        <div class="v41-head">
+          <span class="v41-title">V4-1 가격 위치 · 단기 추세</span>
+          <span class="v41-pattern ${v.patternClass}">${v.pattern}</span>
+        </div>
+        <div class="v41-grid">
+          <div class="v41-item">52주 고점 대비 <strong>${highText}</strong></div>
+          <div class="v41-item">52주 범위 위치 <strong>${posText}</strong></div>
+          <div class="v41-item">최근 5일 <strong class="${c5}">${r5Text}</strong> · ${v.state5}</div>
+          <div class="v41-item">최근 20일 <strong class="${c20}">${r20Text}</strong> · ${v.state20}</div>
+        </div>
+        <div class="v41-note">최근 5일 ±2%를 횡보, 최근 20일 ±5%를 횡보로 표시합니다. V4-1은 매수·매도 신호가 아닌 가격 흐름 참고용입니다.</div>
+      </div>`;
+  }
+
+  function renderV41Summary(data, historyMap) {
+    const el = document.getElementById('v41-summary');
+    if (!el) return;
+    const items = data.stocks.map(s => ({s, v:calcV41(s, historyMap)}));
+    const adjusted = items.filter(x=>x.v.pattern==='조정 후 횡보').length;
+    const chase = items.filter(x=>x.v.pattern==='고점 추격 주의').length;
+    const sideways = items.filter(x=>x.v.state5==='횡보').length;
+    const enough = items.filter(x=>x.v.r20!=null).length;
+    el.style.display='block';
+    el.innerHTML=`<div class="v41-summary-head"><span class="v41-summary-title">V4-1 가격·추세 요약</span><span class="v41-summary-note">현재 ${data.stocks.length}종목 · 20일 데이터 확보 ${enough}종목</span></div>
+      <div class="v41-chips"><span class="v41-chip">🟢 조정 후 횡보 <strong>${adjusted}</strong></span><span class="v41-chip">⚠️ 고점 추격 주의 <strong>${chase}</strong></span><span class="v41-chip">↔ 최근 5일 횡보 <strong>${sideways}</strong></span></div>`;
+  }
+
   async function load() {
     try {
-      const [stocksRes, newsRes, macroRes, geoRes] = await Promise.all([
+      const [stocksRes, newsRes, macroRes, geoRes, historyRes] = await Promise.all([
         fetch('data/stocks.json?ts=' + Date.now()),
         fetch('data/news.json?ts=' + Date.now()).catch(() => null),
         fetch('data/macro.json?ts=' + Date.now()).catch(() => null),
         fetch('data/geopolitical.json?ts=' + Date.now()).catch(() => null),
+        fetch('data/score_history.json?ts=' + Date.now()).catch(() => null),
       ]);
       if (!stocksRes.ok) throw new Error('no data yet');
       const data = await stocksRes.json();
       const news = (newsRes && newsRes.ok) ? await newsRes.json() : {};
       const macro = (macroRes && macroRes.ok) ? await macroRes.json() : null;
       const geo = (geoRes && geoRes.ok) ? await geoRes.json() : null;
+      const history = (historyRes && historyRes.ok) ? await historyRes.json() : null;
+      const historyMap = getHistoryMap(history);
       if (macro) renderMacro(macro);
       renderEarningsBanner(macro);
       renderGeoBanner(geo);
-      render(data, news, macro, geo);
+      renderV41Summary(data, historyMap);
+      render(data, news, macro, geo, historyMap);
     } catch (e) {
       document.getElementById('empty').style.display = 'block';
       document.getElementById('updated').textContent = '데이터 없음';
@@ -461,7 +599,7 @@
     return rate > 0 ? 'up' : rate < 0 ? 'down' : 'flat';
   }
 
-  function render(data, news, macro, geo) {
+  function render(data, news, macro, geo, historyMap) {
     document.getElementById('updated').textContent =
       '업데이트: ' + new Date(data.updatedAt).toLocaleString('ko-KR', { hour12: false });
 
@@ -532,6 +670,8 @@
             </div>`;
         }
 
+        const v41Html = renderV41(s, historyMap || {});
+
         let supportHtml = '';
         if (s.supportLine) {
           supportHtml = `<div class="extra-line">지지선(20일 저가) ${Number(s.supportLine).toLocaleString('ko-KR')}</div>`;
@@ -576,6 +716,7 @@
             <div class="tile-change ${dir}">${sign}${rate.toFixed(2)}%</div>
             <div class="heat-bar"><div class="heat-bar-fill ${dir}" style="width:${heatPct}%; background:currentColor"></div></div>
             ${rangeHtml}
+            ${v41Html}
             ${supportHtml}
             ${flowHtml}
             ${finHtml}
