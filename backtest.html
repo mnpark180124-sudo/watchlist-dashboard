@@ -59,7 +59,9 @@
 
 <main>
   <p id="disclaimer">전날 평가점수와 다음날 실제 등락률을 계속 짝지어 쌓은 기록입니다. 표본이 적으면
-  (특히 100일 미만) 우연에 의한 결과일 수 있으니 참고용으로만 봐주세요. 이 페이지는 투자 조언이 아닙니다.</p>
+  (특히 100일 미만) 우연에 의한 결과일 수 있으니 참고용으로만 봐주세요. "시장 대비 초과수익률"은
+  같은 기간 코스피 등락률을 뺀 값으로, 종목이 시장 전체보다 더/덜 갔는지를 보여줍니다(이 기능을
+  추가한 날짜 이후 기록부터만 표시돼요). 이 페이지는 투자 조언이 아닙니다.</p>
 
   <div id="progress"></div>
   <div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
@@ -104,6 +106,10 @@
 
     const avg = arr => arr.length ? arr.reduce((s, e) => s + e.nextDayReturn, 0) / arr.length : null;
     const winRate = arr => arr.length ? (arr.filter(e => e.nextDayReturn > 0).length / arr.length * 100) : null;
+    const avgExcess = arr => {
+      const withExcess = arr.filter(e => e.excessReturn != null);
+      return withExcess.length ? withExcess.reduce((s, e) => s + e.excessReturn, 0) / withExcess.length : null;
+    };
 
     const groups = [
       { label: '고점수군 (70점 이상)', data: high },
@@ -114,12 +120,17 @@
     document.getElementById('groups').innerHTML = groups.map(g => {
       const a = avg(g.data);
       const w = winRate(g.data);
+      const ex = avgExcess(g.data);
+      const exCount = g.data.filter(e => e.excessReturn != null).length;
       const dir = a == null ? 'flat' : a > 0 ? 'up' : a < 0 ? 'down' : 'flat';
+      const exDir = ex == null ? 'flat' : ex > 0 ? 'up' : ex < 0 ? 'down' : 'flat';
       return `
         <div class="group-card">
           <div class="group-title">${g.label}</div>
           <div class="group-stat ${dir}">${a == null ? '-' : (a > 0 ? '+' : '') + a.toFixed(2) + '%'}</div>
           <div class="group-sub">평균 다음날 수익률 · 표본 ${g.data.length}건${w == null ? '' : ` · 상승 비율 ${w.toFixed(0)}%`}</div>
+          ${ex != null ? `<div class="group-stat ${exDir}" style="font-size:16px; margin-top:8px;">${ex > 0 ? '+' : ''}${ex.toFixed(2)}%</div>
+          <div class="group-sub">시장(코스피) 대비 초과수익률 · 표본 ${exCount}건</div>` : ''}
         </div>`;
     }).join('');
 
