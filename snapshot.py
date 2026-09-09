@@ -15,6 +15,7 @@ import os
 from datetime import datetime, timezone, timedelta
 
 from scoring import compute_score
+from timing import calc_v41, calc_v42
 
 KST = timezone(timedelta(hours=9))
 
@@ -51,12 +52,49 @@ def main():
 
     # ---- 2) 기존 기록 불러오기 ----
     history = load_json("data/score_history.json", {"days": []})
+    timing_history = load_json("data/timing_history.json", {"entries": []})
 
     # 오늘 이미 기록된 날짜면(같은 날 여러 번 실행) 덮어쓰기, 아니면 새로 추가
     history["days"] = [d for d in history["days"] if d["date"] != today]
     history["days"].append({"date": today, "stocks": today_snapshot})
     # 너무 오래된 기록까지 무한정 쌓이지 않도록 최근 150일치만 유지
     history["days"] = sorted(history["days"], key=lambda d: d["date"])[-150:]
+
+    # ---- 2-b) V4-2 타이밍 판정 기록 ----
+    price_history = {}
+    for day in history["days"]:
+        for row in day.get("stocks", []):
+            try: price_history.setdefault(row["code"], []).append((day["date"], float(row["price"])))
+            except (KeyError, TypeError, ValueError): pass
+    news_by_name = news_data
+    today_timing = []
+    for s in stocks_data.get("stocks", []):
+        prices = [p for _,p in price_history.get(s["code"], [])]
+        v41 = calc_v41(s, prices)
+        v42 = calc_v42(s, v41, news_by_name.get(s["name"]))
+        if s.get("price") is None: continue
+        today_timing.append({"date":today,"code":s["code"],"name":s["name"],"price":s["price"],"pattern":v41["pattern"],"status":v42["status"],"highDrop":v41["highDrop"],"r5":v41["r5"],"r20":v41["r20"],"q1":v42["q1"],"q2":v42["q2"],"q3":v42["q3"],"q4":v42["q4"],"q5":v42["q5"],"upside":v42["upside"],"return1d":None,"return5d":None,"return20d":None})
+    timing_history["entries"] = [e for e in timing_history.get("entries", []) if e.get("date") != today]
+    timing_history["entries"].extend(today_timing)
+    timing_history["entries"] = sorted(timing_history["entries"], key=lambda e: (e.get("date",""),e.get("code","")))[-10000:]
+
+    # 이후 날짜의 가격이 이미 존재하면 과거 V4-2 판정의 1/5/20일 결과를 자동 채움
+    by_code = {}
+    for day in history["days"]:
+        for row in day.get("stocks", []):
+            try: by_code.setdefault(row["code"], []).append((day["date"], float(row["price"])))
+            except (KeyError, TypeError, ValueError): pass
+    for e in timing_history["entries"]:
+        arr = by_code.get(e.get("code"), [])
+        dates = [d for d,_ in arr]
+        if e.get("date") not in dates: continue
+        i = dates.index(e["date"]); base=float(e["price"])
+        for key, offset in (("return1d",1),("return5d",5),("return20d",20)):
+            if i+offset < len(arr) and base:
+                e[key]=round((arr[i+offset][1]/base-1)*100,2)
+
+    with open("data/timing_history.json", "w", encoding="utf-8") as f:
+        json.dump(timing_history, f, ensure_ascii=False, indent=2)
 
     with open("data/score_history.json", "w", encoding="utf-8") as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
