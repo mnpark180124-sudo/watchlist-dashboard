@@ -73,7 +73,7 @@ def main():
         v41 = calc_v41(s, prices)
         v42 = calc_v42(s, v41, news_by_name.get(s["name"]))
         if s.get("price") is None: continue
-        today_timing.append({"date":today,"code":s["code"],"name":s["name"],"price":s["price"],"pattern":v41["pattern"],"status":v42["status"],"highDrop":v41["highDrop"],"r5":v41["r5"],"r20":v41["r20"],"q1":v42["q1"],"q2":v42["q2"],"q3":v42["q3"],"q4":v42["q4"],"q5":v42["q5"],"upside":v42["upside"],"return1d":None,"return5d":None,"return20d":None})
+        today_timing.append({"date":today,"code":s["code"],"name":s["name"],"price":s["price"],"score":next((x["score"] for x in today_snapshot if x["code"]==s["code"]),None),"pattern":v41["pattern"],"status":v42["status"],"highDrop":v41["highDrop"],"r5":v41["r5"],"r20":v41["r20"],"q1":v42["q1"],"q2":v42["q2"],"q3":v42["q3"],"q4":v42["q4"],"q5":v42["q5"],"upside":v42["upside"],"return1d":None,"return5d":None,"return20d":None})
     timing_history["entries"] = [e for e in timing_history.get("entries", []) if e.get("date") != today]
     timing_history["entries"].extend(today_timing)
     timing_history["entries"] = sorted(timing_history["entries"], key=lambda e: (e.get("date",""),e.get("code","")))[-10000:]

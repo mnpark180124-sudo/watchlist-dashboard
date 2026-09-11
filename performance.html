@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>과거 성과 분석 · V4-3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0e11;--panel:#12161c;--line:#1f2530;--text:#e8eaed;--muted:#7b8796;--up:#f04452;--down:#3182f6;--warn:#d8a21b;--good:#20b26b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Space Grotesk",system-ui,sans-serif}a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 50px}.back{display:inline-block;color:var(--muted);text-decoration:none;font-size:13px;margin-bottom:16px}.hero{border:1px solid var(--line);background:linear-gradient(135deg,#151b24,#0e1217);border-radius:18px;padding:22px;margin-bottom:14px}.eyebrow{font:700 11px "JetBrains Mono",monospace;color:#8fa0b3;letter-spacing:.08em}.title{font-size:27px;font-weight:700;margin:6px 0}.desc{color:var(--muted);font-size:13px;line-height:1.6}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.card{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:16px;margin-bottom:14px}.metric{border:1px solid var(--line);border-radius:12px;padding:13px;background:#10141a}.metric span{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.metric strong{font:700 22px "JetBrains Mono",monospace}.section-title{font-size:16px;font-weight:700;margin-bottom:5px}.section-note{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:13px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:10px 9px;border-bottom:1px solid var(--line);font-size:12px;text-align:right;white-space:nowrap}th{color:var(--muted);font-weight:500}th:first-child,td:first-child{text-align:left}.mono{font-family:"JetBrains Mono",monospace}.pos{color:var(--up)}.neg{color:var(--down)}.flat{color:var(--muted)}.tag{display:inline-block;border:1px solid var(--line2);border-radius:999px;padding:4px 8px;font-size:11px}.small{color:var(--muted);font-size:11px;line-height:1.6}.notice{padding:10px 12px;border-radius:10px;background:#171b21;border:1px solid var(--line);color:#aeb8c5;font-size:11px;line-height:1.6;margin-top:10px}.bars{display:grid;gap:10px}.barrow{display:grid;grid-template-columns:155px 1fr 90px;gap:9px;align-items:center;font-size:12px}.track{height:12px;background:#202630;border-radius:99px;overflow:hidden;position:relative}.bar{height:100%;border-radius:99px;background:#65758a}.bar.pos{background:var(--up)}.bar.neg{background:var(--down)}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.footer{color:#566170;font-size:10px;margin-top:18px;line-height:1.6}@media(max-width:760px){.wrap{padding:15px 11px 35px}.title{font-size:23px}.grid4{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.barrow{grid-template-columns:120px 1fr 75px}.card{padding:13px}}
+</style>
+</head>
+<body><div class="wrap">
+<a class="back" href="index.html">← 관심종목으로 돌아가기</a>
+<div class="hero"><div class="eyebrow">V4-3 · HISTORICAL PERFORMANCE</div><div class="title">📊 과거 성과 분석</div><div class="desc">과거에 같은 점수·판정·패턴이 나왔을 때 실제 주가가 이후 어떻게 움직였는지를 집계합니다. 숫자는 데이터가 쌓이는 대로 자동 갱신됩니다.</div></div>
+<div id="summary" class="grid4"></div>
+<div id="scoreCard" class="card"></div>
+<div class="two"><div id="statusCard" class="card"></div><div id="patternCard" class="card"></div></div>
+<div id="comboCard" class="card"></div>
+<div id="latestCard" class="card"></div>
+<div class="footer">※ V4-3은 과거 관측값의 통계적 참고자료입니다. 표본이 적으면 결과가 크게 흔들릴 수 있으며 미래 수익을 보장하지 않습니다. 모든 수익률은 해당 판정일 종가 대비 거래일 기준입니다.</div>
+</div>
+<script>
+const pct=v=>v==null?'—':`${v>=0?'+':''}${Number(v).toFixed(2)}%`;
+const cls=v=>v==null?'flat':v>0?'pos':v<0?'neg':'flat';
+const avg=(a,k)=>{const x=a.filter(e=>e[k]!=null).map(e=>Number(e[k]));return x.length?x.reduce((s,v)=>s+v,0)/x.length:null};
+const win=(a,k)=>{const x=a.filter(e=>e[k]!=null).map(e=>Number(e[k]));return x.length?x.filter(v=>v>0).length/x.length*100:null};
+const metric=(label,value)=>`<div class="metric"><span>${label}</span><strong>${value}</strong></div>`;
+function stats(rows){return {count:rows.length,avg1:avg(rows,'r1'),avg5:avg(rows,'r5'),avg20:avg(rows,'r20'),win1:win(rows,'r1'),win5:win(rows,'r5'),win20:win(rows,'r20')}}
+function enrichScore(history){
+  const out=[];
+  const days=[...(history.days||[])].sort((a,b)=>a.date.localeCompare(b.date));
+  const maps=days.map(d=>({date:d.date,map:Object.fromEntries((d.stocks||[]).map(s=>[s.code,s]))}));
+  for(let i=0;i<maps.length;i++){
+    for(const code of Object.keys(maps[i].map)){
+      const base=Number(maps[i].map[code].price); if(!Number.isFinite(base)||!Number.isFinite(Number(maps[i].map[code].score))) continue;
+      const future=off=>i+off<maps.length?Number(maps[i+off].map[code]?.price):NaN;
+      const r=(off)=>{const p=future(off);return Number.isFinite(p)&&base?(p/base-1)*100:null};
+      out.push({date:maps[i].date,code, name:maps[i].map[code].name||code,score:Number(maps[i].map[code].score),r1:r(1),r5:r(5),r20:r(20)});
+    }
+  }
+  return out;
+}
+function scoreBucket(s){if(s>=90)return '90점 이상';if(s>=80)return '80~89점';if(s>=70)return '70~79점';if(s>=60)return '60~69점';return '60점 미만'}
+function scoreOrder(a,b){const o=['90점 이상','80~89점','70~79점','60~69점','60점 미만'];return o.indexOf(a)-o.indexOf(b)}
+function groupCard(title,note,groups,order){
+  const list=Object.entries(groups).sort((a,b)=>order?order(a[0],b[0]):b[1].count-a[1].count);
+  if(!list.length)return `<div class="section-title">${title}</div><div class="empty">아직 집계할 데이터가 없습니다.</div>`;
+  const max=Math.max(...list.map(([,v])=>Math.abs(v.avg20??v.avg5??v.avg1??0)),0.01);
+  return `<div class="section-title">${title}</div><div class="section-note">${note}</div><div class="table-wrap"><table><thead><tr><th>구분</th><th>표본</th><th>다음날 평균</th><th>5일 평균</th><th>20일 평균</th><th>5일 상승확률</th><th>20일 상승확률</th></tr></thead><tbody>${list.map(([k,v])=>`<tr><td><span class="tag">${k}</span></td><td class="mono">${v.count}</td><td class="mono ${cls(v.avg1)}">${pct(v.avg1)}</td><td class="mono ${cls(v.avg5)}">${pct(v.avg5)}</td><td class="mono ${cls(v.avg20)}">${pct(v.avg20)}</td><td class="mono">${v.win5==null?'—':v.win5.toFixed(1)+'%'}</td><td class="mono">${v.win20==null?'—':v.win20.toFixed(1)+'%'}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function bars(title,groups,key){const list=Object.entries(groups).filter(([,v])=>v[key]!=null);if(!list.length)return '';const max=Math.max(...list.map(([,v])=>Math.abs(v[key])),0.01);return `<div style="margin-top:15px"><div class="section-note">${title}</div><div class="bars">${list.map(([k,v])=>`<div class="barrow"><span>${k}</span><div class="track"><div class="bar ${v[key]>=0?'pos':'neg'}" style="width:${Math.min(100,Math.abs(v[key])/max*100)}%"></div></div><b class="mono ${cls(v[key])}">${pct(v[key])}</b></div>`).join('')}</div></div>`}
+function renderScore(rows){const groups={};for(const r of rows){const k=scoreBucket(r.score);(groups[k]??=[]).push(r)}const g={};for(const [k,v] of Object.entries(groups))g[k]=stats(v);document.getElementById('scoreCard').innerHTML=groupCard('① 평가점수별 실제 성과','“과거에 80점 이상이었던 종목은 이후 실제로 어떻게 움직였는가?”를 직접 확인하는 핵심 표입니다.',g,scoreOrder)+bars('20거래일 후 평균수익률 비교',g,'avg20');}
+function renderGroup(id,title,note,rows,field,icons){const groups={};for(const r of rows){const k=r[field]||'데이터 없음';(groups[k]??=[]).push(r)}const g={};for(let [k,v] of Object.entries(groups)){if(icons&&icons[k])k=icons[k];g[k]=stats(v)}document.getElementById(id).innerHTML=groupCard(title,note,g);}
+function renderCombo(entries){const candidates=entries.filter(e=>e.return5d!=null||e.return20d!=null);const combos={};for(const e of candidates){const score=e.score!=null?scoreBucket(Number(e.score)):null;const p=e.pattern; if(score&&p){const k=`${score} + ${p}`;(combos[k]??=[]).push({r1:e.return1d,r5:e.return5d,r20:e.return20d})}}
+const rows=Object.entries(combos).map(([k,v])=>[k,stats(v)]).filter(([,v])=>v.count>0).sort((a,b)=>b[1].count-a[1].count);let html=`<div class="section-title">④ ⭐ 점수 + 패턴 조합 분석</div><div class="section-note">예: “80점 이상 + 조정 후 횡보”가 과거에 함께 나타났을 때 실제 성과가 어땠는지를 봅니다. 표본이 충분해지면 V4-3에서 가장 중요한 비교자료가 됩니다.</div>`;
+if(!rows.length){html+='<div class="empty">아직 조합별 성과를 계산할 데이터가 없습니다. V4-2 기록과 이후 가격 데이터가 쌓이면 자동으로 표시됩니다.</div>'}else{html+=`<div class="table-wrap"><table><thead><tr><th>조건</th><th>표본</th><th>다음날</th><th>5일 후</th><th>20일 후</th><th>5일 상승확률</th></tr></thead><tbody>${rows.map(([k,v])=>`<tr><td><span class="tag">${k}</span></td><td class="mono">${v.count}</td><td class="mono ${cls(v.avg1)}">${pct(v.avg1)}</td><td class="mono ${cls(v.avg5)}">${pct(v.avg5)}</td><td class="mono ${cls(v.avg20)}">${pct(v.avg20)}</td><td class="mono">${v.win5==null?'—':v.win5.toFixed(1)+'%'}</td></tr>`).join('')}</tbody></table></div>`}
+document.getElementById('comboCard').innerHTML=html}
+async function load(){const [hr,tr]=await Promise.all([fetch('data/score_history.json?ts='+Date.now()),fetch('data/timing_history.json?ts='+Date.now())]);const history=hr.ok?await hr.json():{days:[]};const timing=tr.ok?await tr.json():{entries:[]};const scoreRows=enrichScore(history);const entries=(timing.entries||[]).map(e=>({...e,score:e.score??null,r1:e.return1d,r5:e.return5d,r20:e.return20d}));
+// timing entries in V4-2 do not need a separate score field: join score from the same date/code.
+const scoreMap=new Map(scoreRows.map(r=>[`${r.date}|${r.code}`,r]));for(const e of entries){const s=scoreMap.get(`${e.date}|${e.code}`);if(s){e.score=s.score;e.name=e.name||s.name}}
+const complete20=scoreRows.filter(r=>r.r20!=null).length;const total=scoreRows.length;const v42done=entries.filter(e=>e.r5!=null||e.r20!=null).length;const days=(history.days||[]).length;
+document.getElementById('summary').innerHTML=metric('점수 기록 건수',total.toLocaleString()+'건')+metric('점수 관측 거래일',days+'일')+metric('20일 결과 확보',complete20.toLocaleString()+'건')+metric('V4-2 결과 확보',v42done.toLocaleString()+'건');
+renderScore(scoreRows);
+renderGroup('statusCard','② V4-2 상태별 실제 성과','당시 화면의 🟢 관심 / 🟡 관찰 / 🔴 주의 판정 이후 실제 결과입니다.',entries,'status',{'관심':'🟢 관심','관찰':'🟡 관찰','주의':'🔴 주의'});
+renderGroup('patternCard','③ 패턴별 실제 성과','가격 흐름 패턴이 실제로 어떤 결과로 이어졌는지를 비교합니다.',entries,'pattern',{'조정 후 횡보':'⭐ 조정 후 횡보','상승 추세':'📈 상승 추세','고점 추격 주의':'🔴 고점 추격 주의','하락 추세':'🔴 하락 추세','단기 횡보':'🟡 단기 횡보'});
+renderCombo(entries);
+document.getElementById('latestCard').innerHTML=`<div class="section-title">⑤ 데이터 신뢰도 안내</div><div class="section-note">현재 데이터는 매일 장 마감 후 자동 누적됩니다. 표본이 적을 때는 숫자를 강한 신호로 해석하지 않고, 관측이 늘어날수록 평균수익률과 상승확률의 안정성을 확인합니다.</div><div class="notice">권장 해석: <b>10건 미만</b>은 참고 수준 · <b>10~29건</b>은 초기 관찰 · <b>30건 이상</b>부터 비교가 조금 더 의미 있어집니다. 이는 엄격한 통계적 기준이 아니라 이 대시보드의 실용적 운영 기준입니다.<br>또한 동일 종목이 여러 날짜에 반복 포함되므로 “독립적인 투자 사례 수”와 완전히 같은 의미는 아닙니다.</div>`;
+}
+load().catch(e=>{console.error(e);document.querySelector('.wrap').insertAdjacentHTML('beforeend','<div class="card"><div class="empty">데이터를 불러오지 못했습니다. GitHub Pages 배포 상태를 확인해주세요.</div></div>')});
+</script></body></html>
