@@ -6,11 +6,27 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0b0e11;--panel:#12161c;--line:#1f2530;--text:#e8eaed;--muted:#7b8796;--up:#f04452;--down:#3182f6;--warn:#d8a21b;--good:#20b26b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:"Space Grotesk",system-ui,sans-serif}a{color:inherit}.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 50px}.back{display:inline-block;color:var(--muted);text-decoration:none;font-size:13px;margin-bottom:16px}.hero{border:1px solid var(--line);background:linear-gradient(135deg,#151b24,#0e1217);border-radius:18px;padding:22px;margin-bottom:14px}.eyebrow{font:700 11px "JetBrains Mono",monospace;color:#8fa0b3;letter-spacing:.08em}.title{font-size:27px;font-weight:700;margin:6px 0}.desc{color:var(--muted);font-size:13px;line-height:1.6}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.card{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:16px;margin-bottom:14px}.metric{border:1px solid var(--line);border-radius:12px;padding:13px;background:#10141a}.metric span{display:block;color:var(--muted);font-size:11px;margin-bottom:6px}.metric strong{font:700 22px "JetBrains Mono",monospace}.section-title{font-size:16px;font-weight:700;margin-bottom:5px}.section-note{font-size:12px;color:var(--muted);line-height:1.55;margin-bottom:13px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:650px}th,td{padding:10px 9px;border-bottom:1px solid var(--line);font-size:12px;text-align:right;white-space:nowrap}th{color:var(--muted);font-weight:500}th:first-child,td:first-child{text-align:left}.mono{font-family:"JetBrains Mono",monospace}.pos{color:var(--up)}.neg{color:var(--down)}.flat{color:var(--muted)}.tag{display:inline-block;border:1px solid var(--line2);border-radius:999px;padding:4px 8px;font-size:11px}.small{color:var(--muted);font-size:11px;line-height:1.6}.notice{padding:10px 12px;border-radius:10px;background:#171b21;border:1px solid var(--line);color:#aeb8c5;font-size:11px;line-height:1.6;margin-top:10px}.bars{display:grid;gap:10px}.barrow{display:grid;grid-template-columns:155px 1fr 90px;gap:9px;align-items:center;font-size:12px}.track{height:12px;background:#202630;border-radius:99px;overflow:hidden;position:relative}.bar{height:100%;border-radius:99px;background:#65758a}.bar.pos{background:var(--up)}.bar.neg{background:var(--down)}.empty{padding:24px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.footer{color:#566170;font-size:10px;margin-top:18px;line-height:1.6}@media(max-width:760px){.wrap{padding:15px 11px 35px}.title{font-size:23px}.grid4{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.barrow{grid-template-columns:120px 1fr 75px}.card{padding:13px}}
+
+.guide{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
+.guide-title{font:700 12px 'Space Grotesk',sans-serif;margin-bottom:7px;}
+.guide-list{display:flex;flex-wrap:wrap;gap:6px;}
+.guide-item{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:6px 8px;line-height:1.35;}
+.guide-item b{color:var(--text);margin-right:4px;}
+.num{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;padding:0 6px;border-radius:999px;background:#202733;border:1px solid #3a4658;color:var(--text);font:700 10px 'JetBrains Mono',monospace;margin-right:6px;vertical-align:middle;}
+.section-help{color:var(--muted);font-size:10px;line-height:1.5;margin:-4px 0 10px;}
+@media(max-width:700px){.guide-list{display:grid;grid-template-columns:1fr 1fr}.guide-item{font-size:9px}}
 </style>
 </head>
 <body><div class="wrap">
 <a class="back" href="index.html">← 관심종목으로 돌아가기</a>
-<div class="hero"><div class="eyebrow">V4-3 · HISTORICAL PERFORMANCE</div><div class="title">📊 과거 성과 분석</div><div class="desc">과거에 같은 점수·판정·패턴이 나왔을 때 실제 주가가 이후 어떻게 움직였는지를 집계합니다. 숫자는 데이터가 쌓이는 대로 자동 갱신됩니다.</div></div>
+<div class="hero"><div class="eyebrow">V4-3 · HISTORICAL PERFORMANCE</div><div class="title"><span class="num">⑤</span>📊 과거 성과 분석</div><div class="desc">과거에 같은 점수·판정·패턴이 나왔을 때 실제 주가가 이후 어떻게 움직였는지를 집계합니다. 숫자는 데이터가 쌓이는 대로 자동 갱신됩니다.</div></div>
+<div class="guide"><div class="guide-title">⑤ V4-3의 핵심</div><div class="guide-list">
+<div class="guide-item"><b>⑤-1 점수별</b>90점 이상~60점 미만 실제 성과</div>
+<div class="guide-item"><b>⑤-2 판정별</b>🟢 관심·🟡 관찰·🔴 주의 비교</div>
+<div class="guide-item"><b>⑤-3 패턴별</b>조정 후 횡보·상승·고점추격·하락 등 비교</div>
+<div class="guide-item"><b>⑤-4 조합</b>점수 + 패턴을 함께 비교</div>
+<div class="guide-item"><b>⑤-5 신뢰도</b>표본 수가 많아질수록 해석력 향상</div>
+</div></div>
 <div id="summary" class="grid4"></div>
 <div id="scoreCard" class="card"></div>
 <div class="two"><div id="statusCard" class="card"></div><div id="patternCard" class="card"></div></div>
@@ -64,7 +80,7 @@ renderScore(scoreRows);
 renderGroup('statusCard','② V4-2 상태별 실제 성과','당시 화면의 🟢 관심 / 🟡 관찰 / 🔴 주의 판정 이후 실제 결과입니다.',entries,'status',{'관심':'🟢 관심','관찰':'🟡 관찰','주의':'🔴 주의'});
 renderGroup('patternCard','③ 패턴별 실제 성과','가격 흐름 패턴이 실제로 어떤 결과로 이어졌는지를 비교합니다.',entries,'pattern',{'조정 후 횡보':'⭐ 조정 후 횡보','상승 추세':'📈 상승 추세','고점 추격 주의':'🔴 고점 추격 주의','하락 추세':'🔴 하락 추세','단기 횡보':'🟡 단기 횡보'});
 renderCombo(entries);
-document.getElementById('latestCard').innerHTML=`<div class="section-title">⑤ 데이터 신뢰도 안내</div><div class="section-note">현재 데이터는 매일 장 마감 후 자동 누적됩니다. 표본이 적을 때는 숫자를 강한 신호로 해석하지 않고, 관측이 늘어날수록 평균수익률과 상승확률의 안정성을 확인합니다.</div><div class="notice">권장 해석: <b>10건 미만</b>은 참고 수준 · <b>10~29건</b>은 초기 관찰 · <b>30건 이상</b>부터 비교가 조금 더 의미 있어집니다. 이는 엄격한 통계적 기준이 아니라 이 대시보드의 실용적 운영 기준입니다.<br>또한 동일 종목이 여러 날짜에 반복 포함되므로 “독립적인 투자 사례 수”와 완전히 같은 의미는 아닙니다.</div>`;
+document.getElementById('latestCard').innerHTML=`<div class="section-title"><span class="num">⑤-5</span>데이터 신뢰도 안내</div><div class="section-note">현재 데이터는 매일 장 마감 후 자동 누적됩니다. 표본이 적을 때는 숫자를 강한 신호로 해석하지 않고, 관측이 늘어날수록 평균수익률과 상승확률의 안정성을 확인합니다.</div><div class="notice">권장 해석: <b>10건 미만</b>은 참고 수준 · <b>10~29건</b>은 초기 관찰 · <b>30건 이상</b>부터 비교가 조금 더 의미 있어집니다. 이는 엄격한 통계적 기준이 아니라 이 대시보드의 실용적 운영 기준입니다.<br>또한 동일 종목이 여러 날짜에 반복 포함되므로 “독립적인 투자 사례 수”와 완전히 같은 의미는 아닙니다.</div>`;
 }
 load().catch(e=>{console.error(e);document.querySelector('.wrap').insertAdjacentHTML('beforeend','<div class="card"><div class="empty">데이터를 불러오지 못했습니다. GitHub Pages 배포 상태를 확인해주세요.</div></div>')});
 </script></body></html>

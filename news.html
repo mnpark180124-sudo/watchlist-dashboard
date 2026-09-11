@@ -174,12 +174,21 @@
     padding: 60px 8px;
     text-align: center;
   }
+
+.guide{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
+.guide-title{font:700 12px 'Space Grotesk',sans-serif;margin-bottom:7px;}
+.guide-list{display:flex;flex-wrap:wrap;gap:6px;}
+.guide-item{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:6px 8px;line-height:1.35;}
+.guide-item b{color:var(--text);margin-right:4px;}
+.num{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;padding:0 6px;border-radius:999px;background:#202733;border:1px solid #3a4658;color:var(--text);font:700 10px 'JetBrains Mono',monospace;margin-right:6px;vertical-align:middle;}
+.section-help{color:var(--muted);font-size:10px;line-height:1.5;margin:-4px 0 10px;}
+@media(max-width:700px){.guide-list{display:grid;grid-template-columns:1fr 1fr}.guide-item{font-size:9px}}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>뉴스·공시 모니터</h1>
+  <h1><span class="num">⑥</span>뉴스·공시 모니터</h1>
   <div id="meta">
     <span id="updated">불러오는 중…</span>
     <a href="index.html">← 관심종목</a>
@@ -188,9 +197,14 @@
 </header>
 
 <main>
+  <div class="guide"><div class="guide-title">⑥ 뉴스·공시를 읽는 법</div><div class="guide-list">
+  <div class="guide-item"><b>⑥-1 시장 이슈</b>지정학·시장 전체 영향 확인</div>
+  <div class="guide-item"><b>⑥-2 요약</b>최근 주요 뉴스·공시 내용</div>
+  <div class="guide-item"><b>⑥-3 영향도</b>평가점수에 반영되는 참고 영향</div>
+  </div></div>
   <div id="geo-banner"></div>
-  <div id="summary-strip"></div>
-  <div id="sectors"></div>
+  <div class="section-help"><span class="num">⑥-2 · ⑥-3</span>종목별 최근 이슈와 영향도를 확인합니다.</div><div id="summary-strip"></div>
+  <div class="section-help"><span class="num">⑥-2</span>관심종목을 섹터별로 나누어 뉴스·공시 이슈를 확인합니다.</div><div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요.</div>
 </main>
 

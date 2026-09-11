@@ -53,12 +53,21 @@
 
   #disclaimer { font-size:11px; color:var(--muted); margin-bottom:24px; line-height:1.6; }
   #empty { color:var(--muted); font-size:13px; padding:40px 0; text-align:center; }
+
+.guide{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
+.guide-title{font:700 12px 'Space Grotesk',sans-serif;margin-bottom:7px;}
+.guide-list{display:flex;flex-wrap:wrap;gap:6px;}
+.guide-item{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:6px 8px;line-height:1.35;}
+.guide-item b{color:var(--text);margin-right:4px;}
+.num{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;padding:0 6px;border-radius:999px;background:#202733;border:1px solid #3a4658;color:var(--text);font:700 10px 'JetBrains Mono',monospace;margin-right:6px;vertical-align:middle;}
+.section-help{color:var(--muted);font-size:10px;line-height:1.5;margin:-4px 0 10px;}
+@media(max-width:700px){.guide-list{display:grid;grid-template-columns:1fr 1fr}.guide-item{font-size:9px}}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>평가점수 백테스트 기록</h1>
+  <h1><span class="num">③</span>평가점수 백테스트 기록</h1>
   <div style="display:flex; gap:8px;">
     <a class="back" href="score-history.html">일별 점수 기록</a>
     <a class="back" href="index.html">← 대시보드로</a>
@@ -66,6 +75,12 @@
 </header>
 
 <main>
+  <div class="guide"><div class="guide-title">③ 백테스트를 읽는 법</div><div class="guide-list">
+  <div class="guide-item"><b>③-1 점수 그룹</b>당시 평가점수별 실제 성과</div>
+  <div class="guide-item"><b>③-2 초과수익</b>코스피 대비 더 갔는지 확인</div>
+  <div class="guide-item"><b>③-3 최대낙폭</b>그룹별 변동 위험 비교</div>
+  <div class="guide-item"><b>③-4 일별 기록</b>전날 점수와 다음날 결과를 확인</div>
+  </div></div>
   <p id="disclaimer">전날 평가점수와 다음날 실제 등락률을 계속 짝지어 쌓은 기록입니다. 표본이 적으면
   (특히 100일 미만) 우연에 의한 결과일 수 있으니 참고용으로만 봐주세요. "시장 대비 초과수익률"은
   같은 기간 코스피 등락률을 뺀 값으로, 종목이 시장 전체보다 더/덜 갔는지를 보여줍니다(이 기능을
@@ -74,10 +89,12 @@
   <div id="progress"></div>
   <div id="progress-bar"><div id="progress-fill" style="width:0%"></div></div>
 
-  <div class="groups" id="groups"></div>
+  <div class="section-help"><span class="num">③-1</span>평가점수 구간별로 다음날 실제 성과를 비교합니다.</div><div class="groups" id="groups"></div>
 
+  <div class="section-help"><span class="num">③-3</span>점수 그룹을 매일 갈아타는 가정에서 최대낙폭을 비교합니다.</div>
   <div id="mdd-section" style="margin-bottom:28px;"></div>
 
+  <div class="section-help"><span class="num">③-4</span>날짜별 상세 기록입니다. 전날 평가점수와 다음날 실제 등락률을 짝지어 봅니다.</div>
   <div id="bt-week-tabs" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:18px;"></div>
   <div id="table-wrap"></div>
   <div id="empty" style="display:none">아직 쌓인 기록이 없어요. snapshot.py가 매일 장 마감 후 자동으로 기록을 쌓습니다.</div>

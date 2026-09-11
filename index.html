@@ -316,18 +316,27 @@
   .tile{cursor:pointer}
   .tile .tile-name{cursor:pointer}
 
+
+.guide{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
+.guide-title{font:700 12px 'Space Grotesk',sans-serif;margin-bottom:7px;}
+.guide-list{display:flex;flex-wrap:wrap;gap:6px;}
+.guide-item{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:6px 8px;line-height:1.35;}
+.guide-item b{color:var(--text);margin-right:4px;}
+.num{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;padding:0 6px;border-radius:999px;background:#202733;border:1px solid #3a4658;color:var(--text);font:700 10px 'JetBrains Mono',monospace;margin-right:6px;vertical-align:middle;}
+.section-help{color:var(--muted);font-size:10px;line-height:1.5;margin:-4px 0 10px;}
+@media(max-width:700px){.guide-list{display:grid;grid-template-columns:1fr 1fr}.guide-item{font-size:9px}}
 </style>
 </head>
 <body>
 
 <header>
-  <h1>analysis</h1>
+  <h1><span class="num">①</span>analysis</h1>
   <div id="meta">
     <span id="updated">불러오는 중…</span>
     <nav class="history-nav" aria-label="분석 기록 메뉴">
-      <a href="backtest.html">백테스트 기록</a>
-      <a href="score-history.html">일별 점수 기록</a>
-      <a href="performance.html" class="v43">V4-3 과거 성과</a>
+      <a href="backtest.html"><span class="num">③</span>백테스트 기록</a>
+      <a href="score-history.html"><span class="num">④</span>일별 점수 기록</a>
+      <a href="performance.html" class="v43"><span class="num">⑤</span>V4-3 과거 성과</a>
     </nav>
   </div>
 </header>
@@ -337,6 +346,17 @@
 <div id="macro"></div>
 
 <main>
+  <div class="guide">
+    <div class="guide-title">이 보드는 이렇게 봅니다</div>
+    <div class="guide-list">
+      <div class="guide-item"><b>① analysis</b>관심종목의 현재 상태를 한눈에 확인</div>
+      <div class="guide-item"><b>② 종목 상세</b>점수·가격·V4-2를 종합 분석</div>
+      <div class="guide-item"><b>③ 백테스트</b>점수와 다음날 실제 성과 비교</div>
+      <div class="guide-item"><b>④ 일별 점수</b>날짜별 점수 변화 확인</div>
+      <div class="guide-item"><b>⑤ V4-3</b>점수·판정·패턴의 실제 성과 비교</div>
+      <div class="guide-item"><b>⑥ 뉴스·공시</b>판정에 영향을 줄 수 있는 최근 이슈 확인</div>
+    </div>
+  </div>
   <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(15%)·뉴스/공시 영향(15%)·재무제표(10%)·공매도 비중(10%)의
   가중합에, 환율(±5)·미증시(±5)·지정학적 리스크(±4)·VIX(±3)·미국10년물(±2)을 중요도에 따라 차등 반영해 조정한
   참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
