@@ -39,8 +39,9 @@ function enrichScore(history){
   }
   return out;
 }
+const SCORE_BUCKETS=['90점 이상','80~89점','70~79점','60~69점','60점 미만'];
 function scoreBucket(s){if(s>=90)return '90점 이상';if(s>=80)return '80~89점';if(s>=70)return '70~79점';if(s>=60)return '60~69점';return '60점 미만'}
-function scoreOrder(a,b){const o=['90점 이상','80~89점','70~79점','60~69점','60점 미만'];return o.indexOf(a)-o.indexOf(b)}
+function scoreOrder(a,b){return SCORE_BUCKETS.indexOf(a)-SCORE_BUCKETS.indexOf(b)}
 function groupCard(title,note,groups,order){
   const list=Object.entries(groups).sort((a,b)=>order?order(a[0],b[0]):b[1].count-a[1].count);
   if(!list.length)return `<div class="section-title">${title}</div><div class="empty">아직 집계할 데이터가 없습니다.</div>`;
@@ -48,7 +49,7 @@ function groupCard(title,note,groups,order){
   return `<div class="section-title">${title}</div><div class="section-note">${note}</div><div class="table-wrap"><table><thead><tr><th>구분</th><th>표본</th><th>다음날 평균</th><th>5일 평균</th><th>20일 평균</th><th>5일 상승확률</th><th>20일 상승확률</th></tr></thead><tbody>${list.map(([k,v])=>`<tr><td><span class="tag">${k}</span></td><td class="mono">${v.count}</td><td class="mono ${cls(v.avg1)}">${pct(v.avg1)}</td><td class="mono ${cls(v.avg5)}">${pct(v.avg5)}</td><td class="mono ${cls(v.avg20)}">${pct(v.avg20)}</td><td class="mono">${v.win5==null?'—':v.win5.toFixed(1)+'%'}</td><td class="mono">${v.win20==null?'—':v.win20.toFixed(1)+'%'}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function bars(title,groups,key){const list=Object.entries(groups).filter(([,v])=>v[key]!=null);if(!list.length)return '';const max=Math.max(...list.map(([,v])=>Math.abs(v[key])),0.01);return `<div style="margin-top:15px"><div class="section-note">${title}</div><div class="bars">${list.map(([k,v])=>`<div class="barrow"><span>${k}</span><div class="track"><div class="bar ${v[key]>=0?'pos':'neg'}" style="width:${Math.min(100,Math.abs(v[key])/max*100)}%"></div></div><b class="mono ${cls(v[key])}">${pct(v[key])}</b></div>`).join('')}</div></div>`}
-function renderScore(rows){const groups={};for(const r of rows){const k=scoreBucket(r.score);(groups[k]??=[]).push(r)}const g={};for(const [k,v] of Object.entries(groups))g[k]=stats(v);document.getElementById('scoreCard').innerHTML=groupCard('① 평가점수별 실제 성과','“과거에 80점 이상이었던 종목은 이후 실제로 어떻게 움직였는가?”를 직접 확인하는 핵심 표입니다.',g,scoreOrder)+bars('20거래일 후 평균수익률 비교',g,'avg20');}
+function renderScore(rows){const groups={};for(const r of rows){const k=scoreBucket(r.score);(groups[k]??=[]).push(r)}const g={};for(const k of SCORE_BUCKETS)g[k]=stats(groups[k]||[]);document.getElementById('scoreCard').innerHTML=groupCard('① 평가점수별 실제 성과','“과거에 80점 이상이었던 종목은 이후 실제로 어떻게 움직였는가?”를 직접 확인하는 핵심 표입니다. 높은 점수부터 낮은 점수 순서로 표시합니다.',g,scoreOrder)+bars('20거래일 후 평균수익률 비교',g,'avg20');}
 function renderGroup(id,title,note,rows,field,icons){const groups={};for(const r of rows){const k=r[field]||'데이터 없음';(groups[k]??=[]).push(r)}const g={};for(let [k,v] of Object.entries(groups)){if(icons&&icons[k])k=icons[k];g[k]=stats(v)}document.getElementById(id).innerHTML=groupCard(title,note,g);}
 function renderCombo(entries){const candidates=entries.filter(e=>e.return5d!=null||e.return20d!=null);const combos={};for(const e of candidates){const score=e.score!=null?scoreBucket(Number(e.score)):null;const p=e.pattern; if(score&&p){const k=`${score} + ${p}`;(combos[k]??=[]).push({r1:e.return1d,r5:e.return5d,r20:e.return20d})}}
 const rows=Object.entries(combos).map(([k,v])=>[k,stats(v)]).filter(([,v])=>v.count>0).sort((a,b)=>b[1].count-a[1].count);let html=`<div class="section-title">④ ⭐ 점수 + 패턴 조합 분석</div><div class="section-note">예: “80점 이상 + 조정 후 횡보”가 과거에 함께 나타났을 때 실제 성과가 어땠는지를 봅니다. 표본이 충분해지면 V4-3에서 가장 중요한 비교자료가 됩니다.</div>`;
