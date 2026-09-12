@@ -586,7 +586,7 @@
 
   function renderV42(s,historyMap,marketPrices){
     const a=calcV42(s,historyMap,marketPrices);
-    return `<div class="v42-badge ${a.statusClass}">${a.status==='관심'?'🟢':a.status==='관찰'?'🟡':'🔴'} V4-2 ${a.status} · ${a.trueCount}/${a.knownCount||5}</div>`;
+    const missing=5-a.knownCount; const detail=`${a.trueCount}/5 충족${missing>0?` · ${missing}개 데이터 부족`:''}`; return `<div class="v42-badge ${a.statusClass}">${a.status==='관심'?'🟢':a.status==='관찰'?'🟡':'🔴'} V4-2 ${a.status} · ${detail}</div>`;
   }
 
   function renderV42Summary(data,historyMap,marketPrices){
