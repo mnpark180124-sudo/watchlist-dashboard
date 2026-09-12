@@ -1,0 +1,45 @@
+name: Verify Previous Day Data
+
+on:
+  schedule:
+    # 전일 검증 09:10 KST = 00:10 UTC (월~금)
+    # 장 시작 후 현재가가 아니라 전일 일별시세 종가를 직접 확인한다.
+    - cron: "10 0 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: watchlist-repair
+  cancel-in-progress: false
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - run: pip install -r requirements.txt
+
+      - name: Sync with latest main
+        run: git pull --rebase origin main
+
+      - run: python repair_snapshot.py
+
+      - name: Commit repaired data
+        run: |
+          git config user.name "watchlist-bot"
+          git config user.email "actions@github.com"
+          git add data/score_history.json data/backtest.json data/timing_history.json
+          if git diff --staged --quiet; then
+            echo "No repair changes"
+            exit 0
+          fi
+          git commit -m "chore: verify previous day snapshot"
+          git pull --rebase origin main
+          git push origin main
