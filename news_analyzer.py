@@ -293,7 +293,7 @@ def gemini_summarize(raw: dict) -> dict:
         print(f"[Gemini] {len(out)}개 종목 요약 완료")
         return out
     except Exception as e:
-        print(f"[Gemini 요약 실패] {e} → 원문 제목 fallback 사용")
+        print(f"[Gemini 요약 실패] {e} → 35개 종목 원문 fallback 사용")
         return {}
 
 
@@ -361,7 +361,10 @@ def main():
     }
     with open("data/news.json", "w", encoding="utf-8") as f:
         json.dump(news_output, f, ensure_ascii=False, indent=2)
-    print(f"✅ 뉴스·공시 수집 완료: {len(results)}개 종목 / {total_items}개 원문 항목")
+    collected_stocks = sum(1 for name in WATCHLIST if raw.get(name))
+    print(f"✅ 35개 종목 원문 수집 완료: {collected_stocks}/{len(WATCHLIST)}개 종목 / {total_items}개 항목")
+    if not ai:
+        print("ℹ️ Gemini 요약을 사용할 수 없어 원문 제목 기반 fallback 결과를 저장합니다.")
 
     geo = analyze_geopolitical_risk()
     geo["updatedAt"] = datetime.now(KST).isoformat()
