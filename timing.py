@@ -1,4 +1,4 @@
-"""V4-1/V4-2 price timing logic shared by snapshot.py and documentation."""
+"""V4-1/V4-2 price timing logic shared by snapshot.py and stock.html."""
 
 SIDEWAYS_5D = 2.0
 SIDEWAYS_20D = 5.0
@@ -7,7 +7,31 @@ SIDEWAYS_20D = 5.0
 def _returns(prices):
     r5 = (prices[-1] / prices[-6] - 1) * 100 if len(prices) >= 6 and prices[-6] else None
     r20 = (prices[-1] / prices[-21] - 1) * 100 if len(prices) >= 21 and prices[-21] else None
-    return r5, r20
+    prev5 = (prices[-6] / prices[-11] - 1) * 100 if len(prices) >= 11 and prices[-11] else None
+    prev20 = (prices[-21] / prices[-41] - 1) * 100 if len(prices) >= 41 and prices[-41] else None
+    return r5, r20, prev5, prev20
+
+
+def _volatility(prices, n=5):
+    if len(prices) < n + 1:
+        return None
+    rets = [(prices[i] / prices[i-1] - 1) * 100 for i in range(len(prices)-n+1, len(prices)) if prices[i-1]]
+    if len(rets) < n:
+        return None
+    mean = sum(rets) / len(rets)
+    return (sum((x-mean)**2 for x in rets) / len(rets)) ** 0.5
+
+
+def _prior_volatility(prices, n=5):
+    if len(prices) < 2*n + 1:
+        return None
+    end = len(prices)-n
+    start = end-n
+    rets = [(prices[i] / prices[i-1] - 1) * 100 for i in range(start+1, end+1) if prices[i-1]]
+    if len(rets) < n:
+        return None
+    mean = sum(rets) / len(rets)
+    return (sum((x-mean)**2 for x in rets) / len(rets)) ** 0.5
 
 
 def calc_v41(stock, history_prices):
@@ -16,7 +40,7 @@ def calc_v41(stock, history_prices):
     low = float(stock.get("week52Low")) if stock.get("week52Low") is not None else None
     high_drop = (price / high - 1) * 100 if price and high and high > 0 else None
     pos = max(0, min(100, (price-low)/(high-low)*100)) if price is not None and high and low is not None and high > low else None
-    r5, r20 = _returns(history_prices)
+    r5, r20, _, _ = _returns(history_prices)
     state5 = "데이터 부족" if r5 is None else ("횡보" if abs(r5) <= SIDEWAYS_5D else ("상승" if r5 > 0 else "하락"))
     state20 = "데이터 부족" if r20 is None else ("횡보" if abs(r20) <= SIDEWAYS_20D else ("상승" if r20 > 0 else "하락"))
     pattern, cls = "관찰", "warn"
@@ -33,27 +57,47 @@ def calc_v41(stock, history_prices):
     return {"highDrop":high_drop,"pos":pos,"r5":r5,"r20":r20,"state5":state5,"state20":state20,"pattern":pattern,"patternClass":cls}
 
 
-def calc_v42(stock, v41, news_info=None):
-    debt = stock.get("debtRatio"); roe = stock.get("roe")
-    if debt is None and roe is None:
-        q4 = None
-    else:
-        parts=[]
-        if debt is not None: parts.append(max(0,min(100,100-float(debt)/2)))
-        if roe is not None: parts.append(max(0,min(100,float(roe)*5)))
-        q4 = sum(parts)/len(parts) >= 60
-    upside = None
-    if stock.get("targetPrice") and stock.get("price"):
-        upside=(float(stock["targetPrice"])/float(stock["price"])-1)*100
-    target_good = upside >= 10 if upside is not None else stock.get("opinion") in ("매수","강력매수")
-    news_bad = bool(news_info and news_info.get("hasImportantNews") and news_info.get("direction")=="down" and float(news_info.get("impactPct") or 0)>=5)
-    q5 = None if (upside is None and not stock.get("opinion") and news_info is None) else bool(target_good and not news_bad)
-    q1 = None if v41["highDrop"] is None else v41["highDrop"] <= -10
-    q2 = None if v41["r20"] is None else v41["r20"] > -10
-    q3 = None if v41["r5"] is None else v41["r5"] >= -2
+def calc_v42(stock, v41, history_prices, market_prices=None):
+    """V4-2는 기존 평가점수와 겹치지 않도록 가격/수급 흐름만 판단한다."""
+    prices = history_prices or []
+    r5, r20, prev5, prev20 = _returns(prices)
+    vol5 = _volatility(prices, 5)
+    prev_vol5 = _prior_volatility(prices, 5)
+
+    # ① 단기 모멘텀이 살아나는가?
+    q1 = None if r5 is None else r5 > 0
+
+    # ② 중기 추세가 개선되고 있는가? 20일 수익률이 이전 20일보다 개선되는지
+    q2 = None if r20 is None or prev20 is None else r20 > prev20
+
+    # ③ 하락이 멈추고 반전 신호가 나타나는가? 최근 5일이 이전 5일보다 개선되고, 현재가 급락은 아닌지
+    q3 = None if r5 is None or prev5 is None else (r5 > prev5 and r5 >= -2)
+
+    # ④ 최근 변동성이 직전 구간보다 줄어들고 있는가?
+    q4 = None if vol5 is None or prev_vol5 is None else vol5 < prev_vol5
+
+    # ⑤ KOSPI 대비 최근 5일 상대강도가 양호한가?
+    market_r5 = None
+    if market_prices and len(market_prices) >= 6 and market_prices[-6]:
+        market_r5 = (market_prices[-1] / market_prices[-6] - 1) * 100
+    q5 = None if r5 is None or market_r5 is None else r5 > market_r5
+
+    checks = [q1,q2,q3,q4,q5]
+    true_count = sum(x is True for x in checks)
+    known_count = sum(x is not None for x in checks)
+
+    # 위험 패턴은 우선 주의. 그 외에는 충족 비율로 관심/관찰. 데이터 부족 시 관찰.
     status, cls = "관찰", "warn"
-    if v41["pattern"] in ("고점 추격 주의","하락 추세") or q2 is False or q3 is False:
+    if v41["pattern"] in ("고점 추격 주의", "하락 추세"):
         status, cls = "주의", "bad"
-    elif q1 is True and q2 is not False and q3 is True and q4 is not False and q5 is not False:
+    elif known_count >= 3 and true_count / known_count >= 0.8:
         status, cls = "관심", "good"
-    return {"status":status,"statusClass":cls,"q1":q1,"q2":q2,"q3":q3,"q4":q4,"q5":q5,"upside":upside}
+    elif known_count >= 3 and true_count / known_count <= 0.4:
+        status, cls = "주의", "bad"
+
+    return {
+        **v41, "q1":q1,"q2":q2,"q3":q3,"q4":q4,"q5":q5,
+        "trueCount":true_count,"knownCount":known_count,"marketR5":market_r5,
+        "vol5":vol5,"prevVol5":prev_vol5,"prev5":prev5,"prev20":prev20,
+        "status":status,"statusClass":cls
+    }

@@ -37,6 +37,21 @@ def main():
 
     today = datetime.now(KST).strftime("%Y-%m-%d")
 
+    # V4-2 상대강도용 KOSPI 종가. 실패해도 기존 기록 수집은 계속한다.
+    kospi_price = None
+    try:
+        import yfinance as yf
+        kh = yf.Ticker("^KS11").history(period="5d")
+        if len(kh):
+            kospi_price = round(float(kh["Close"].iloc[-1]), 2)
+    except Exception as e:
+        print(f"[V4-2 KOSPI 실패] {e}")
+    if kospi_price is None:
+        try:
+            kospi_price = float((macro_data.get("kospi") or {}).get("price"))
+        except (TypeError, ValueError):
+            kospi_price = None
+
     # ---- 1) 오늘자 점수 스냅샷 계산 ----
     today_snapshot = []
     for s in stocks_data.get("stocks", []):
@@ -56,7 +71,7 @@ def main():
 
     # 오늘 이미 기록된 날짜면(같은 날 여러 번 실행) 덮어쓰기, 아니면 새로 추가
     history["days"] = [d for d in history["days"] if d["date"] != today]
-    history["days"].append({"date": today, "stocks": today_snapshot})
+    history["days"].append({"date": today, "stocks": today_snapshot, "kospiPrice": kospi_price})
     # 너무 오래된 기록까지 무한정 쌓이지 않도록 최근 150일치만 유지
     history["days"] = sorted(history["days"], key=lambda d: d["date"])[-150:]
 
@@ -67,13 +82,22 @@ def main():
             try: price_history.setdefault(row["code"], []).append((day["date"], float(row["price"])))
             except (KeyError, TypeError, ValueError): pass
     news_by_name = news_data
+    market_history = []
+    for day in history["days"]:
+        try:
+            kp = float(day.get("kospiPrice"))
+            if kp > 0: market_history.append((day["date"], kp))
+        except (TypeError, ValueError, KeyError):
+            pass
+    market_history.sort(key=lambda x: x[0])
+    market_prices = [p for _, p in market_history]
     today_timing = []
     for s in stocks_data.get("stocks", []):
         prices = [p for _,p in price_history.get(s["code"], [])]
         v41 = calc_v41(s, prices)
-        v42 = calc_v42(s, v41, news_by_name.get(s["name"]))
+        v42 = calc_v42(s, v41, prices, market_prices)
         if s.get("price") is None: continue
-        today_timing.append({"date":today,"code":s["code"],"name":s["name"],"price":s["price"],"score":next((x["score"] for x in today_snapshot if x["code"]==s["code"]),None),"pattern":v41["pattern"],"status":v42["status"],"highDrop":v41["highDrop"],"r5":v41["r5"],"r20":v41["r20"],"q1":v42["q1"],"q2":v42["q2"],"q3":v42["q3"],"q4":v42["q4"],"q5":v42["q5"],"upside":v42["upside"],"return1d":None,"return5d":None,"return20d":None})
+        today_timing.append({"date":today,"code":s["code"],"name":s["name"],"price":s["price"],"score":next((x["score"] for x in today_snapshot if x["code"]==s["code"]),None),"pattern":v41["pattern"],"status":v42["status"],"highDrop":v41["highDrop"],"r5":v41["r5"],"r20":v41["r20"],"q1":v42["q1"],"q2":v42["q2"],"q3":v42["q3"],"q4":v42["q4"],"q5":v42["q5"],"trueCount":v42["trueCount"],"knownCount":v42["knownCount"],"marketR5":v42["marketR5"],"vol5":v42["vol5"],"prev5":v42["prev5"],"prev20":v42["prev20"],"upside":v42.get("upside"),"return1d":None,"return5d":None,"return20d":None})
     timing_history["entries"] = [e for e in timing_history.get("entries", []) if e.get("date") != today]
     timing_history["entries"].extend(today_timing)
     timing_history["entries"] = sorted(timing_history["entries"], key=lambda e: (e.get("date",""),e.get("code","")))[-10000:]

@@ -540,52 +540,61 @@
     return result;
   }
 
-  // V4-2: 가격 타이밍 참고판정. 숫자 점수는 만들지 않고 관심/관찰/주의로만 표시합니다.
-  function calcFinancialOkay(s) {
-    const debt = Number(s.debtRatio), roe = Number(s.roe);
-    if (!Number.isFinite(debt) && !Number.isFinite(roe)) return null;
-    const parts=[];
-    if (Number.isFinite(debt)) parts.push(Math.max(0, Math.min(100, 100 - debt/2)));
-    if (Number.isFinite(roe)) parts.push(Math.max(0, Math.min(100, roe*5)));
-    const score=parts.reduce((a,b)=>a+b,0)/parts.length;
-    return score>=60;
+  // V4-2: 기존 평가점수와 겹치지 않도록 가격 흐름만으로 판단합니다.
+  function calcVol(arr, n=5) {
+    if (!arr || arr.length < n+1) return null;
+    const rs=[];
+    for(let i=arr.length-n+1;i<arr.length;i++) if(arr[i-1]?.price) rs.push((arr[i].price/arr[i-1].price-1)*100);
+    if(rs.length<n)return null;
+    const m=rs.reduce((a,b)=>a+b,0)/rs.length;
+    return Math.sqrt(rs.reduce((a,b)=>a+(b-m)**2,0)/rs.length);
+  }
+  function calcV42(s, historyMap, marketPrices) {
+    const v=calcV41(s,historyMap), arr=historyMap[s.code]||[];
+    const r5=v.r5, r20=v.r20;
+    const prev5=arr.length>=11 ? (arr.at(-6).price/arr.at(-11).price-1)*100 : null;
+    const prev20=arr.length>=41 ? (arr.at(-21).price/arr.at(-41).price-1)*100 : null;
+    const vol5=calcVol(arr,5);
+    const priorArr=arr.length>=11 ? arr.slice(0,-5) : [];
+    const prevVol5=calcVol(priorArr,5);
+    const marketR5=marketPrices?.length>=6 ? (marketPrices.at(-1)/marketPrices.at(-6)-1)*100 : null;
+
+    // ① 단기 모멘텀이 살아나는가?
+    const q1=r5==null?null:r5>0;
+    // ② 중기 추세가 개선되고 있는가?
+    const q2=(r20==null||prev20==null)?null:r20>prev20;
+    // ③ 하락이 멈추고 반전 신호가 나타나는가?
+    const q3=(r5==null||prev5==null)?null:(r5>prev5 && r5>=-2);
+    // ④ 가격 변동성이 줄어들고 있는가?
+    const q4=(vol5==null||prevVol5==null)?null:vol5<prevVol5;
+    // ⑤ KOSPI 대비 상대적으로 강한가?
+    const q5=(r5==null||marketR5==null)?null:r5>marketR5;
+    const checks=[q1,q2,q3,q4,q5], trueCount=checks.filter(x=>x===true).length, knownCount=checks.filter(x=>x!==null).length;
+    let status='관찰',statusClass='warn';
+    if(v.pattern==='고점 추격 주의'||v.pattern==='하락 추세'){status='주의';statusClass='bad';}
+    else if(knownCount>=3&&trueCount/knownCount>=.8){status='관심';statusClass='good';}
+    else if(knownCount>=3&&trueCount/knownCount<=.4){status='주의';statusClass='bad';}
+    const reasons=[
+      q1===true?'단기 모멘텀 개선':q1===false?'단기 모멘텀 약함':'단기 모멘텀 데이터 부족',
+      q2===true?'중기 추세 개선':q2===false?'중기 추세 개선 안 됨':'중기 추세 비교 데이터 부족',
+      q3===true?'하락 둔화·반전 확인':q3===false?'반전 신호 부족':'반전 비교 데이터 부족',
+      q4===true?'변동성 축소':q4===false?'변동성 축소 안 됨':'변동성 비교 데이터 부족',
+      q5===true?'KOSPI보다 강함':q5===false?'KOSPI보다 약함':'시장 비교 데이터 부족'
+    ];
+    return {v,q1,q2,q3,q4,q5,trueCount,knownCount,status,statusClass,reasons,prev5,prev20,vol5,prevVol5,marketR5};
   }
 
-  function calcV42(s, historyMap, newsInfo) {
-    const v=calcV41(s,historyMap), checks=[], reasons=[];
-    const q1=v.highDrop==null ? null : v.highDrop<=-10;
-    const q2=v.r20==null ? null : v.r20>-10;
-    const q3=v.r5==null ? null : v.r5>=-2;
-    const q4=calcFinancialOkay(s);
-    let q5=null;
-    const upside=(s.targetPrice&&s.price)?(Number(s.targetPrice)/Number(s.price)-1)*100:null;
-    const targetGood=upside!=null ? upside>=10 : (s.opinion==='매수'||s.opinion==='강력매수');
-    const newsBad=!!(newsInfo&&newsInfo.hasImportantNews&&newsInfo.direction==='down'&&(Number(newsInfo.impactPct)||0)>=5);
-    if (upside!=null || s.opinion || newsInfo) q5=!!targetGood && !newsBad;
-    checks.push(q1,q2,q3,q4,q5);
-    if(q1===true) reasons.push('52주 고점에서 10% 이상 조정'); else if(q1===false) reasons.push('52주 고점과 가까움'); else reasons.push('52주 위치 데이터 부족');
-    if(q2===true) reasons.push('20일 급락은 아님'); else if(q2===false) reasons.push('20일 하락폭이 큼'); else reasons.push('20일 추세 데이터 부족');
-    if(q3===true) reasons.push('최근 5일 하락이 멈춤'); else if(q3===false) reasons.push('최근 5일도 하락 중'); else reasons.push('5일 추세 데이터 부족');
-    if(q4===true) reasons.push('재무 상태 양호'); else if(q4===false) reasons.push('재무 지표 주의'); else reasons.push('재무 데이터 부족');
-    if(q5===true) reasons.push('목표가/의견·뉴스 긍정'); else if(q5===false) reasons.push('목표가/의견·뉴스 확인 필요'); else reasons.push('목표가·뉴스 데이터 부족');
-
-    let status='관찰', statusClass='warn';
-    if(v.pattern==='고점 추격 주의' || v.pattern==='하락 추세' || q2===false || q3===false) { status='주의'; statusClass='bad'; }
-    else if(q1===true && q2!==false && q3===true && q4!==false && q5!==false) { status='관심'; statusClass='good'; }
-    return {v,q1,q2,q3,q4,q5,status,statusClass,reasons,upside};
+  function renderV42(s,historyMap,marketPrices){
+    const a=calcV42(s,historyMap,marketPrices);
+    return `<div class="v42-badge ${a.statusClass}">${a.status==='관심'?'🟢':a.status==='관찰'?'🟡':'🔴'} V4-2 ${a.status} · ${a.trueCount}/${a.knownCount||5}</div>`;
   }
 
-  function renderV42(s,historyMap,newsInfo){
-    const a=calcV42(s,historyMap,newsInfo);
-    return `<div class="v42-badge ${a.statusClass}">${a.status==='관심'?'🟢':a.status==='관찰'?'🟡':'🔴'} V4-2 ${a.status}</div>`;
-  }
-
-  function renderV42Summary(data,historyMap,news){
+  function renderV42Summary(data,historyMap,marketPrices){
     const el=document.getElementById('v42-summary'); if(!el)return;
-    const items=data.stocks.map(s=>calcV42(s,historyMap,news[s.name]));
+    const items=data.stocks.map(s=>calcV42(s,historyMap,marketPrices));
     const interest=items.filter(x=>x.status==='관심').length, watch=items.filter(x=>x.status==='관찰').length, caution=items.filter(x=>x.status==='주의').length;
     el.style.display='block';
-    el.innerHTML=`<div class="v42-summary-head"><span class="v42-summary-title">V4-2 가격 타이밍 참고판정</span><span class="v42-summary-note">종목 자체 평가점수와 별개 · 매수/매도 신호 아님</span></div><div class="v42-chips"><span class="v42-chip">🟢 관심 <strong>${interest}</strong></span><span class="v42-chip">🟡 관찰 <strong>${watch}</strong></span><span class="v42-chip">🔴 주의 <strong>${caution}</strong></span></div>`;
+    el.innerHTML=`<div class="v42-summary-head"><span class="v42-summary-title">V4-2 가격 타이밍 참고판정</span><span class="v42-summary-note">가격 흐름 5항목 · 기존 평가점수와 별개 · 매수/매도 신호 아님</span></div><div class="v42-chips"><span class="v42-chip">🟢 관심 <strong>${interest}</strong></span><span class="v42-chip">🟡 관찰 <strong>${watch}</strong></span><span class="v42-chip">🔴 주의 <strong>${caution}</strong></span></div>`;
   }
 
   function renderV41(s, historyMap) {
@@ -640,12 +649,13 @@
       const geo = (geoRes && geoRes.ok) ? await geoRes.json() : null;
       const history = (historyRes && historyRes.ok) ? await historyRes.json() : null;
       const historyMap = getHistoryMap(history);
+      const marketPrices = (history?.days||[]).map(d=>Number(d.kospiPrice)).filter(v=>Number.isFinite(v)&&v>0);
       if (macro) renderMacro(macro);
       renderEarningsBanner(macro);
       renderGeoBanner(geo);
       renderV41Summary(data, historyMap);
-      renderV42Summary(data, historyMap, news);
-      render(data, news, macro, geo, historyMap);
+      renderV42Summary(data, historyMap, marketPrices);
+      render(data, news, macro, geo, historyMap, marketPrices);
     } catch (e) {
       document.getElementById('empty').style.display = 'block';
       document.getElementById('updated').textContent = '데이터 없음';
@@ -707,7 +717,7 @@
     return rate > 0 ? 'up' : rate < 0 ? 'down' : 'flat';
   }
 
-  function render(data, news, macro, geo, historyMap) {
+  function render(data, news, macro, geo, historyMap, marketPrices) {
     document.getElementById('updated').textContent =
       '업데이트: ' + new Date(data.updatedAt).toLocaleString('ko-KR', { hour12: false });
 
@@ -779,7 +789,7 @@
         }
 
         const v41Html = renderV41(s, historyMap || {});
-        const v42Html = renderV42(s, historyMap || {}, n);
+        const v42Html = renderV42(s, historyMap || {}, marketPrices || []);
 
         let supportHtml = '';
         if (s.supportLine) {
