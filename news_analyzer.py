@@ -38,6 +38,7 @@ DEFAULT_ITEM = {
     "direction": "neutral",
     "url": "",
     "title": "",
+    "articles": [],
 }
 KST = timezone(timedelta(hours=9))
 
@@ -55,6 +56,82 @@ DOWN_KEYWORDS = [
     "적자", "감소", "하락", "악화", "소송", "리콜", "철회", "취소", "유상증자", "전환사채",
     "횡령", "배임", "감사의견", "거래정지", "하향", "지연", "중단", "해명", "우려",
 ]
+
+# 검색명이 실제 뉴스 제목에 쓰이는 법인명/약칭과 다를 수 있는 종목용 별칭
+NEWS_ALIASES = {
+    "TIGER 코리아AI전기전자": ["TIGER 코리아AI전력기기TOP3플러스", "코리아AI전력기기TOP3플러스"],
+    "KODEX AI반도체": ["KODEX AI반도체TOP2플러스", "AI반도체TOP2플러스"],
+    "LIG디펜스앤에어로스페이스": ["LIG디펜스앤에어로스페이스", "LIG넥스원"],
+    "HD건설기계": ["HD현대건설기계", "현대건설기계"],
+    "HD현대마린솔루션": ["HD현대마린솔루션", "현대마린솔루션"],
+    "삼성E&A": ["삼성E&A", "삼성엔지니어링"],
+    "SFA넥셀": ["SFA넥셀"],
+}
+
+# 짧거나 일반명사에 가까운 종목은 회사/증권 맥락이 함께 있어야 통과시킨다.
+CONTEXT_KEYWORDS = [
+    "주가", "주식", "증권", "기업", "실적", "매출", "영업이익", "수주", "계약",
+    "공시", "배당", "투자", "증설", "공급", "납품", "목표주가", "상장", "종목",
+    "전망", "주주", "자사주", "유상증자", "무상증자", "인수", "합병",
+]
+SPAM_KEYWORDS = [
+    "슬롯", "카지노", "토토", "홀덤", "바카라", "무료게임", "게임머니", "먹튀",
+    "성인", "광고", "홍보", "쿠폰", "이벤트",
+]
+
+def relevance_score(name: str, item: dict) -> int:
+    """뉴스 제목이 해당 종목과 실제로 관련 있는지 보수적으로 점수화한다."""
+    title = clean_text(item.get("title", ""))
+    source = item.get("source", "")
+    if not title:
+        return 0
+    low = title.lower()
+    # DART 원문은 이미 기업별 검색에서 나온 자료이므로 제목 필터를 통과시킨다.
+    if item.get("type") == "dart" or source == "DART":
+        return 100
+    if any(k in low for k in SPAM_KEYWORDS):
+        return 0
+
+    candidates = [name] + NEWS_ALIASES.get(name, [])
+    score = 0
+    for candidate in candidates:
+        c = clean_text(candidate).lower()
+        if c and c in low:
+            score = max(score, 4 if len(c) >= 4 else 3)
+
+    # 짧은 이름은 동명이인/일반명사 오탐이 많아 맥락어를 추가로 요구한다.
+    if len(clean_text(name)) <= 3:
+        if any(k in low for k in CONTEXT_KEYWORDS):
+            score += 1
+        else:
+            return 0
+    elif score == 0:
+        # 별칭을 못 찾더라도 제목에 핵심 회사명 일부가 함께 있고 증권 맥락이면 약하게 허용
+        compact = re.sub(r"[^0-9a-zA-Z가-힣]", "", name).lower()
+        if len(compact) >= 4 and compact[:4] in re.sub(r"[^0-9a-zA-Z가-힣]", "", low).lower() and any(k in low for k in CONTEXT_KEYWORDS):
+            score = 2
+    return score
+
+
+def filter_news(name: str, items: list[dict]) -> list[dict]:
+    kept = []
+    rejected = 0
+    seen_urls = set()
+    for item in items:
+        url = item.get("url", "")
+        if url and url in seen_urls:
+            continue
+        score = relevance_score(name, item)
+        if score <= 0:
+            rejected += 1
+            continue
+        item = dict(item)
+        item["relevanceScore"] = score
+        kept.append(item)
+        if url:
+            seen_urls.add(url)
+    kept.sort(key=lambda x: (x.get("relevanceScore", 0), x.get("datetime", "")), reverse=True)
+    return kept, rejected
 
 
 def clean_text(text: str) -> str:
@@ -119,25 +196,31 @@ def fetch_google_news(name: str, days: int = 3) -> list[dict]:
     return items[:8]
 
 
-def fetch_dart_search(name: str, days: int = 3) -> list[dict]:
+def fetch_dart_search(name: str, days: int = 3) -> tuple[list[dict], bool]:
     """DART 회사별 검색 HTML에서 최근 공시를 보조 수집한다.
 
     OpenDART API 키가 없어도 동작하도록 공개 검색 페이지를 사용한다.
     API 키가 설정된 경우에도 이 함수는 보조 원천으로만 사용한다.
     """
     url = "https://dart.fss.or.kr/dsab001/main.do"
-    try:
-        res = requests.get(
-            url,
-            params={"autoSearch": "Y", "textCrpNm": name},
-            headers=HEADERS,
-            timeout=12,
-        )
-        res.raise_for_status()
-        soup = BeautifulSoup(res.text, "html.parser")
-    except Exception as e:
-        print(f"[DART 검색 실패] {name}: {e}")
-        return []
+    last_error = None
+    for attempt in range(3):
+        try:
+            res = requests.get(
+                url,
+                params={"autoSearch": "Y", "textCrpNm": name},
+                headers={**HEADERS, "Connection": "close"},
+                timeout=15,
+            )
+            res.raise_for_status()
+            soup = BeautifulSoup(res.text, "html.parser")
+            break
+        except Exception as e:
+            last_error = e
+            time.sleep(1.0 * (attempt + 1))
+    else:
+        print(f"[DART 검색 실패] {name}: {last_error}")
+        return [], False
 
     cutoff = datetime.now(KST) - timedelta(days=days)
     found = []
@@ -171,7 +254,7 @@ def fetch_dart_search(name: str, days: int = 3) -> list[dict]:
             "source": "DART",
             "type": "dart",
         })
-    return found[:8]
+    return found[:8], True
 
 
 def classify_fallback(item: dict) -> dict:
@@ -199,9 +282,10 @@ def classify_fallback(item: dict) -> dict:
 
 def collect_raw() -> dict:
     results = {}
+    stats = {"stocksWithNews": 0, "rawNews": 0, "rawDart": 0, "rejectedNews": 0, "dartOk": 0, "dartFailed": 0}
     for i, name in enumerate(WATCHLIST, 1):
         news = fetch_google_news(name)
-        dart = fetch_dart_search(name)
+        dart, dart_ok = fetch_dart_search(name)
         merged = news + dart
         merged.sort(key=lambda x: x.get("datetime", ""), reverse=True)
         # 같은 제목 중복 제거
@@ -213,10 +297,18 @@ def collect_raw() -> dict:
                 continue
             seen.add(key)
             unique.append(item)
-        results[name] = unique[:5]
-        print(f"[{i}/{len(WATCHLIST)}] {name}: 뉴스 {len(news)} / DART {len(dart)} / 합계 {len(unique[:5])}")
+        filtered, rejected = filter_news(name, unique)
+        # 관련성 점수가 높은 자료를 우선하되, 최신 자료도 충분히 반영한다.
+        results[name] = sorted(filtered, key=lambda x: (x.get("relevanceScore", 0), x.get("datetime", "")), reverse=True)[:5]
+        stats["rawNews"] += len(news)
+        stats["rawDart"] += len(dart)
+        stats["dartOk"] += 1 if dart_ok else 0
+        stats["dartFailed"] += 0 if dart_ok else 1
+        stats["rejectedNews"] += rejected
+        stats["stocksWithNews"] += 1 if results[name] else 0
+        print(f"[{i}/{len(WATCHLIST)}] {name}: 뉴스 {len(news)} / DART {len(dart)} / 관련 {len(results[name])} / 제외 {rejected}")
         time.sleep(0.15)
-    return results
+    return results, stats
 
 
 def gemini_summarize(raw: dict) -> dict:
@@ -330,7 +422,7 @@ def analyze_geopolitical_risk() -> dict:
 
 def main():
     os.makedirs("data", exist_ok=True)
-    raw = collect_raw()
+    raw, stats = collect_raw()
     ai = gemini_summarize(raw)
 
     results = {}
@@ -343,6 +435,10 @@ def main():
             result = ai.get(name) or classify_fallback(items[0])
             result["url"] = result.get("url") or items[0].get("url", "")
             result["title"] = result.get("title") or items[0].get("title", "")
+            result["articles"] = [
+                {"title": x.get("title", ""), "date": x.get("date", ""), "source": x.get("source", ""), "url": x.get("url", ""), "type": x.get("type", "news")}
+                for x in items[:5]
+            ]
             results[name] = result
         else:
             results[name] = dict(DEFAULT_ITEM)
@@ -354,10 +450,13 @@ def main():
         "updatedAt": datetime.now(KST).isoformat(),
         "sourceStatus": {
             "googleNewsRss": True,
-            "dartSearch": True,
+            "dartSearch": stats.get("dartOk", 0) > 0,
             "geminiSummary": bool(ai),
+            "dartFailed": stats.get("dartFailed", 0),
         },
         "itemCount": total_items,
+        "collectionStats": stats,
+        "filterPolicy": "종목명/별칭 + 증권 맥락 + 스팸 차단",
     }
     with open("data/news.json", "w", encoding="utf-8") as f:
         json.dump(news_output, f, ensure_ascii=False, indent=2)

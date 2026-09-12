@@ -158,6 +158,8 @@
   .news-badge.neutral { background: rgba(107,118,132,0.18); color: var(--muted); }
   .news-meta { font-size: 10px; color: var(--muted); margin-bottom: 5px; }
   .news-summary { font-size: 11.5px; line-height: 1.55; }
+  .news-meta a { text-decoration: none; }
+  .news-meta a:hover { text-decoration: underline; }
   .news-item.quiet .news-summary { color: var(--muted); }
   .impact-bar {
     margin-top: 8px;
@@ -263,7 +265,10 @@
     const google = s.googleNewsRss ? '✓ Google News RSS' : '✕ Google News RSS';
     const dart = s.dartSearch ? '✓ DART' : '✕ DART';
     const gemini = s.geminiSummary ? '✓ Gemini 요약' : '○ Gemini 요약(선택)';
-    el.textContent = `수집원: ${google} · ${dart} · ${gemini}`;
+    const st = meta.collectionStats || {};
+    const dartDetail = Number.isFinite(st.dartOk) ? `DART ${st.dartOk}/${35}` : dart;
+    const rejected = Number.isFinite(st.rejectedNews) ? ` · 무관 뉴스 ${st.rejectedNews}건 제외` : '';
+    el.textContent = `수집원: ${google} · ${dartDetail} · ${gemini}${rejected}`;
   }
 
   function render(stocksData, news, newsPayload) {
@@ -321,7 +326,8 @@
             </div>
             ${has ? `<div class="news-meta">${dateTag.replace(' · ', '')}</div>` : ''}
             <div class="news-summary">${has ? n.summary : '최근 3일 내 확인된 주요 뉴스·공시가 없습니다.'}</div>
-            ${has && safeUrl ? `<div class="news-meta"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit">원문 보기 ↗</a></div>` : ''}
+            ${has && Array.isArray(n.articles) && n.articles.length > 1 ? `<div class="news-meta" style="margin-top:6px">관련 자료 ${n.articles.length}건</div><div>${n.articles.slice(1,5).map(a => { const u = a.url ? String(a.url).replace(/&/g,'&amp;').replace(/\"/g,'&quot;') : ''; return u ? `<div class="news-meta"><a href="${u}" target="_blank" rel="noopener noreferrer" style="color:inherit">${a.type === 'dart' ? '📄 ' : '📰 '}${a.title}</a></div>` : `<div class="news-meta">${a.title}</div>`; }).join('')}</div>` : ''}
+            ${has && safeUrl ? `<div class="news-meta"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit">대표 원문 보기 ↗</a></div>` : ''}
             ${has ? `<div class="impact-bar" style="color:var(--${dir === 'down' ? 'down' : dir === 'up' ? 'up' : 'flat'})"><div class="impact-bar-fill" style="width:${Math.min(100, n.impactPct || 0)}%"></div></div>` : ''}
           </div>`;
       }).join('');
