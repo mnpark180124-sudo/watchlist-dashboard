@@ -31,13 +31,16 @@ def compute_base_score(stock: dict, news_info: dict | None) -> float | None:
         pos = (price - week52_low) / (week52_high - week52_low) * 100
         parts.append((max(0, min(100, 100 - pos)), SCORE_WEIGHTS["week52"]))
 
+    # 뉴스는 "관련 뉴스가 있음"만으로 점수를 움직이지 않는다.
+    # materialImpact=true인 실질적 기업 이벤트만 반영하며 영향도는 최대 30%로 제한한다.
     news_score = 50.0
-    if news_info and news_info.get("hasImportantNews"):
-        impact = news_info.get("impactPct") or 0
-        if news_info.get("direction") == "down":
-            news_score = max(0, 50 - impact / 2)
-        else:
-            news_score = min(100, 50 + impact / 2)
+    if news_info and news_info.get("hasImportantNews") and news_info.get("materialImpact"):
+        impact = max(0.0, min(30.0, float(news_info.get("impactPct") or 0)))
+        direction = news_info.get("direction")
+        if direction == "down":
+            news_score = 50 - impact / 2
+        elif direction == "up":
+            news_score = 50 + impact / 2
     parts.append((news_score, SCORE_WEIGHTS["news"]))
 
     fin_parts = []

@@ -31,6 +31,7 @@ HEADERS = {
 }
 DEFAULT_ITEM = {
     "hasImportantNews": False,
+    "materialImpact": False,
     "source": "",
     "date": "",
     "summary": "",
@@ -257,19 +258,35 @@ def fetch_dart_search(name: str, days: int = 3) -> tuple[list[dict], bool]:
     return found[:8], True
 
 
+MATERIAL_EVENT_PATTERNS = [
+    r"어닝.?서프라이즈", r"실적.{0,12}(급증|급감|개선|악화|상향|하향)",
+    r"영업이익.{0,12}(증가|감소|급증|급감|개선|악화|상향|하향)",
+    r"(대규모|대형|수천억|조원).{0,20}(수주|계약|공급)",
+    r"(수주|공급계약|공급).{0,20}(체결|확정|수주)",
+    r"(계약|수주).{0,20}(취소|해지|철회)",
+    r"(유상증자|전환사채|cb|bw).{0,20}(발행|결정)",
+    r"(자사주).{0,20}(매입|소각|취득)",
+    r"(대규모|중대한).{0,20}(소송|리콜|허가|승인)",
+    r"(거래정지|감사의견|횡령|배임)",
+]
+
+def is_material_event(text: str) -> bool:
+    low = clean_text(text).lower()
+    return any(re.search(p, low, re.IGNORECASE) for p in MATERIAL_EVENT_PATTERNS)
+
+
 def classify_fallback(item: dict) -> dict:
     """Gemini 실패 시에도 화면에 의미 있는 결과가 남도록 하는 안전한 로컬 분류."""
     title = item.get("title", "")
     low = title.lower()
-    important = any(k.lower() in low for k in IMPORTANT_KEYWORDS)
+    material = is_material_event(title)
     up = sum(k.lower() in low for k in UP_KEYWORDS)
     down = sum(k.lower() in low for k in DOWN_KEYWORDS)
     direction = "up" if up > down else "down" if down > up else "neutral"
-    impact = 10
-    if important:
-        impact = min(70, 20 + 10 * max(up, down))
+    impact = min(30, 5 + 5 * max(up, down)) if material else 0
     return {
-        "hasImportantNews": True,
+        "hasImportantNews": material,
+        "materialImpact": material,
         "source": "공시" if item.get("type") == "dart" else "뉴스",
         "date": item.get("date", ""),
         "summary": title,
@@ -335,8 +352,11 @@ def gemini_summarize(raw: dict) -> dict:
 
     prompt = f"""너는 한국 주식 뉴스·공시를 요약하는 보조원이다.
 아래는 이미 RSS/DART에서 직접 수집한 최근 3일 자료다. 검색하지 말고 아래 자료만 사용해라.
-각 종목에 대해 가장 중요한 1건을 골라 2문장 이내 한국어로 요약하고, 주가 영향 방향과 중요도(0~100)를 평가해라.
-자료가 있으면 has_important_news=true로 하라. 자료가 없으면 false로 하라.
+각 종목에 대해 가장 중요한 1건을 골라 2문장 이내 한국어로 요약하라.
+중요도는 뉴스가 존재하는지가 아니라 실제 기업가치/실적/수급에 영향을 줄 정도의 사건인지 판단하라.
+단순 주가전망, 증권사 코멘트, 산업 전망, 반복 보도, 일반 기사만 있으면 has_important_news=false, material_impact=false, impact_pct=0으로 하라.
+대규모 수주/공급계약, 의미 있는 실적 서프라이즈 또는 전망 변경, 자사주 매입·소각, 유상증자/CB/BW, 중대한 소송·리콜·허가/승인, 계약 취소 등 실질적 이벤트만 material_impact=true로 하라.
+material_impact=true인 경우에만 영향도(0~30)를 평가하고, 방향이 중립이면 impact_pct=0으로 하라.
 반드시 JSON 객체만 출력하라.
 
 입력:
@@ -345,7 +365,8 @@ def gemini_summarize(raw: dict) -> dict:
 출력 형식:
 {{
   "종목명": {{
-    "has_important_news": true,
+    "has_important_news": false,
+    "material_impact": false,
     "source": "뉴스" 또는 "공시",
     "date": "YYYY-MM-DD",
     "summary": "2문장 이내",
@@ -373,11 +394,12 @@ def gemini_summarize(raw: dict) -> dict:
                 continue
             first = items[0]
             out[name] = {
-                "hasImportantNews": bool(item.get("has_important_news", True)),
+                "hasImportantNews": bool(item.get("has_important_news", False)),
+                "materialImpact": bool(item.get("material_impact", False)),
                 "source": item.get("source") or ("공시" if first.get("type") == "dart" else "뉴스"),
                 "date": item.get("date") or first.get("date", ""),
                 "summary": clean_text(item.get("summary", "")) or first.get("title", ""),
-                "impactPct": max(0, min(100, float(item.get("impact_pct", 10)))),
+                "impactPct": max(0, min(30, float(item.get("impact_pct", 0)))) if bool(item.get("material_impact", False)) else 0,
                 "direction": item.get("direction", "neutral"),
                 "url": first.get("url", ""),
                 "title": first.get("title", ""),

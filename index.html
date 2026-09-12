@@ -393,12 +393,15 @@
       parts.push([Math.max(0, Math.min(100, 100 - pos)), SCORE_WEIGHTS.week52]);
     }
 
+    // 뉴스는 실질적 기업 이벤트(materialImpact=true)만 점수에 반영
     let newsScore = 50;
-    if (newsInfo && newsInfo.hasImportantNews) {
-      const impact = newsInfo.impactPct || 0;
+    if (newsInfo && newsInfo.hasImportantNews && newsInfo.materialImpact) {
+      const impact = Math.max(0, Math.min(30, Number(newsInfo.impactPct) || 0));
       newsScore = newsInfo.direction === 'down'
-        ? Math.max(0, 50 - impact / 2)
-        : Math.min(100, 50 + impact / 2);
+        ? 50 - impact / 2
+        : newsInfo.direction === 'up'
+          ? 50 + impact / 2
+          : 50;
     }
     parts.push([newsScore, SCORE_WEIGHTS.news]);
 
