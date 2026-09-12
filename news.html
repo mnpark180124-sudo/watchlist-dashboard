@@ -222,12 +222,13 @@
       ]);
       if (!stocksRes.ok || !newsRes.ok) throw new Error('no data yet');
       const stocks = await stocksRes.json();
-      const news = await newsRes.json();
+      const newsPayload = await newsRes.json();
+      const news = newsPayload.stocks || newsPayload;
       const geo = (geoRes && geoRes.ok) ? await geoRes.json() : null;
 
       renderGeo(geo);
-      renderUpdated(stocks, geo);
-      render(stocks, news);
+      renderUpdated(stocks, geo, newsPayload);
+      render(stocks, news, newsPayload);
     } catch (e) {
       document.getElementById('empty').style.display = 'block';
       document.getElementById('updated').textContent = '데이터 없음';
@@ -246,13 +247,15 @@
     }
   }
 
-  function renderUpdated(stocks, geo) {
+  function renderUpdated(stocks, geo, newsPayload) {
     const el = document.getElementById('updated');
-    const ts = geo && geo.updatedAt ? geo.updatedAt : (stocks && stocks.updatedAt);
-    el.textContent = ts ? '업데이트: ' + new Date(ts).toLocaleString('ko-KR', { hour12: false }) : '';
+    const meta = newsPayload && newsPayload._meta ? newsPayload._meta : newsPayload;
+    const ts = meta && meta.updatedAt ? meta.updatedAt : (geo && geo.updatedAt ? geo.updatedAt : (stocks && stocks.updatedAt));
+    const itemCount = meta && Number.isFinite(meta.itemCount) ? ` · 원문 ${meta.itemCount}건` : '';
+    el.textContent = ts ? '업데이트: ' + new Date(ts).toLocaleString('ko-KR', { hour12: false }) + itemCount : '';
   }
 
-  function render(stocksData, news) {
+  function render(stocksData, news, newsPayload) {
     // 종목명 -> 섹터 매핑은 stocks.json 재사용 (별도 파일 필요 없음)
     const bySector = {};
     for (const s of stocksData.stocks) {
@@ -298,6 +301,7 @@
         const sourceTag = n && n.source === '공시' ? '📄 공시' : '📰 뉴스';
         const dateTag = n && n.date ? ` · ${n.date}` : '';
 
+        const safeUrl = has && n.url ? String(n.url).replace(/&/g, '&amp;').replace(/\"/g, '&quot;') : '';
         return `
           <div class="news-item${has ? '' : ' quiet'}">
             <div class="news-item-top">
@@ -306,6 +310,7 @@
             </div>
             ${has ? `<div class="news-meta">${dateTag.replace(' · ', '')}</div>` : ''}
             <div class="news-summary">${has ? n.summary : '최근 3일 내 확인된 주요 뉴스·공시가 없습니다.'}</div>
+            ${has && safeUrl ? `<div class="news-meta"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" style="color:inherit">원문 보기 ↗</a></div>` : ''}
             ${has ? `<div class="impact-bar" style="color:var(--${dir === 'down' ? 'down' : dir === 'up' ? 'up' : 'flat'})"><div class="impact-bar-fill" style="width:${Math.min(100, n.impactPct || 0)}%"></div></div>` : ''}
           </div>`;
       }).join('');
