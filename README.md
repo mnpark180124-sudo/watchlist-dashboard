@@ -166,3 +166,19 @@ V4-3.9.1 뉴스 점수 수정 버전을 기준으로, GitHub Actions의 선택 �
 5. 그 다음 `Analyze Stock News` 실행
 
 참고: `pykrx`는 KRX 데이터 수집 특성상 장 마감 직후 또는 데이터 지연 시 특정 종목의 공매도 값이 비어 있을 수 있습니다. 이 경우 기존 정상값을 보존하도록 되어 있습니다.
+
+
+## V4-4 데이터 안정화 · 새 Day 1
+
+V4-4는 재무/수급/공매도 수집 경로를 최신 공개 데이터 경로 중심으로 교체한 새 축적 기준입니다.
+
+- 재무: `m.stock.naver.com/api/stock/{code}/finance/annual`의 실제 연간 재무값에서 ROE/부채비율을 계산
+- 52주/컨센서스/투자자 흐름: `m.stock.naver.com/api/stock/{code}/integration` 우선
+- 외국인·기관: integration의 최근 투자자별 순매수 값을 우선 사용
+- 공매도: KRX/pykrx 전종목 잔고 조회를 최근 T+2 후보일에 우선 사용하고 종목별 조회를 보조로 사용
+- 공매도 데이터는 KRX 특성상 T+2 지연이 있을 수 있으므로 `shortSellingDate`를 함께 기록
+- 이전 선택 데이터는 새 기록에 재사용하지 않음
+- 기존 `score_history`, `backtest`, `timing_history`, `stocks`는 `data/archive/{적용일}-pre-V4-4/`에 보관
+- 활성 기록은 비워서 첫 정상 실행이 **Day 1**이 되도록 초기화
+
+첫 실행 로그의 `수급 / 재무 / 공매도` 성공 개수를 확인한 후 Day 1을 기준으로 이후 데이터를 누적합니다.

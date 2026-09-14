@@ -1,0 +1,11 @@
+{
+  "version": "V4-4-DATA-STABLE-DAY1",
+  "archivedAt": "2026-09-14",
+  "description": "V4-4 적용 전 누적 기록 보관. 새 데이터 축적은 Day 1부터 시작.",
+  "archivedFiles": [
+    "score_history.json",
+    "backtest.json",
+    "timing_history.json",
+    "stocks.json"
+  ]
+}

@@ -1,5 +1,6 @@
 """
 관심종목 실시간 시세 크롤러
+V4-4 데이터 안정화: m.stock.naver.com JSON 재무/통합정보 우선 + KRX/pykrx 공매도 보강
 - 종목명으로 네이버 검색 API에서 종목코드를 자동으로 찾는다
 - 찾은 코드로 네이버 금융 실시간 시세 API를 호출해 현재가/등락률을 가져온다
 - 결과를 data/stocks.json 에 저장한다 (GitHub Pages가 이 파일을 읽어서 화면에 그림)
@@ -210,10 +211,105 @@ def fetch_price(code: str) -> dict | None:
         return None
 
 
+def _clean_number(value):
+    if value is None:
+        return None
+    text = str(value).strip().replace(",", "").replace("%", "")
+    text = re.sub(r"[^0-9.\-]", "", text)
+    try:
+        return float(text) if text else None
+    except ValueError:
+        return None
+
+
+def _find_key_recursive(obj, keys):
+    """API 응답 구조가 조금 바뀌어도 후보 key를 재귀적으로 찾는다."""
+    if isinstance(obj, dict):
+        for key in keys:
+            if key in obj and obj[key] not in (None, ""):
+                return obj[key]
+        for value in obj.values():
+            found = _find_key_recursive(value, keys)
+            if found not in (None, ""):
+                return found
+    elif isinstance(obj, list):
+        for item in obj:
+            found = _find_key_recursive(item, keys)
+            if found not in (None, ""):
+                return found
+    return None
+
+
+def fetch_naver_integration(code: str) -> dict:
+    """현재 네이버 모바일 공개 JSON API에서 52주/컨센서스/투자자 흐름을 가져온다.
+
+    기존 finance.naver.com HTML/테이블 방식 대신 m.stock.naver.com의 integration을 우선 사용한다.
+    """
+    url = f"https://m.stock.naver.com/api/stock/{code}/integration"
+    try:
+        res = SESSION.get(url, timeout=15)
+        res.raise_for_status()
+        data = res.json()
+        infos = data.get("totalInfos", []) if isinstance(data, dict) else []
+
+        def info_value(keys):
+            for row in infos:
+                if not isinstance(row, dict):
+                    continue
+                if row.get("code") in keys or row.get("key") in keys:
+                    return row.get("value")
+            return _find_key_recursive(infos, keys)
+
+        high = _clean_number(info_value({"highPriceOf52Weeks", "52주최고"}))
+        low = _clean_number(info_value({"lowPriceOf52Weeks", "52주최저"}))
+
+        consensus = data.get("consensusInfo") or {}
+        target = _clean_number(_find_key_recursive(consensus, {"priceTargetMean", "targetPriceMean", "priceTarget"}))
+        recomm = _clean_number(_find_key_recursive(consensus, {"recommMean", "recommendationMean"}))
+        opinion = None
+        if recomm is not None:
+            # 네이버 컨센서스 평균의견은 통상 1~5 척도다. 기존 화면/점수의 문자열 체계로 변환한다.
+            if recomm >= 4.0:
+                opinion = "매수"
+            elif recomm >= 3.0:
+                opinion = "중립"
+            else:
+                opinion = "매도"
+
+        trends = data.get("dealTrendInfos") or []
+        latest = trends[0] if isinstance(trends, list) and trends else {}
+        foreign = _clean_number(_find_key_recursive(latest, {"foreignerPureBuyQuant", "foreignPureBuyQuant", "foreignNet"}))
+        inst = _clean_number(_find_key_recursive(latest, {"organPureBuyQuant", "organizationPureBuyQuant", "instNet"}))
+        indiv = _clean_number(_find_key_recursive(latest, {"individualPureBuyQuant", "individualNet", "indivNet"}))
+        trend_date = _find_key_recursive(latest, {"localDate", "date", "tradeDate", "localTradedAt"})
+
+        return {
+            "week52High": int(high) if high is not None else None,
+            "week52Low": int(low) if low is not None else None,
+            "targetPrice": int(target) if target is not None else None,
+            "opinion": opinion,
+            "foreignNet": int(foreign) if foreign is not None else None,
+            "instNet": int(inst) if inst is not None else None,
+            "indivNet": int(indiv) if indiv is not None else None,
+            "investorTrendDate": trend_date or None,
+            "integrationSource": "m.stock.naver.com/integration",
+        }
+    except Exception as e:
+        print(f"[네이버 통합정보 실패] {code}: {e}")
+        return {
+            "week52High": None, "week52Low": None, "targetPrice": None, "opinion": None,
+            "foreignNet": None, "instNet": None, "indivNet": None,
+            "investorTrendDate": None, "integrationSource": None,
+        }
+
+
 def fetch_extra(code: str) -> dict:
-    """52주 최고/최저, 증권사 목표주가, 투자의견을 가져온다.
-    DOM id 대신 텍스트 라벨을 기준으로 찾아서, 페이지 구조가 조금 바뀌어도 덜 깨지게 했다.
-    못 찾으면 None으로 채워서 점수 계산 쪽에서 해당 항목만 건너뛰도록 한다."""
+    """52주 범위/목표가/의견. 최신 JSON API를 우선하고 legacy HTML을 보조로 사용한다."""
+    current = fetch_naver_integration(code)
+    if current.get("week52High") or current.get("week52Low") or current.get("targetPrice") or current.get("opinion"):
+        return {k: current.get(k) for k in ("week52High", "week52Low", "targetPrice", "opinion")}
+
+    # 구형 HTML fallback
     url = f"https://finance.naver.com/item/main.naver?code={code}"
     try:
         res = SESSION.get(url, timeout=10)
@@ -222,104 +318,73 @@ def fetch_extra(code: str) -> dict:
         page_text = soup.get_text(" ", strip=True)
 
         def num_after(label: str):
-            # 라벨과 숫자 사이에 "가", ":", 공백 등이 끼어 있어도 잡히도록 최대 10글자까지 건너뛰고 찾는다
             m = re.search(rf"{label}[^\d]{{0,10}}([\d,]{{4,}})", page_text)
             return int(m.group(1).replace(",", "")) if m else None
 
-        week52_high = num_after("52주최고")
-        week52_low = num_after("52주최저")
-
-        if week52_low is None:
-            # "52주최고/최저" 처럼 한 라벨에 숫자 두 개가 붙어 나오는 페이지 형식 대응
-            m = re.search(r"52주\D{0,15}?([\d,]{4,})\D{1,15}?([\d,]{4,})", page_text)
-            if m:
-                a, b = int(m.group(1).replace(",", "")), int(m.group(2).replace(",", ""))
-                week52_high = week52_high or max(a, b)
-                week52_low = min(a, b)
-
+        high = num_after("52주최고")
+        low = num_after("52주최저")
         opinion_match = re.search(r"투자의견\s*(강력매수|매수|중립|매도|강력매도)", page_text)
-
-        return {
-            "week52High": week52_high,
-            "week52Low": week52_low,
-            "targetPrice": num_after("목표주가"),
-            "opinion": opinion_match.group(1) if opinion_match else None,
-        }
+        return {"week52High": high, "week52Low": low, "targetPrice": num_after("목표주가"),
+                "opinion": opinion_match.group(1) if opinion_match else None}
     except Exception as e:
         print(f"[추가정보 실패] {code}: {e}")
         return {"week52High": None, "week52Low": None, "targetPrice": None, "opinion": None}
 
 
 def fetch_financials(code: str) -> dict:
-    """부채비율/ROE를 네이버 Wisereport 재무 AJAX에서 가져온다.
+    """네이버 모바일 공개 재무 JSON에서 최신 실제 연간 재무값을 읽어 ROE/부채비율을 계산한다.
 
-    최근 companyinfo.stock.naver.com에서 SSL EOF 또는 encparam 검증이 발생할 수 있어
-    1) 기본 AJAX 주소, 2) 기업현황 페이지에서 fresh encparam/id를 얻은 AJAX 주소를
-    순서대로 시도한다. 요청 자체가 실패하면 기존 data/stocks.json 값은 main()에서 보존한다.
+    ROE = 당기순이익 / 자본총계 * 100
+    부채비율 = 부채총계 / 자본총계 * 100
+    컨센서스(Y) 열은 제외하고 실제 재무기간(N) 중 가장 최근 값을 사용한다.
     """
-    base = "https://companyinfo.stock.naver.com/v1/company/ajax/cF1001.aspx"
-    page_url = f"https://companyinfo.stock.naver.com/v1/company/c1010001.aspx?cmp_cd={code}"
-    ajax_params = {"cmp_cd": code, "fin_typ": "0", "freq_typ": "Y"}
-
-    def parse_tables(html: str):
-        tables = [flatten_columns(t) for t in pd.read_html(io.StringIO(html))]
-        if not tables:
-            raise ValueError("재무 표를 못 찾음")
-        # 부채비율/ROE가 들어 있는 표를 우선 선택
-        for table in tables:
-            cols = [str(c) for c in table.columns]
-            if any("부채비율" in c for c in cols) or any("ROE" in c for c in cols):
-                return table
-        return tables[0]
-
-    def extract(df):
-        cols = [str(c) for c in df.columns]
-        debt_col = next((c for c in cols if "부채비율" in c), None)
-        roe_col = next((c for c in cols if "ROE" in c), None)
-
-        def last_valid(col):
-            if col is None:
-                return None
-            series = pd.to_numeric(
-                df[col].astype(str).str.replace(",", "", regex=False).str.replace("%", "", regex=False),
-                errors="coerce"
-            ).dropna()
-            return float(series.iloc[-1]) if not series.empty else None
-
-        return last_valid(debt_col), last_valid(roe_col)
-
-    last_error = None
-    # 1차: 기존 endpoint
+    url = f"https://m.stock.naver.com/api/stock/{code}/finance/annual"
     try:
-        res = SESSION.get(base, params=ajax_params, headers={**HEADERS, "Referer": page_url, "X-Requested-With": "XMLHttpRequest"}, timeout=12)
+        res = SESSION.get(url, timeout=15)
         res.raise_for_status()
-        debt, roe = extract(parse_tables(res.text))
-        if debt is not None or roe is not None:
-            return {"debtRatio": debt, "roe": roe}
+        data = res.json()
+        fin = data.get("financeInfo", {}) if isinstance(data, dict) else {}
+        periods = fin.get("trTitleList", [])
+        rows = fin.get("rowList", [])
+        actual_keys = [str(p.get("key")) for p in periods if str(p.get("isConsensus", "N")).upper() != "Y"]
+        if not actual_keys:
+            actual_keys = [str(p.get("key")) for p in periods]
+        actual_keys = [k for k in actual_keys if k and k != "None"]
+        if not actual_keys:
+            raise ValueError("실제 재무기간 없음")
+        latest_key = actual_keys[-1]
+
+        def row_value(primary_titles, fallback_titles=()):
+            ordered = list(primary_titles) + list(fallback_titles)
+            for wanted in ordered:
+                for row in rows:
+                    title = str(row.get("title", ""))
+                    if wanted not in title:
+                        continue
+                    cols = row.get("columns", {}) or {}
+                    for key in reversed(actual_keys):
+                        value = _clean_number((cols.get(key) or {}).get("value") if isinstance(cols.get(key), dict) else cols.get(key))
+                        if value is not None:
+                            return value, key, title
+            return None, None, None
+
+        equity, equity_key, equity_title = row_value(["자본총계"], ["자본"])
+        debt, debt_key, debt_title = row_value(["부채총계"], ["부채"])
+        net_income, income_key, income_title = row_value(["당기순이익"], ["순이익"])
+        if equity is None:
+            raise ValueError("자본총계 없음")
+
+        debt_ratio = (debt / equity * 100) if debt is not None and equity else None
+        roe = (net_income / equity * 100) if net_income is not None and equity else None
+        return {
+            "debtRatio": round(debt_ratio, 2) if debt_ratio is not None else None,
+            "roe": round(roe, 2) if roe is not None else None,
+            "financialPeriod": latest_key,
+            "financialSource": "m.stock.naver.com/finance/annual",
+        }
     except Exception as e:
-        last_error = e
-
-    # 2차: 기업현황에서 encparam/id를 새로 발급받아 요청
-    try:
-        page = SESSION.get(page_url, headers={**HEADERS, "Referer": "https://finance.naver.com/"}, timeout=12)
-        page.raise_for_status()
-        enc_m = re.search(r"encparam\s*:\s*['\"]([^'\"]+)", page.text, re.I)
-        id_m = re.search(r"\bid\s*:\s*['\"]([A-Za-z0-9+/=_-]+)", page.text, re.I)
-        if not enc_m or not id_m:
-            raise ValueError("encparam/id를 못 찾음")
-        params = {**ajax_params, "encparam": enc_m.group(1), "id": id_m.group(1)}
-        res = SESSION.get(base, params=params, headers={**HEADERS, "Referer": page_url, "X-Requested-With": "XMLHttpRequest"}, timeout=12)
-        res.raise_for_status()
-        debt, roe = extract(parse_tables(res.text))
-        if debt is None and roe is None:
-            raise ValueError("부채비율/ROE 값을 못 찾음")
-        return {"debtRatio": debt, "roe": roe}
-    except Exception as e:
-        last_error = e
-
-    print(f"[재무제표 실패] {code}: {last_error}")
-    return {"debtRatio": None, "roe": None}
-
+        print(f"[재무제표 실패] {code}: {e}")
+        return {"debtRatio": None, "roe": None, "financialPeriod": None, "financialSource": None}
 
 def fetch_volume_surge(code: str) -> dict:
     """오늘 거래량을 최근 20일 평균 거래량과 비교해 배율을 계산하고,
@@ -366,77 +431,109 @@ def fetch_volume_surge(code: str) -> dict:
 
 
 def fetch_foreign_institution(code: str) -> dict:
-    """외국인/기관 순매매 동향(가장 최근 거래일)을 가져온다.
-    개인 순매매는 네이버 표에 따로 없어서, '외국인+기관 순매매의 반대 부호'로 근사치를 추정한다
-    (실제로는 프로그램매매 등 다른 주체도 있어 정확한 값은 아니고 참고용 근사치다)."""
+    """외국인/기관 최근 순매매를 최신 integration JSON에서 가져온다.
+    실패하면 legacy HTML을 보조로 시도한다."""
+    current = fetch_naver_integration(code)
+    if current.get("foreignNet") is not None or current.get("instNet") is not None:
+        return {k: current.get(k) for k in ("foreignNet", "instNet", "indivNet", "investorTrendDate")}
+
     url = f"https://finance.naver.com/item/frgn.naver?code={code}"
     try:
         res = SESSION.get(url, timeout=10)
         res.raise_for_status()
         tables = [flatten_columns(t) for t in pd.read_html(io.StringIO(res.text))]
-
-        target = None
-        foreign_col = inst_col = None
         for t in tables:
             cols = [str(c) for c in t.columns]
             f_col = next((c for c in cols if "외국인" in c and "순매매" in c), None)
             i_col = next((c for c in cols if "기관" in c and "순매매" in c), None)
             if f_col and i_col:
-                target, foreign_col, inst_col = t, f_col, i_col
-                break
-
-        if target is None:
-            raise ValueError("외국인/기관 표를 못 찾음")
-
-        row = target.dropna(subset=[foreign_col]).iloc[0]
-        print(f"[디버그:수급] {code} 컬럼={foreign_col}/{inst_col} 원본값={row[foreign_col]!r}/{row[inst_col]!r}")
-
-        def clean(v):
-            try:
-                return int(str(v).replace(",", ""))
-            except (ValueError, TypeError):
-                return None
-
-        foreign_net = clean(row[foreign_col])
-        inst_net = clean(row[inst_col])
-        indiv_net = -(foreign_net + inst_net) if foreign_net is not None and inst_net is not None else None
-
-        return {"foreignNet": foreign_net, "instNet": inst_net, "indivNet": indiv_net}
+                row = t.dropna(subset=[f_col]).iloc[0]
+                def clean(v):
+                    try: return int(str(v).replace(",", ""))
+                    except (ValueError, TypeError): return None
+                f, i = clean(row[f_col]), clean(row[i_col])
+                return {"foreignNet": f, "instNet": i,
+                        "indivNet": -(f+i) if f is not None and i is not None else None,
+                        "investorTrendDate": str(row.iloc[0]) if len(row) else None}
+        raise ValueError("외국인/기관 표를 못 찾음")
     except Exception as e:
         print(f"[수급 실패] {code}: {e}")
-        return {"foreignNet": None, "instNet": None, "indivNet": None}
+        return {"foreignNet": None, "instNet": None, "indivNet": None, "investorTrendDate": None}
+
+
+def _short_ratio_from_df(df, code):
+    if df is None or df.empty:
+        return None
+    try:
+        if code in df.index:
+            row = df.loc[code]
+        else:
+            return None
+        if hasattr(row, "iloc") and not isinstance(row, (str, bytes)):
+            # duplicate index/row handling
+            if getattr(row, "ndim", 1) > 1:
+                row = row.iloc[-1]
+        for col in ("비중", "shortRatio", "공매도비중"):
+            if col in getattr(row, "index", []):
+                val = _clean_number(row[col])
+                if val is not None:
+                    return float(val)
+    except Exception:
+        return None
+    return None
 
 
 def fetch_short_selling(code: str) -> dict:
-    """KRX 기반 pykrx 공매도 잔고비율. 최근 14일을 조회해 마지막 값을 사용한다."""
+    """KRX 공매도 잔고비율.
+
+    1) pykrx의 '전종목 잔고'를 최근 거래가능일에 시장별로 조회해 빠르게 찾는다.
+    2) 실패하면 기존 종목별 기간조회로 재시도한다.
+    공매도 잔고는 KRX 제공 지연(T+2) 특성상 오늘 값이 없을 수 있다.
+    """
     try:
         from pykrx import stock as pykrx_stock
     except Exception as e:
         print(f"[공매도 라이브러리 실패] {code}: {e}")
-        return {"shortSellingRatio": None}
+        return {"shortSellingRatio": None, "shortSellingDate": None}
 
     kst = timezone(timedelta(hours=9))
-    today = datetime.now(kst)
-    from_date = (today - timedelta(days=14)).strftime("%Y%m%d")
-    to_date = today.strftime("%Y%m%d")
-
+    today = datetime.now(kst).date()
     last_error = None
+    # T+2를 고려해 최근 12일 중 평일을 후보로 잡는다.
+    candidates = []
+    for n in range(2, 15):
+        d = today - timedelta(days=n)
+        if d.weekday() < 5:
+            candidates.append(d.strftime("%Y%m%d"))
+
+    # 시장별 전종목 조회: 종목별 35회 호출 대신 날짜당 2회만 호출
+    for date_str in candidates:
+        for market in ("KOSPI", "KOSDAQ"):
+            try:
+                df = pykrx_stock.get_shorting_balance_by_ticker(date_str, market)
+                ratio = _short_ratio_from_df(df, code)
+                if ratio is not None:
+                    return {"shortSellingRatio": ratio, "shortSellingDate": date_str}
+            except Exception as e:
+                last_error = e
+
+    # 최종 fallback: 종목별 기간 조회
+    from_date = (today - timedelta(days=20)).strftime("%Y%m%d")
+    to_date = today.strftime("%Y%m%d")
     for attempt in range(1, 4):
         try:
             df = pykrx_stock.get_shorting_balance_by_date(from_date, to_date, code)
-            if df is None or df.empty or "비중" not in df.columns:
-                raise ValueError("공매도 잔고 데이터 없음")
-            series = pd.to_numeric(df["비중"], errors="coerce").dropna()
-            if series.empty:
-                raise ValueError("공매도 비중 값 없음")
-            return {"shortSellingRatio": float(series.iloc[-1])}
+            if df is not None and not df.empty and "비중" in df.columns:
+                series = pd.to_numeric(df["비중"], errors="coerce").dropna()
+                if not series.empty:
+                    date_value = str(series.index[-1])
+                    return {"shortSellingRatio": float(series.iloc[-1]), "shortSellingDate": date_value}
         except Exception as e:
             last_error = e
             if attempt < 3:
-                time.sleep(2 * attempt)
+                time.sleep(1.5 * attempt)
     print(f"[공매도 실패] {code}: {last_error}")
-    return {"shortSellingRatio": None}
-
+    return {"shortSellingRatio": None, "shortSellingDate": None}
 
 def estimate_next_earnings() -> str:
     """상장사 분기보고서 법정 제출기한 근사치를 기준으로 다음 실적발표 예상일을 추정한다.
@@ -568,15 +665,9 @@ def sanitize_for_json(obj):
 def main():
     os.makedirs("data", exist_ok=True)
 
-    # 이전 정상값을 보존한다. 외부 사이트가 일시적으로 실패해도
-    # target/opinion/재무/수급/공매도 값이 None으로 덮어써져 점수가 흔들리지 않게 한다.
+    # V4-4부터는 이전 버전의 선택 데이터를 새 점수에 재사용하지 않는다.
+    # 과거 기록은 archive에 보관하고, 새 Day 1은 실제 새 수집값만 사용한다.
     old_map = {}
-    try:
-        with open("data/stocks.json", "r", encoding="utf-8") as f:
-            old_data = json.load(f)
-        old_map = {str(x.get("code")): x for x in old_data.get("stocks", [])}
-    except Exception:
-        old_map = {}
 
     results = []
     stats = {
@@ -584,12 +675,6 @@ def main():
         "financial": 0, "short": 0, "preserved": 0,
     }
 
-    def merge_optional(new_info, old_info, keys):
-        merged = dict(new_info)
-        for key in keys:
-            if merged.get(key) is None and old_info.get(key) is not None:
-                merged[key] = old_info[key]
-        return merged
 
     for name, sector in WATCHLIST.items():
         code = find_code(name)
@@ -597,7 +682,7 @@ def main():
             print(f"⚠️  코드 못 찾음: {name}")
             continue
 
-        old = old_map.get(str(code), {})
+        old = {}
         price_info = fetch_price(code)
         if not price_info:
             # 가격 자체가 실패하면 기존 종목 전체를 보존한다.
@@ -620,13 +705,6 @@ def main():
         financial_info = fetch_financials(code)
         time.sleep(0.2)
         short_info = fetch_short_selling(code)
-
-        # 선택 데이터는 새 값이 정상적으로 들어온 경우에만 교체
-        extra_info = merge_optional(extra_info, old, ["week52High", "week52Low", "targetPrice", "opinion"])
-        volume_info = merge_optional(volume_info, old, ["volume", "avgVolume20", "volumeRatio", "supportLine"])
-        flow_info = merge_optional(flow_info, old, ["foreignNet", "instNet", "indivNet"])
-        financial_info = merge_optional(financial_info, old, ["debtRatio", "roe"])
-        short_info = merge_optional(short_info, old, ["shortSellingRatio"])
 
         if any(v is not None for v in extra_info.values()): stats["extra"] += 1
         if any(v is not None for v in volume_info.values()): stats["volume"] += 1

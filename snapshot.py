@@ -71,7 +71,8 @@ def main():
 
     # 오늘 이미 기록된 날짜면(같은 날 여러 번 실행) 덮어쓰기, 아니면 새로 추가
     history["days"] = [d for d in history["days"] if d["date"] != today]
-    history["days"].append({"date": today, "stocks": today_snapshot, "kospiPrice": kospi_price})
+    next_day_number = (max([int(d.get("dayNumber", i + 1)) for i, d in enumerate(history["days"]) if str(d.get("dayNumber", "")).isdigit()] or [0]) + 1)
+    history["days"].append({"dayNumber": next_day_number, "date": today, "stocks": today_snapshot, "kospiPrice": kospi_price})
     # 너무 오래된 기록까지 무한정 쌓이지 않도록 최근 150일치만 유지
     history["days"] = sorted(history["days"], key=lambda d: d["date"])[-150:]
 
