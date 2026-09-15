@@ -191,3 +191,13 @@ V4-4는 재무/수급/공매도 수집 경로를 최신 공개 데이터 경로 
 - 재무 API 파서 강화: 명시적 ROE/부채비율 우선, 확정연간 계산 fallback, 실패 원인 저장
 - 공매도는 KRX 시장단위 batch 조회 우선, 종목별 fallback
 - 재무/공매도 값이 없을 때 이전 버전 값을 재사용하지 않음
+
+
+## V4-4.2 DATA VERIFY FIX — 재무/공매도 인증 대응
+
+- 재무: `finance/annual` 응답의 기간/셀 구조 변형에 대응하고, 네이버 통합정보의 `totalInfos.roe`를 보조 경로로 사용한다.
+- 재무 검증: ROE와 부채비율이 모두 확보된 경우에만 `financialStatus=ok`로 기록한다.
+- 공매도: 2026년 KRX 로그인 정책에 따라 `KRX_ID`, `KRX_PW`가 없으면 KRX 호출을 즉시 중단하고 `blocked`로 기록한다.
+- GitHub Actions에서는 Repository Settings → Secrets and variables → Actions에 `KRX_ID`, `KRX_PW`를 등록하면 된다.
+- 인증정보가 없을 때 반복되는 pykrx JSON 오류를 더 이상 20회 이상 출력하지 않는다.
+- `data/validation.json`과 `⑥ 데이터 검증` 화면에서 KRX 인증 차단 상태와 재무 수집 방법을 확인할 수 있다.

@@ -262,6 +262,7 @@ def fetch_naver_integration(code: str) -> dict:
 
         high = _clean_number(info_value({"highPriceOf52Weeks", "52주최고"}))
         low = _clean_number(info_value({"lowPriceOf52Weeks", "52주최저"}))
+        roe = _clean_number(info_value({"roe", "ROE", "returnOnEquity"}))
 
         consensus = data.get("consensusInfo") or {}
         target = _clean_number(_find_key_recursive(consensus, {"priceTargetMean", "targetPriceMean", "priceTarget"}))
@@ -292,6 +293,7 @@ def fetch_naver_integration(code: str) -> dict:
             "instNet": int(inst) if inst is not None else None,
             "indivNet": int(indiv) if indiv is not None else None,
             "investorTrendDate": trend_date or None,
+            "roe": roe,
             "integrationSource": "m.stock.naver.com/integration",
         }
     except Exception as e:
@@ -360,26 +362,79 @@ def _finance_period_keys(periods: list) -> list:
 
 
 def _finance_row_values(row: dict, actual_keys: list) -> dict:
-    cols = row.get("columns") or row.get("values") or row.get("data") or {}
-    out={}
-    if isinstance(cols, dict):
-        for key in actual_keys:
-            cell=cols.get(key)
-            if isinstance(cell, dict):
-                cell=cell.get("value") or cell.get("rawValue") or cell.get("displayValue")
-            val=_clean_number(cell)
-            if val is not None:
-                out[key]=val
-    elif isinstance(cols, list):
-        for cell in cols:
-            if not isinstance(cell, dict):
-                continue
-            key=cell.get("key") or cell.get("period") or cell.get("date")
-            val=_clean_number(cell.get("value") or cell.get("rawValue") or cell.get("displayValue"))
-            if key is not None and val is not None and str(key) in actual_keys:
-                out[str(key)]=val
+    """재무 행의 값 구조가 dict/list 어느 쪽이어도 최대한 보수적으로 읽는다."""
+    sources = []
+    for key in ("columns", "values", "data", "cells", "valueList", "items"):
+        value = row.get(key)
+        if value is not None:
+            sources.append(value)
+    out = {}
+    keyset = {str(k) for k in actual_keys}
+
+    def cell_value(cell):
+        if isinstance(cell, dict):
+            for k in ("value", "rawValue", "displayValue", "val", "amount"):
+                if k in cell:
+                    v = _clean_number(cell.get(k))
+                    if v is not None:
+                        return v
+            # 값 객체가 한 단계 더 감싸진 경우
+            for v in cell.values():
+                if isinstance(v, (dict, list)):
+                    got = cell_value(v)
+                    if got is not None:
+                        return got
+        elif isinstance(cell, (str, int, float)):
+            return _clean_number(cell)
+        return None
+
+    for src in sources:
+        if isinstance(src, dict):
+            for k, cell in src.items():
+                val = cell_value(cell)
+                if val is not None:
+                    out[str(k)] = val
+        elif isinstance(src, list):
+            for idx, cell in enumerate(src):
+                if isinstance(cell, dict):
+                    key = cell.get("key") or cell.get("period") or cell.get("date") or cell.get("title")
+                    val = cell_value(cell)
+                    if key is not None and val is not None:
+                        out[str(key)] = val
+                    elif val is not None:
+                        out[f"__idx_{idx}"] = val
+                else:
+                    val = cell_value(cell)
+                    if val is not None:
+                        out[f"__idx_{idx}"] = val
+    # 기간 key가 문자열/숫자 타입 차이로 어긋난 경우에도 값이 있으면 반환
     return out
 
+
+def _finance_row_tail_value(row: dict):
+    """기간 키 매칭이 실패한 응답에서 해당 행의 마지막 수치값을 보조적으로 추출한다."""
+    for key in ("columns", "values", "data", "cells", "valueList", "items"):
+        src = row.get(key)
+        vals=[]
+        if isinstance(src, dict):
+            iterable=list(src.values())
+        elif isinstance(src, list):
+            iterable=src
+        else:
+            continue
+        for cell in iterable:
+            if isinstance(cell, dict):
+                for vk in ("value", "rawValue", "displayValue", "val", "amount"):
+                    if vk in cell:
+                        v=_clean_number(cell.get(vk))
+                        if v is not None:
+                            vals.append(v); break
+            else:
+                v=_clean_number(cell)
+                if v is not None: vals.append(v)
+        if vals:
+            return vals[-1]
+    return None
 
 def _find_finance_row(rows: list, aliases: list[str]):
     wanted={_norm_label(x) for x in aliases}
@@ -435,11 +490,37 @@ def fetch_financials(code: str) -> dict:
                     return vals[key], key, str(row.get("title") or row.get("name") or row.get("label") or "")
             return None
 
-        explicit_debt=latest_row_value(["부채비율", "Debt Ratio", "DebtRatio"])
+        # 네이버 통합정보의 totalInfos에 ROE가 노출되는 종목은 재무 API가 흔들려도 보조적으로 확보한다.
+        integration_roe = None
+        try:
+            integ = fetch_naver_integration(code)
+            integration_roe = _clean_number(integ.get("roe"))
+        except Exception:
+            pass
+
+        explicit_debt=latest_row_value(["부채비율", "Debt Ratio", "DebtRatio", "debtRatio"])
         explicit_roe=latest_row_value(["ROE", "자기자본이익률", "자기자본 이익률"])
+        if explicit_roe is None and integration_roe is not None:
+            explicit_roe=(integration_roe, latest_key, "totalInfos.roe")
         equity=latest_row_value(["자본총계", "자본총계(지배)", "지배기업소유주지분", "지배기업 소유주지분"])
         debt=latest_row_value(["부채총계"])
         net_income=latest_row_value(["당기순이익", "지배주주순이익", "당기순이익(지배)", "지배기업의소유주에게귀속되는당기순이익"])
+
+        # 실제 응답에서 기간 key가 바뀐 경우를 대비한 마지막 수치값 fallback
+        fallback_rows = [
+            (["부채총계"], "debt", debt),
+            (["자본총계", "자본총계(지배)", "지배기업소유주지분", "지배기업 소유주지분"], "equity", equity),
+            (["당기순이익", "지배주주순이익"], "net", net_income),
+        ]
+        for aliases, holder, current in fallback_rows:
+            if current is None:
+                row=_find_finance_row(rows, aliases)
+                tail=_finance_row_tail_value(row) if row else None
+                if tail is not None:
+                    value=(tail, latest_key, str(row.get("title") or row.get("name") or row.get("label") or ""))
+                    if holder=="debt": debt=value
+                    elif holder=="equity": equity=value
+                    else: net_income=value
 
         debt_ratio = explicit_debt[0] if explicit_debt else None
         roe = explicit_roe[0] if explicit_roe else None
@@ -582,6 +663,16 @@ def fetch_short_selling_batch(codes: list[str]) -> tuple[dict, dict]:
     반환: code -> result, batch diagnostics."""
     empty={c:{"shortSellingRatio":None,"shortSellingDate":None,"shortSellingStatus":"failed","shortSellingMessage":"데이터 없음"} for c in codes}
     diagnostics={"status":"failed","date":None,"marketSuccess":[],"marketErrors":[]}
+    krx_id=os.getenv("KRX_ID")
+    krx_pw=os.getenv("KRX_PW")
+    if not krx_id or not krx_pw:
+        diagnostics["status"]="blocked"
+        diagnostics["message"]="KRX_ID/KRX_PW 미설정: 2026년 KRX 로그인 필요 정책으로 공매도 조회 불가"
+        for code in codes:
+            empty[code]["shortSellingStatus"]="blocked"
+            empty[code]["shortSellingMessage"]="KRX 로그인 인증정보 필요"
+        print("[공매도 차단] KRX_ID/KRX_PW 환경변수가 없어 KRX 조회를 건너뜁니다.")
+        return empty, diagnostics
     try:
         from pykrx import stock as pykrx_stock
     except Exception as e:
