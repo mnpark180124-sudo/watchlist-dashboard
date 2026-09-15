@@ -281,7 +281,7 @@ def fetch_naver_integration(code: str) -> dict:
         foreign = _clean_number(_find_key_recursive(latest, {"foreignerPureBuyQuant", "foreignPureBuyQuant", "foreignNet"}))
         inst = _clean_number(_find_key_recursive(latest, {"organPureBuyQuant", "organizationPureBuyQuant", "instNet"}))
         indiv = _clean_number(_find_key_recursive(latest, {"individualPureBuyQuant", "individualNet", "indivNet"}))
-        trend_date = _find_key_recursive(latest, {"localDate", "date", "tradeDate", "localTradedAt"})
+        trend_date = _find_key_recursive(latest, {"bizdate", "localDate", "date", "tradeDate", "localTradedAt"})
 
         return {
             "week52High": int(high) if high is not None else None,
@@ -331,60 +331,149 @@ def fetch_extra(code: str) -> dict:
         return {"week52High": None, "week52Low": None, "targetPrice": None, "opinion": None}
 
 
-def fetch_financials(code: str) -> dict:
-    """네이버 모바일 공개 재무 JSON에서 최신 실제 연간 재무값을 읽어 ROE/부채비율을 계산한다.
+def _norm_label(value) -> str:
+    return re.sub(r"[^0-9A-Za-z가-힣]", "", str(value or "")).lower()
 
-    ROE = 당기순이익 / 자본총계 * 100
-    부채비율 = 부채총계 / 자본총계 * 100
-    컨센서스(Y) 열은 제외하고 실제 재무기간(N) 중 가장 최근 값을 사용한다.
+
+def _extract_finance_payload(data: dict) -> tuple[list, list]:
+    """네이버 finance/annual 응답의 작은 구조 변화에 대응해 기간/행 목록을 추출한다."""
+    fin = data.get("financeInfo", {}) if isinstance(data, dict) else {}
+    if not isinstance(fin, dict):
+        fin = {}
+    periods = fin.get("trTitleList") or fin.get("titleList") or fin.get("periods") or data.get("trTitleList") or []
+    rows = fin.get("rowList") or fin.get("rows") or data.get("rowList") or []
+    return periods if isinstance(periods, list) else [], rows if isinstance(rows, list) else []
+
+
+def _finance_period_keys(periods: list) -> list:
+    out=[]
+    for p in periods:
+        if not isinstance(p, dict):
+            continue
+        key = p.get("key") or p.get("period") or p.get("date")
+        if key is None:
+            continue
+        if str(p.get("isConsensus", "N")).upper() == "Y" or str(p.get("isForecast", "N")).upper() in ("Y", "TRUE"):
+            continue
+        out.append(str(key))
+    return out
+
+
+def _finance_row_values(row: dict, actual_keys: list) -> dict:
+    cols = row.get("columns") or row.get("values") or row.get("data") or {}
+    out={}
+    if isinstance(cols, dict):
+        for key in actual_keys:
+            cell=cols.get(key)
+            if isinstance(cell, dict):
+                cell=cell.get("value") or cell.get("rawValue") or cell.get("displayValue")
+            val=_clean_number(cell)
+            if val is not None:
+                out[key]=val
+    elif isinstance(cols, list):
+        for cell in cols:
+            if not isinstance(cell, dict):
+                continue
+            key=cell.get("key") or cell.get("period") or cell.get("date")
+            val=_clean_number(cell.get("value") or cell.get("rawValue") or cell.get("displayValue"))
+            if key is not None and val is not None and str(key) in actual_keys:
+                out[str(key)]=val
+    return out
+
+
+def _find_finance_row(rows: list, aliases: list[str]):
+    wanted={_norm_label(x) for x in aliases}
+    # exact normalized title first
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        title=_norm_label(row.get("title") or row.get("name") or row.get("label"))
+        if title in wanted:
+            return row
+    # then conservative prefix/contains match
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        title=_norm_label(row.get("title") or row.get("name") or row.get("label"))
+        if any(w and (title.startswith(w) or w in title) for w in wanted):
+            return row
+    return None
+
+
+def fetch_financials(code: str) -> dict:
+    """네이버 모바일 연간 재무 JSON에서 재무비율을 읽고, 실패 원인을 함께 저장한다.
+
+    우선 API에 명시적인 부채비율/ROE 행이 있으면 그대로 사용한다.
+    없으면 확정 연간(컨센서스 제외)의 부채총계/자본총계/당기순이익으로 계산한다.
     """
     url = f"https://m.stock.naver.com/api/stock/{code}/finance/annual"
     try:
         res = SESSION.get(url, timeout=15)
         res.raise_for_status()
         data = res.json()
-        fin = data.get("financeInfo", {}) if isinstance(data, dict) else {}
-        periods = fin.get("trTitleList", [])
-        rows = fin.get("rowList", [])
-        actual_keys = [str(p.get("key")) for p in periods if str(p.get("isConsensus", "N")).upper() != "Y"]
+        periods, rows = _extract_finance_payload(data)
+        actual_keys = _finance_period_keys(periods)
         if not actual_keys:
-            actual_keys = [str(p.get("key")) for p in periods]
-        actual_keys = [k for k in actual_keys if k and k != "None"]
+            # 기간 메타가 없는 변형 응답은 행의 columns 키를 기간으로 추정
+            candidates=[]
+            for row in rows:
+                if isinstance(row, dict):
+                    cols=row.get("columns") or row.get("values") or {}
+                    if isinstance(cols, dict): candidates.extend(str(k) for k in cols.keys())
+            actual_keys=sorted(set(candidates))
         if not actual_keys:
-            raise ValueError("실제 재무기간 없음")
-        latest_key = actual_keys[-1]
+            raise ValueError("확정 재무기간을 찾지 못함")
+        latest_key=actual_keys[-1]
 
-        def row_value(primary_titles, fallback_titles=()):
-            ordered = list(primary_titles) + list(fallback_titles)
-            for wanted in ordered:
-                for row in rows:
-                    title = str(row.get("title", ""))
-                    if wanted not in title:
-                        continue
-                    cols = row.get("columns", {}) or {}
-                    for key in reversed(actual_keys):
-                        value = _clean_number((cols.get(key) or {}).get("value") if isinstance(cols.get(key), dict) else cols.get(key))
-                        if value is not None:
-                            return value, key, title
-            return None, None, None
+        def latest_row_value(aliases):
+            row=_find_finance_row(rows, aliases)
+            if not row:
+                return None
+            vals=_finance_row_values(row, actual_keys)
+            for key in reversed(actual_keys):
+                if key in vals:
+                    return vals[key], key, str(row.get("title") or row.get("name") or row.get("label") or "")
+            return None
 
-        equity, equity_key, equity_title = row_value(["자본총계"], ["자본"])
-        debt, debt_key, debt_title = row_value(["부채총계"], ["부채"])
-        net_income, income_key, income_title = row_value(["당기순이익"], ["순이익"])
-        if equity is None:
-            raise ValueError("자본총계 없음")
+        explicit_debt=latest_row_value(["부채비율", "Debt Ratio", "DebtRatio"])
+        explicit_roe=latest_row_value(["ROE", "자기자본이익률", "자기자본 이익률"])
+        equity=latest_row_value(["자본총계", "자본총계(지배)", "지배기업소유주지분", "지배기업 소유주지분"])
+        debt=latest_row_value(["부채총계"])
+        net_income=latest_row_value(["당기순이익", "지배주주순이익", "당기순이익(지배)", "지배기업의소유주에게귀속되는당기순이익"])
 
-        debt_ratio = (debt / equity * 100) if debt is not None and equity else None
-        roe = (net_income / equity * 100) if net_income is not None and equity else None
+        debt_ratio = explicit_debt[0] if explicit_debt else None
+        roe = explicit_roe[0] if explicit_roe else None
+        method=[]
+        if debt_ratio is not None:
+            method.append("api-explicit-debtRatio")
+        if roe is not None:
+            method.append("api-explicit-roe")
+
+        if debt_ratio is None and debt and equity and equity[0] != 0:
+            debt_ratio=debt[0]/equity[0]*100
+            method.append("computed-debt/equity")
+        if roe is None and net_income and equity and equity[0] != 0:
+            roe=net_income[0]/equity[0]*100
+            method.append("computed-netincome/equity")
+
+        status="ok" if debt_ratio is not None and roe is not None else ("partial" if debt_ratio is not None or roe is not None else "failed")
+        message=("정상" if status=="ok" else "ROE/부채비율 중 일부만 확보" if status=="partial" else "재무비율 계산에 필요한 행을 찾지 못함")
         return {
-            "debtRatio": round(debt_ratio, 2) if debt_ratio is not None else None,
-            "roe": round(roe, 2) if roe is not None else None,
+            "debtRatio": round(debt_ratio,2) if debt_ratio is not None else None,
+            "roe": round(roe,2) if roe is not None else None,
             "financialPeriod": latest_key,
             "financialSource": "m.stock.naver.com/finance/annual",
+            "financialStatus": status,
+            "financialMethod": "+".join(method) if method else None,
+            "financialMessage": message,
         }
     except Exception as e:
         print(f"[재무제표 실패] {code}: {e}")
-        return {"debtRatio": None, "roe": None, "financialPeriod": None, "financialSource": None}
+        return {
+            "debtRatio": None, "roe": None, "financialPeriod": None,
+            "financialSource": None, "financialStatus": "failed",
+            "financialMethod": None, "financialMessage": str(e)[:180],
+        }
 
 def fetch_volume_surge(code: str) -> dict:
     """오늘 거래량을 최근 20일 평균 거래량과 비교해 배율을 계산하고,
@@ -461,79 +550,104 @@ def fetch_foreign_institution(code: str) -> dict:
         return {"foreignNet": None, "instNet": None, "indivNet": None, "investorTrendDate": None}
 
 
-def _short_ratio_from_df(df, code):
+def _normalize_short_df(df):
     if df is None or df.empty:
         return None
-    try:
-        if code in df.index:
-            row = df.loc[code]
-        else:
-            return None
-        if hasattr(row, "iloc") and not isinstance(row, (str, bytes)):
-            # duplicate index/row handling
-            if getattr(row, "ndim", 1) > 1:
-                row = row.iloc[-1]
-        for col in ("비중", "shortRatio", "공매도비중"):
-            if col in getattr(row, "index", []):
-                val = _clean_number(row[col])
-                if val is not None:
-                    return float(val)
-    except Exception:
+    df=df.copy()
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns=["".join(str(x) for x in tup if str(x) and "Unnamed" not in str(x)) for tup in df.columns]
+    df.index=[str(x).zfill(6) if str(x).isdigit() else str(x) for x in df.index]
+    return df
+
+
+def _short_ratio_from_df(df, code):
+    df=_normalize_short_df(df)
+    if df is None or df.empty or str(code) not in df.index:
         return None
+    row=df.loc[str(code)]
+    if hasattr(row, "iloc") and getattr(row, "ndim", 1)>1:
+        row=row.iloc[-1]
+    columns=[str(c) for c in getattr(row,"index",[])]
+    for col in columns:
+        n=_norm_label(col)
+        if n in {"비중","공매도비중","shortratio","shortsellingratio"} or "공매도비중" in n:
+            val=_clean_number(row[col])
+            if val is not None:
+                return float(val)
     return None
 
 
-def fetch_short_selling(code: str) -> dict:
-    """KRX 공매도 잔고비율.
-
-    1) pykrx의 '전종목 잔고'를 최근 거래가능일에 시장별로 조회해 빠르게 찾는다.
-    2) 실패하면 기존 종목별 기간조회로 재시도한다.
-    공매도 잔고는 KRX 제공 지연(T+2) 특성상 오늘 값이 없을 수 있다.
-    """
+def fetch_short_selling_batch(codes: list[str]) -> tuple[dict, dict]:
+    """KRX 공매도 잔고비중을 시장별 전종목 조회로 한 번만 수집한다.
+    반환: code -> result, batch diagnostics."""
+    empty={c:{"shortSellingRatio":None,"shortSellingDate":None,"shortSellingStatus":"failed","shortSellingMessage":"데이터 없음"} for c in codes}
+    diagnostics={"status":"failed","date":None,"marketSuccess":[],"marketErrors":[]}
     try:
         from pykrx import stock as pykrx_stock
     except Exception as e:
-        print(f"[공매도 라이브러리 실패] {code}: {e}")
-        return {"shortSellingRatio": None, "shortSellingDate": None}
+        diagnostics["message"]=f"pykrx import 실패: {e}"
+        return empty, diagnostics
 
-    kst = timezone(timedelta(hours=9))
-    today = datetime.now(kst).date()
-    last_error = None
-    # T+2를 고려해 최근 12일 중 평일을 후보로 잡는다.
-    candidates = []
-    for n in range(2, 15):
-        d = today - timedelta(days=n)
-        if d.weekday() < 5:
-            candidates.append(d.strftime("%Y%m%d"))
+    kst=timezone(timedelta(hours=9)); today=datetime.now(kst).date()
+    candidates=[]
+    for n in range(2,15):
+        d=today-timedelta(days=n)
+        if d.weekday()<5: candidates.append(d.strftime("%Y%m%d"))
 
-    # 시장별 전종목 조회: 종목별 35회 호출 대신 날짜당 2회만 호출
     for date_str in candidates:
-        for market in ("KOSPI", "KOSDAQ"):
+        for market in ("KOSPI","KOSDAQ"):
             try:
-                df = pykrx_stock.get_shorting_balance_by_ticker(date_str, market)
-                ratio = _short_ratio_from_df(df, code)
-                if ratio is not None:
-                    return {"shortSellingRatio": ratio, "shortSellingDate": date_str}
+                df=pykrx_stock.get_shorting_balance_by_ticker(date_str, market)
+                df=_normalize_short_df(df)
+                if df is None or df.empty:
+                    diagnostics["marketErrors"].append(f"{date_str}/{market}: empty")
+                    continue
+                found=0
+                for code in codes:
+                    ratio=_short_ratio_from_df(df, code)
+                    if ratio is not None:
+                        empty[code]={"shortSellingRatio":ratio,"shortSellingDate":date_str,"shortSellingStatus":"ok","shortSellingMessage":"KRX 시장단위 잔고비중"}
+                        found+=1
+                if found:
+                    diagnostics["status"]="ok"
+                    diagnostics["date"]=date_str
+                    diagnostics["marketSuccess"].append(f"{date_str}/{market}:{found}")
+                else:
+                    diagnostics["marketErrors"].append(f"{date_str}/{market}: watchlist 0/{len(codes)}")
             except Exception as e:
-                last_error = e
+                diagnostics["marketErrors"].append(f"{date_str}/{market}: {str(e)[:120]}")
+        if any(v["shortSellingRatio"] is not None for v in empty.values()):
+            # 계속 다른 시장도 채우되, 이미 확인된 기준일보다 오래된 날짜는 불필요하므로 중단
+            break
 
-    # 최종 fallback: 종목별 기간 조회
-    from_date = (today - timedelta(days=20)).strftime("%Y%m%d")
-    to_date = today.strftime("%Y%m%d")
-    for attempt in range(1, 4):
-        try:
-            df = pykrx_stock.get_shorting_balance_by_date(from_date, to_date, code)
-            if df is not None and not df.empty and "비중" in df.columns:
-                series = pd.to_numeric(df["비중"], errors="coerce").dropna()
-                if not series.empty:
-                    date_value = str(series.index[-1])
-                    return {"shortSellingRatio": float(series.iloc[-1]), "shortSellingDate": date_value}
-        except Exception as e:
-            last_error = e
-            if attempt < 3:
-                time.sleep(1.5 * attempt)
-    print(f"[공매도 실패] {code}: {last_error}")
-    return {"shortSellingRatio": None, "shortSellingDate": None}
+    # 시장단위 조회가 전부 실패한 경우 종목별 기간 조회를 1회씩만 보조한다.
+    if not any(v["shortSellingRatio"] is not None for v in empty.values()):
+        from_date=(today-timedelta(days=30)).strftime("%Y%m%d"); to_date=today.strftime("%Y%m%d")
+        for code in codes:
+            try:
+                df=pykrx_stock.get_shorting_balance_by_date(from_date,to_date,code)
+                df=_normalize_short_df(df)
+                if df is not None and not df.empty:
+                    ratio_col=next((c for c in df.columns if "비중" in _norm_label(c) or _norm_label(c) in {"shortratio","shortsellingratio"}),None)
+                    if ratio_col:
+                        ser=pd.to_numeric(df[ratio_col],errors="coerce").dropna()
+                        if not ser.empty:
+                            date_value=str(ser.index[-1])[:10].replace("-","")
+                            empty[code]={"shortSellingRatio":float(ser.iloc[-1]),"shortSellingDate":date_value,"shortSellingStatus":"ok","shortSellingMessage":"KRX 종목 기간조회"}
+            except Exception as e:
+                diagnostics["marketErrors"].append(f"{code}/fallback: {str(e)[:120]}")
+    ok=sum(1 for v in empty.values() if v["shortSellingRatio"] is not None)
+    diagnostics["coverage"]=f"{ok}/{len(codes)}"
+    if ok==len(codes): diagnostics["status"]="ok"
+    elif ok>0: diagnostics["status"]="partial"
+    diagnostics["message"]="정상" if ok else (diagnostics.get("message") or "KRX 공매도 잔고비중 확보 실패")
+    return empty, diagnostics
+
+
+def fetch_short_selling(code: str) -> dict:
+    # 호환용 단일 조회. main()에서는 batch를 사용한다.
+    result, _ = fetch_short_selling_batch([code])
+    return result[code]
 
 def estimate_next_earnings() -> str:
     """상장사 분기보고서 법정 제출기한 근사치를 기준으로 다음 실적발표 예상일을 추정한다.
@@ -675,6 +789,10 @@ def main():
         "financial": 0, "short": 0, "preserved": 0,
     }
 
+    # 공매도는 종목별 반복조회가 아니라 KRX 시장단위 전종목 조회를 1회 수행한다.
+    code_map = {name: find_code(name) for name in WATCHLIST}
+    short_codes = [c for c in code_map.values() if c]
+    short_batch, short_diag = fetch_short_selling_batch(short_codes)
 
     for name, sector in WATCHLIST.items():
         code = find_code(name)
@@ -704,7 +822,7 @@ def main():
         time.sleep(0.2)
         financial_info = fetch_financials(code)
         time.sleep(0.2)
-        short_info = fetch_short_selling(code)
+        short_info = short_batch.get(code, {"shortSellingRatio": None, "shortSellingDate": None, "shortSellingStatus": "failed", "shortSellingMessage": "배치 결과 없음"})
 
         if any(v is not None for v in extra_info.values()): stats["extra"] += 1
         if any(v is not None for v in volume_info.values()): stats["volume"] += 1
@@ -722,6 +840,12 @@ def main():
             **flow_info,
             **financial_info,
             **short_info,
+            "dataCollection": {
+                "price": {"ok": price_info.get("price") is not None, "source": "polling.finance.naver.com"},
+                "flow": {"ok": flow_info.get("foreignNet") is not None or flow_info.get("instNet") is not None, "source": flow_info.get("integrationSource") or "unknown", "date": flow_info.get("investorTrendDate")},
+                "financial": {"ok": financial_info.get("financialStatus") == "ok", "status": financial_info.get("financialStatus"), "period": financial_info.get("financialPeriod"), "method": financial_info.get("financialMethod"), "message": financial_info.get("financialMessage")},
+                "short": {"ok": short_info.get("shortSellingRatio") is not None, "status": short_info.get("shortSellingStatus"), "date": short_info.get("shortSellingDate"), "message": short_info.get("shortSellingMessage")},
+            },
         })
         time.sleep(0.6)
 
@@ -733,6 +857,34 @@ def main():
 
     with open("data/stocks.json", "w", encoding="utf-8") as f:
         json.dump(sanitize_for_json(output), f, ensure_ascii=False, indent=2)
+
+    def coverage(key):
+        return sum(1 for x in results if x.get("dataCollection",{}).get(key,{}).get("ok"))
+    validation = {
+        "updatedAt": datetime.now(kst).isoformat(),
+        "universe": len(results),
+        "coverage": {
+            "price": coverage("price"),
+            "flow": coverage("flow"),
+            "financial": coverage("financial"),
+            "short": coverage("short"),
+        },
+        "shortSellingBatch": short_diag,
+        "scoreReady": sum(1 for x in results if coverage("financial") and x.get("dataCollection",{}).get("short",{}).get("ok")),
+        "stocks": [{
+            "name": x.get("name"), "code": x.get("code"),
+            "price": x.get("dataCollection",{}).get("price",{}),
+            "flow": x.get("dataCollection",{}).get("flow",{}),
+            "financial": x.get("dataCollection",{}).get("financial",{}),
+            "short": x.get("dataCollection",{}).get("short",{}),
+            "debtRatio": x.get("debtRatio"), "roe": x.get("roe"),
+            "shortSellingRatio": x.get("shortSellingRatio"),
+        } for x in results],
+        "policy": "재무와 공매도는 값이 없으면 정상으로 간주하지 않으며, 기존 버전 값으로 대체하지 않는다.",
+    }
+    validation["scoreReady"] = sum(1 for x in results if x.get("dataCollection",{}).get("financial",{}).get("ok") and x.get("dataCollection",{}).get("short",{}).get("ok"))
+    with open("data/validation.json", "w", encoding="utf-8") as f:
+        json.dump(sanitize_for_json(validation), f, ensure_ascii=False, indent=2)
 
     print(f"✅ {len(results)}개 종목 저장 완료")
     print(

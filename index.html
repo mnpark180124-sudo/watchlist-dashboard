@@ -353,7 +353,7 @@
       <div class="guide-item"><b>② 종목 상세</b>점수·가격·V4-2를 종합 분석</div>
       <div class="guide-item"><b>③ 백테스트</b>점수와 다음날 실제 성과 비교</div>
       <div class="guide-item"><b>④ 일별 점수</b>날짜별 점수 변화 확인</div>
-      <div class="guide-item"><b>⑤ V4-3</b>점수·판정·패턴의 실제 성과 비교</div>
+      <div class="guide-item"><b>⑤ V4-3</b>점수·판정·패턴의 실제 성과 비교</div><div class="guide-item"><b>⑥ 데이터 검증</b>35개 종목의 재무·수급·공매도 수집 상태 확인</div>
       <div class="guide-item"><b>⑥ 뉴스·공시</b>판정에 영향을 줄 수 있는 최근 이슈 확인</div>
     </div>
   </div>
@@ -362,6 +362,8 @@
   참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
   <div id="v41-summary" class="v41-summary" style="margin-bottom:18px; display:none;"></div>
   <div id="v42-summary" class="v42-summary" style="display:none;"></div>
+
+  <div id="validation-banner" style="display:none;margin:0 0 14px;padding:11px 14px;border:1px solid #67552a;border-radius:9px;background:#12161c;color:#e6c36a;font-size:10px;line-height:1.6"></div>
 
   <div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
@@ -634,6 +636,28 @@
     el.style.display='block';
     el.innerHTML=`<div class="v41-summary-head"><span class="v41-summary-title">V4-1 가격·추세 요약</span><span class="v41-summary-note">현재 ${data.stocks.length}종목 · 20일 데이터 확보 ${enough}종목</span></div>
       <div class="v41-chips"><span class="v41-chip">🟢 조정 후 횡보 <strong>${adjusted}</strong></span><span class="v41-chip">⚠️ 고점 추격 주의 <strong>${chase}</strong></span><span class="v41-chip">↔ 최근 5일 횡보 <strong>${sideways}</strong></span></div>`;
+  }
+
+  async function loadValidationBanner() {
+    const el = document.getElementById('validation-banner');
+    if (!el) return;
+    try {
+      const r = await fetch('data/validation.json?ts=' + Date.now());
+      if (!r.ok) return;
+      const v = await r.json();
+      const total = Number(v.universe || 0);
+      const c = v.coverage || {};
+      if (!total) return;
+      const complete = Number(v.scoreReady || 0);
+      el.style.display = 'block';
+      if (complete === total) {
+        el.style.borderColor = '#245b44';
+        el.style.color = '#72d6a5';
+        el.innerHTML = `🟢 데이터 검증 완료 · 수급 ${c.flow}/${total} · 재무 ${c.financial}/${total} · 공매도 ${c.short}/${total}`;
+      } else {
+        el.innerHTML = `🟡 데이터 검증 진행 중 · 수급 ${c.flow||0}/${total} · 재무 ${c.financial||0}/${total} · 공매도 ${c.short||0}/${total} · <a href="data-validation.html" style="color:inherit">상세 검증창 열기 ↗</a>`;
+      }
+    } catch(e) {}
   }
 
   async function load() {

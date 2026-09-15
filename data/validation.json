@@ -1,0 +1,13 @@
+{
+  "updatedAt": null,
+  "universe": 0,
+  "coverage": {
+    "price": 0,
+    "flow": 0,
+    "financial": 0,
+    "short": 0
+  },
+  "scoreReady": 0,
+  "stocks": [],
+  "policy": "재무와 공매도는 값이 없으면 정상으로 간주하지 않으며, 기존 버전 값으로 대체하지 않는다."
+}
