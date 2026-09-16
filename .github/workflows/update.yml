@@ -20,7 +20,11 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - run: python scraper.py
+      - name: Run scraper
+        env:
+          KRX_ID: ${{ secrets.KRX_ID }}
+          KRX_PW: ${{ secrets.KRX_PW }}
+        run: python scraper.py
 
       - name: Commit updated data
         run: |
