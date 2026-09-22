@@ -1,891 +1,1098 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>analysis</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!doctype html><html lang='ko'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Danang</title>
+<link rel='manifest' href='manifest.json'>
+<meta name='theme-color' content='#0B4F6C'>
+<link rel='apple-touch-icon' href='icons/icon-192.png'>
+<meta name='apple-mobile-web-app-capable' content='yes'>
+<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css' rel='stylesheet'><link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.css' rel='stylesheet'><link rel='stylesheet' href='style.css'>
 <style>
-  :root {
-    --bg: #0b0e11;
-    --panel: #12161c;
-    --panel-hover: #171c24;
-    --line: #1f2530;
-    --line-strong: #2a3140;
-    --text: #e8eaed;
-    --muted: #6b7684;
-    --up: #f04452;      /* 한국식: 상승 = 빨강 */
-    --down: #3182f6;    /* 한국식: 하락 = 파랑 */
-    --flat: #6b7684;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'JetBrains Mono', monospace;
-    -webkit-font-smoothing: antialiased;
-  }
-  header {
-    padding: 26px 32px 18px;
-    border-bottom: 1px solid var(--line);
-    position: sticky;
-    top: 0;
-    background: rgba(11,14,17,0.92);
-    backdrop-filter: blur(8px);
-    z-index: 10;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-  h1 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    margin: 0;
-    letter-spacing: -0.01em;
-  }
-  #meta {
-    font-size: 12px;
-    color: var(--muted);
-    display: flex;
-    gap: 14px;
-    align-items: center;
-  }
-  #meta button {
-    background: var(--panel);
-    border: 1px solid var(--line);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 11px;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  #meta button:hover { background: var(--panel-hover); border-color: var(--line-strong); }
-  .history-nav { display:flex; gap:7px; align-items:center; flex-wrap:wrap; }
-  .history-nav a {
-    color:var(--text) !important;
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700;
-    font-size:11px;
-    text-decoration:none;
-    border:1px solid var(--line-strong);
-    background:var(--panel);
-    padding:7px 11px;
-    border-radius:7px;
-    transition:all .15s ease;
-    white-space:nowrap;
-  }
-  .history-nav a:hover { background:var(--panel-hover); border-color:#465166; transform:translateY(-1px); }
-  .history-nav a.v43 { border-color:#52647e; box-shadow:0 0 0 1px rgba(82,100,126,.18); }
-  @media (max-width: 760px) {
-    header { padding:18px 16px 14px; align-items:flex-start; gap:12px; }
-    header h1 { font-size:20px; }
-    #meta { flex-direction:column; align-items:flex-end; gap:8px; }
-    .history-nav { justify-content:flex-end; }
-    .history-nav a { font-size:10px; padding:6px 8px; }
-  }
-
-  main {
-    max-width: 1360px;
-    margin: 0 auto;
-    padding: 28px 32px 80px;
-  }
-
-  .v41-summary {
-    border: 1px solid var(--line);
-    border-radius: 9px;
-    background: var(--panel);
-    padding: 12px 14px;
-    font-size: 10px;
-  }
-  .v41-summary-head { display:flex; justify-content:space-between; gap:10px; align-items:center; margin-bottom:7px; }
-  .v41-summary-title { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:12px; }
-  .v41-summary-note { color:var(--muted); }
-  .v41-chips { display:flex; flex-wrap:wrap; gap:6px; }
-  .v41-chip { border:1px solid var(--line-strong); border-radius:5px; padding:4px 7px; color:var(--muted); }
-  .v41-chip strong { color:var(--text); }
-
-  #sectors {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    gap: 20px;
-  }
-
-  .sector-card {
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    background: var(--panel);
-    overflow: hidden;
-  }
-  .sector-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--line);
-  }
-  .sector-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.02em;
-    color: var(--text);
-  }
-  .sector-avg { font-size: 12px; font-weight: 700; }
-
-  .tiles {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  }
-  .tile {
-    padding: 12px 14px;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    cursor: pointer;
-    transition: background 0.12s ease;
-  }
-  .tile:hover { background: var(--panel-hover); }
-  .tile-name {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 12.5px;
-    font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 6px;
-  }
-  .tile-price { font-size: 13px; font-weight: 500; margin-bottom: 4px; }
-  .tile-change { font-size: 12px; font-weight: 700; }
-
-  .up { color: var(--up); }
-  .down { color: var(--down); }
-  .flat { color: var(--flat); }
-
-  .score-badge {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 700;
-    padding: 2px 7px;
-    border-radius: 4px;
-    margin-bottom: 7px;
-  }
-  .score-badge.s-pos { background: rgba(240,68,82,0.15); color: var(--up); }
-  .score-badge.s-mid { background: rgba(107,118,132,0.18); color: var(--muted); }
-  .score-badge.s-neg { background: rgba(49,130,246,0.15); color: var(--down); }
-
-  .v41-wrap {
-    margin-top: 9px;
-    padding: 8px 9px;
-    border: 1px solid var(--line);
-    border-radius: 7px;
-    background: rgba(255,255,255,0.015);
-  }
-  .v41-head { display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px; }
-  .v41-title { font-size:9px; color:var(--muted); letter-spacing:.02em; }
-  .v41-pattern { font-size:9px; font-weight:700; padding:2px 5px; border-radius:4px; border:1px solid var(--line-strong); }
-  .v41-pattern.good { color:var(--up); border-color:rgba(240,68,82,.35); }
-  .v41-pattern.warn { color:#d99a2b; border-color:rgba(217,154,43,.35); }
-  .v41-pattern.bad { color:var(--down); border-color:rgba(49,130,246,.35); }
-  .v41-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:5px 10px; }
-  .v41-item { font-size:9.5px; color:var(--muted); white-space:nowrap; }
-  .v41-item strong { color:var(--text); font-weight:700; }
-  .v41-note { margin-top:5px; font-size:8.5px; color:var(--muted); line-height:1.35; }
-  .trend-up { color:var(--up) !important; }
-  .trend-down { color:var(--down) !important; }
-  .trend-flat { color:var(--muted) !important; }
-  .range-wrap { margin-top: 8px; }
-  .range-labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 9px;
-    color: var(--muted);
-    margin-bottom: 3px;
-  }
-  .range-track {
-    position: relative;
-    height: 4px;
-    border-radius: 2px;
-    background: var(--line);
-  }
-  .range-dot {
-    position: absolute;
-    top: 50%;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--text);
-    transform: translate(-50%, -50%);
-  }
-
-  .extra-line {
-    margin-top: 7px;
-    font-size: 10px;
-    color: var(--muted);
-  }
-
-  #geo-banner {
-    font-size: 12px;
-    font-weight: 500;
-    border-radius: 8px;
-    padding: 10px 14px;
-  }
-  #geo-banner.down { background: rgba(240,68,82,0.1); border: 1px solid rgba(240,68,82,0.3); color: var(--up); }
-  #geo-banner.up { background: rgba(49,130,246,0.1); border: 1px solid rgba(49,130,246,0.3); color: var(--down); }
-
-  #macro {
-    max-width: 1360px;
-    margin: 0 auto;
-    padding: 16px 32px 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-  }
-  .macro-item {
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    padding: 10px 12px;
-    background: var(--panel);
-  }
-  .macro-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; }
-  .macro-price { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; }
-  .macro-change { font-size: 11px; margin-top: 2px; }
-
-  .flow-line {
-    margin-top: 6px;
-    font-size: 10px;
-    color: var(--muted);
-  }
-  .flow-line .surge { color: var(--up); font-weight: 700; }
-
-  #disclaimer {
-    font-size: 11px;
-    color: var(--muted);
-    max-width: 1360px;
-    margin: 0 auto 18px;
-    padding: 0 32px;
-  }
-
-  .heat-bar {
-    margin-top: 8px;
-    height: 3px;
-    border-radius: 2px;
-    background: var(--line);
-    overflow: hidden;
-  }
-  .heat-bar-fill { height: 100%; }
-
-  .news-line {
-    margin-top: 9px;
-    padding-top: 8px;
-    border-top: 1px solid var(--line);
-    font-size: 10.5px;
-    line-height: 1.5;
-  }
-  .news-line.empty { color: var(--muted); }
-  .news-line.important { color: var(--text); }
-  .news-badge {
-    display: inline-block;
-    font-size: 9.5px;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 4px;
-    margin-bottom: 4px;
-  }
-  .news-badge.up { background: rgba(240,68,82,0.15); color: var(--up); }
-  .news-badge.down { background: rgba(49,130,246,0.15); color: var(--down); }
-
-  #empty {
-    color: var(--muted);
-    font-size: 13px;
-    padding: 60px 8px;
-    text-align: center;
-  }
-
-  .v42-summary{border:1px solid var(--line);border-radius:9px;background:var(--panel);padding:12px 14px;font-size:10px;margin-bottom:18px}
-  .v42-summary-head{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:7px}
-  .v42-summary-title{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px}
-  .v42-summary-note{color:var(--muted)}
-  .v42-chips{display:flex;flex-wrap:wrap;gap:6px}
-  .v42-chip{border:1px solid var(--line-strong);border-radius:5px;padding:4px 7px;color:var(--muted)}
-  .v42-chip strong{color:var(--text)}
-  .v42-badge{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line-strong);border-radius:999px;padding:3px 7px;font-size:10px;margin-bottom:7px}
-  .v42-badge.good{color:#72d6a5;border-color:#245b44}.v42-badge.warn{color:#e6c36a;border-color:#67552a}.v42-badge.bad{color:#ff7b84;border-color:#6d3037}
-  .tile{cursor:pointer}
-  .tile .tile-name{cursor:pointer}
-
-
-.guide{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:12px 14px;margin-bottom:16px;}
-.guide-title{font:700 12px 'Space Grotesk',sans-serif;margin-bottom:7px;}
-.guide-list{display:flex;flex-wrap:wrap;gap:6px;}
-.guide-item{font-size:10px;color:var(--muted);border:1px solid var(--line);border-radius:7px;padding:6px 8px;line-height:1.35;}
-.guide-item b{color:var(--text);margin-right:4px;}
-.num{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;padding:0 6px;border-radius:999px;background:#202733;border:1px solid #3a4658;color:var(--text);font:700 10px 'JetBrains Mono',monospace;margin-right:6px;vertical-align:middle;}
-.section-help{color:var(--muted);font-size:10px;line-height:1.5;margin:-4px 0 10px;}
-@media(max-width:700px){.guide-list{display:grid;grid-template-columns:1fr 1fr}.guide-item{font-size:9px}}
+.trip-room .trip-status {
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(11,79,108,.07);
+  margin-bottom: 12px;
+}
+.trip-status-title { font-weight: 700; font-size: 1.05rem; }
+.trip-status-code, .trip-status-user { font-size: .88rem; margin-top: 4px; }
+.trip-message { min-height: 22px; font-size: .88rem; margin: 8px 0; }
+.trip-message.success { color: #147a4b; }
+.trip-message.error { color: #b42318; }
+.trip-message.info { color: #0B4F6C; }
+.trip-members-title { font-size: .85rem; font-weight: 700; margin-top: 10px; margin-bottom: 7px; }
+.trip-members { display: flex; flex-wrap: wrap; gap: 6px; }
+.trip-member { background: #f3f4f6; border-radius: 999px; padding: 5px 9px; font-size: .82rem; }
 </style>
-</head>
-<body>
 
-<header>
-  <h1><span class="num">①</span>analysis</h1>
-  <div id="meta">
-    <span id="updated">불러오는 중…</span>
-    <nav class="history-nav" aria-label="분석 기록 메뉴">
-      <a href="backtest.html"><span class="num">③</span>백테스트 기록</a>
-      <a href="score-history.html"><span class="num">④</span>일별 점수 기록</a>
-      <a href="performance.html" class="v43"><span class="num">⑤</span>V4-3 과거 성과</a>
-    </nav>
-  </div>
-</header>
 
-<div id="earnings-banner" style="max-width:1360px; margin:14px auto 0; padding:8px 32px; font-size:11px; color:var(--muted);"></div>
-<div id="geo-banner" style="display:none; max-width:1360px; margin:8px auto 0; padding:10px 32px;"></div>
-<div id="macro"></div>
+<style>
+/* ============================================================
+   V3-3 UI
+   ============================================================ */
+.v33-planner {
+  overflow: hidden;
+}
 
-<main>
-  <div class="guide">
-    <div class="guide-title">이 보드는 이렇게 봅니다</div>
-    <div class="guide-list">
-      <div class="guide-item"><b>① analysis</b>관심종목의 현재 상태를 한눈에 확인</div>
-      <div class="guide-item"><b>② 종목 상세</b>점수·가격·V4-2를 종합 분석</div>
-      <div class="guide-item"><b>③ 백테스트</b>점수와 다음날 실제 성과 비교</div>
-      <div class="guide-item"><b>④ 일별 점수</b>날짜별 점수 변화 확인</div>
-      <div class="guide-item"><b>⑤ V4-3</b>점수·판정·패턴의 실제 성과 비교</div><div class="guide-item"><b>⑥ 데이터 검증</b>35개 종목의 재무·수급·공매도 수집 상태 확인</div>
-      <div class="guide-item"><b>⑥ 뉴스·공시</b>판정에 영향을 줄 수 있는 최근 이슈 확인</div>
+.v33-planner-head {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.v33-kicker {
+  font-size:.72rem;
+  letter-spacing:.08em;
+  font-weight:800;
+  color:#0B4F6C;
+  margin-bottom:3px;
+}
+
+.v33-subtitle {
+  font-size:.82rem;
+  color:#6b7280;
+}
+
+.v33-live-dot {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  font-size:.72rem;
+  color:#147a4b;
+  white-space:nowrap;
+}
+
+.v33-live-dot span {
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#22a06b;
+  display:inline-block;
+}
+
+.v33-check-card {
+  border:1px solid rgba(11,79,108,.14);
+  border-radius:16px;
+  padding:14px;
+  background:rgba(11,79,108,.045);
+  margin-bottom:18px;
+}
+
+.v33-section-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.v33-section-head strong {
+  font-size:.78rem;
+  color:#0B4F6C;
+  white-space:nowrap;
+}
+
+.v33-section-title {
+  font-weight:800;
+  font-size:1rem;
+}
+
+.v33-section-desc {
+  font-size:.76rem;
+  color:#777;
+  margin-top:2px;
+}
+
+.v33-check-list {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.v33-check-item {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  min-height:48px;
+  padding:10px 11px;
+  background:#fff;
+  border:1px solid #e1e5e9;
+  border-radius:12px;
+  cursor:pointer;
+  margin:0;
+  transition:.15s ease;
+}
+
+.v33-check-item input {
+  width:20px;
+  height:20px;
+  accent-color:#0B4F6C;
+  flex:0 0 auto;
+}
+
+.v33-check-item span:nth-child(2) {
+  font-weight:700;
+  font-size:.9rem;
+}
+
+.v33-check-item.is-checked {
+  background:#f0f8f5;
+  border-color:#b9decf;
+}
+
+.v33-check-item.is-checked span:nth-child(2) {
+  text-decoration:line-through;
+  color:#7b8a83;
+}
+
+.v33-check-mark {
+  margin-left:auto;
+  font-weight:900;
+  color:#147a4b;
+}
+
+.v33-day-nav {
+  display:grid;
+  grid-template-columns:48px 1fr 48px;
+  align-items:center;
+  gap:8px;
+  padding:8px 0 16px;
+}
+
+.v33-day-arrow {
+  width:48px;
+  height:48px;
+  border:1px solid #d9e0e5;
+  border-radius:50%;
+  background:#fff;
+  color:#0B4F6C;
+  font-size:2rem;
+  line-height:1;
+  cursor:pointer;
+}
+
+.v33-day-arrow:disabled {
+  opacity:.3;
+  cursor:not-allowed;
+}
+
+.v33-day-center {
+  text-align:center;
+}
+
+.v33-day-number {
+  font-family:var(--font-mono, monospace);
+  font-size:.9rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  color:#0B4F6C;
+}
+
+.v33-date-label {
+  margin-top:2px;
+  font-size:1.08rem;
+  font-weight:800;
+}
+
+.v33-section {
+  border-top:1px solid #eceff1;
+  padding-top:16px;
+  margin-top:4px;
+}
+
+.v33-section-last {
+  padding-bottom:2px;
+}
+
+.v33-list {
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.v33-schedule-item,
+.v33-recommend-item {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:11px 10px;
+  border:1px solid #e7eaed;
+  border-radius:12px;
+  background:#fff;
+}
+
+.v33-schedule-icon {
+  width:32px;
+  height:32px;
+  border-radius:10px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#f3f6f8;
+  flex:0 0 auto;
+}
+
+.v33-schedule-body,
+.v33-recommend-main {
+  min-width:0;
+  flex:1;
+}
+
+.v33-schedule-title,
+.v33-recommend-title {
+  font-weight:750;
+  font-size:.91rem;
+  word-break:break-word;
+}
+
+.v33-schedule-desc,
+.v33-recommend-desc {
+  margin-top:3px;
+  color:#70757a;
+  font-size:.76rem;
+  line-height:1.4;
+  word-break:break-word;
+}
+
+.v33-vote {
+  border:1px solid #e2e5e8;
+  background:#fff;
+  border-radius:999px;
+  min-width:48px;
+  height:34px;
+  padding:0 9px;
+  color:#777;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.v33-vote.voted {
+  border-color:#f2b6b0;
+  background:#fff5f3;
+  color:#d94a3d;
+}
+
+.v33-mini-delete {
+  border:0;
+  background:transparent;
+  color:#a0a6aa;
+  font-size:1.25rem;
+  width:28px;
+  height:28px;
+  padding:0;
+  cursor:pointer;
+  flex:0 0 auto;
+}
+
+.v33-add-box {
+  display:grid;
+  gap:7px;
+  margin-top:10px;
+}
+
+.v33-add-box input {
+  font-size:.86rem;
+}
+
+.v33-loading,
+.v33-empty {
+  padding:15px 8px;
+  text-align:center;
+  color:#858b90;
+  font-size:.82rem;
+  line-height:1.5;
+}
+
+.v33-message {
+  min-height:22px;
+  margin-top:10px;
+  font-size:.82rem;
+}
+
+.v33-message.success { color:#147a4b; }
+.v33-message.error { color:#b42318; }
+.v33-message.info { color:#0B4F6C; }
+
+@media (max-width: 520px) {
+  .v33-check-list {
+    grid-template-columns:1fr;
+  }
+
+  .v33-planner-head {
+    align-items:center;
+  }
+}
+</style>
+
+<style>.v34-stay-summary{margin:0 0 10px;padding:10px 12px;border:1px solid #e5e9ec;border-radius:12px;background:#f8fafb;font-size:.84rem}.v34-stay-status-wrap{min-height:30px;margin:5px 0 7px}.v34-stay-status{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border-radius:999px;font-size:.75rem;font-weight:700}.v34-stay-status i{width:7px;height:7px;border-radius:50%;display:inline-block}.v34-stay-status.next{background:#eef6fb;color:#0B4F6C}.v34-stay-status.next i{background:#4b9bc2}.v34-stay-status.checkin,.v34-stay-status.checkout{background:#fff5e8;color:#9a5a00}.v34-stay-status.checkin i,.v34-stay-status.checkout i{background:#e59a2f}.v34-stay-status.current{background:#edf8f2;color:#147a4b}.v34-stay-status.current i{background:#22a06b}.v34-stay-status.done{background:#f1f2f3;color:#777}.v34-stay-status.done i{background:#9aa0a6}</style><style id="v35-mobile-pages">
+@media(max-width:767.98px){
+body.v35-mobile{overflow-x:hidden;padding-bottom:74px}
+body.v35-mobile .v35-mobile-page{display:none!important;min-height:calc(100vh - 86px);padding-bottom:10px}
+body.v35-mobile .v35-mobile-page.v35-active{display:block!important}
+body.v35-mobile .v35-page-shell{min-height:calc(100vh - 100px);display:flex;flex-direction:column}
+body.v35-mobile .v35-page-title{font-size:1.02rem;font-weight:900;margin:4px 0 12px}
+body.v35-mobile .v35-page-sub{color:#777;font-size:.82rem;margin:-7px 0 12px}
+body.v35-mobile #v35MobileApp{display:block!important}
+.v35-page-nav{position:fixed;z-index:9999;left:0;right:0;bottom:0;display:flex;justify-content:space-around;height:68px;background:rgba(255,255,255,.97);border-top:1px solid #e5e7eb;padding:5px 4px}
+.v35-nav-btn{border:0;background:none;min-width:0;flex:1;height:56px;border-radius:13px;color:#777;font-size:.58rem;font-weight:800;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.v35-nav-btn .ico{font-size:1.02rem}.v35-nav-btn.active{background:#eef5f8;color:#0B4F6C}
+.v35-page-dots{display:flex;justify-content:center;gap:5px;margin:3px 0 10px}
+.v35-dot{width:6px;height:6px;border-radius:50%;background:#d4d8dc}.v35-dot.active{width:18px;border-radius:5px;background:#0B4F6C}
+.v35-swipe-hint{text-align:center;font-size:.7rem;color:#9aa0a6;margin:0 0 7px}
+.v35-next-btn{width:100%;border:0;border-radius:13px;padding:11px;background:#f3f6f7;color:#0B4F6C;font-weight:800}
+}
+@media(min-width:768px){#v35MobileApp{display:none!important}}
+</style>
+<style id="v354-mobile-fix">
+@media (max-width:767.98px){
+  html,body{overflow-x:hidden}
+  body{padding-bottom:82px}
+  #v35MobileApp{display:block!important;position:relative;z-index:20}
+  #v35MobileApp .v35-mobile-page{display:none!important;min-height:calc(100vh - 90px);padding-bottom:12px}
+  #v35MobileApp .v35-mobile-page.v35-active{display:block!important}
+  #v35MobileApp .v35-page-nav{
+    position:fixed!important;left:0!important;right:0!important;bottom:0!important;
+    z-index:99999!important;pointer-events:auto!important
+  }
+  #v35MobileApp .v35-nav-btn{
+    min-width:0!important;flex:1!important;touch-action:manipulation!important;
+    pointer-events:auto!important
+  }
+}
+</style>
+
+
+<style id="v354-fix">
+@media (max-width:767.98px){
+  html,body{overflow-x:hidden!important}
+  body{padding-bottom:84px!important}
+  .container.py-3 > *:not(#v35MobileApp):not(#installBanner){display:none!important}
+  #installBanner{display:none!important}
+  #v35MobileApp{display:block!important;position:relative!important;z-index:100!important;width:100%!important;margin:0!important;padding:0!important}
+  #v35MobileApp .v35-mobile-page{display:none!important}
+  #v35MobileApp .v35-mobile-page.v35-active{display:block!important}
+  #v35MobileApp .v35-page-nav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147483647!important;pointer-events:auto!important}
+  #v35MobileApp .v35-nav-btn{pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:2147483648!important}
+}
+</style>
+
+</head><body>
+<div class='container py-3'>
+
+<div id='installBanner' class='alert d-none align-items-center justify-content-between install-alert' role='alert'>
+  <span>📲 홈 화면에 앱으로 설치할 수 있어요</span>
+  <button class='btn btn-dark btn-sm btn-round' onclick='installApp()'>설치</button>
+</div>
+
+
+<!-- V3-1 공동 여행방 -->
+<div id="tripRoom" class="card hotel-card mb-4 trip-room">
+  <div class="card-body">
+    <h5 class="card-title mb-3"><i class="bi bi-people"></i> 함께 쓰는 여행방</h5>
+
+    <div id="tripStatus" class="trip-status" style="display:none"></div>
+
+    <div class="mb-2">
+      <label class="form-label small text-muted">내 닉네임</label>
+      <input id="tripNickname" class="form-control" type="text" maxlength="20" placeholder="예: 민">
+    </div>
+
+    <div class="row g-2 mb-2">
+      <div class="col-12">
+        <input id="tripName" class="form-control" type="text" maxlength="40" value="Da Nang Trip 2026" placeholder="여행방 이름">
+      </div>
+      <div class="col-6">
+        <input id="tripStartDate" class="form-control" type="date" value="2026-08-23">
+      </div>
+      <div class="col-6">
+        <input id="tripEndDate" class="form-control" type="date" value="2026-09-04">
+      </div>
+    </div>
+
+    <div class="d-grid gap-2 mb-3">
+      <button class="btn btn-primary btn-round" onclick="createTrip()">🌴 새 여행방 만들기</button>
+    </div>
+
+    <div class="input-group mb-2">
+      <input id="tripCode" class="form-control" maxlength="12" placeholder="친구에게 받은 여행방 코드">
+      <button class="btn btn-outline-primary btn-round" onclick="joinTrip()">참여</button>
+    </div>
+
+    <div id="tripMessage" class="trip-message"></div>
+
+    <div class="trip-members-title">참여자</div>
+    <div id="tripMembers" class="trip-members">
+      <span class="text-muted">아직 참여한 여행방이 없습니다.</span>
     </div>
   </div>
-  <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(15%)·뉴스/공시 영향(15%)·재무제표(10%)·공매도 비중(10%)의
-  가중합에, 환율(±5)·미증시(±5)·지정학적 리스크(±4)·VIX(±3)·미국10년물(±2)을 중요도에 따라 차등 반영해 조정한
-  참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
-  <div id="v41-summary" class="v41-summary" style="margin-bottom:18px; display:none;"></div>
-  <div id="v42-summary" class="v42-summary" style="display:none;"></div>
+</div>
 
-  <div id="validation-banner" style="display:none;margin:0 0 14px;padding:11px 14px;border:1px solid #67552a;border-radius:9px;background:#12161c;color:#e6c36a;font-size:10px;line-height:1.6"></div>
+<!-- ============================================================
+     V3-3 · 날짜별 여행 플래너
+     ============================================================ -->
+<div id="v33Planner" class="card hotel-card mb-4 v33-planner">
+  <div class="card-body">
 
-  <div id="sectors"></div>
-  <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
-</main>
+    <div class="v33-planner-head">
+      <div>
+        <div class="v33-kicker">V3-3 · TOGETHER</div>
+        <h5 class="card-title mb-1">📅 <span id="v33TripName">여행 일정</span></h5>
+        <div id="v33TotalDays" class="v33-subtitle">여행 기간</div>
+      </div>
+      <div class="v33-live-dot"><span></span>공동 사용</div>
+    </div>
 
-<script>
-  const HEAT_CAP = 10; // 등락률 이 값(%) 이상이면 히트바가 꽉 참
-
-  // 기본 점수 가중치 (종목 자체 지표, 합계 100)
-  const SCORE_WEIGHTS = { target: 0.30, opinion: 0.20, week52: 0.15, news: 0.15, financial: 0.10, shortSelling: 0.10 };
-  const OPINION_SCORE = { "강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0 };
-  // 매크로 조정치 (시장 전체 공통, 각각 최대 ±20점씩 가감 후 합산)
-  // 매크로 조정치는 MACRO_WEIGHTS(요소별 차등 가중치)로 계산됨
-
-  function computeBaseScore(s, newsInfo) {
-    const parts = [];
-
-    if (s.targetPrice) {
-      const upsidePct = (s.targetPrice / s.price - 1) * 100;
-      const sc = Math.max(0, Math.min(100, (upsidePct / 50) * 100));
-      parts.push([sc, SCORE_WEIGHTS.target]);
-    }
-    if (s.opinion && OPINION_SCORE[s.opinion] !== undefined) {
-      parts.push([OPINION_SCORE[s.opinion], SCORE_WEIGHTS.opinion]);
-    }
-    if (s.week52High && s.week52Low && s.week52High > s.week52Low) {
-      const pos = (s.price - s.week52Low) / (s.week52High - s.week52Low) * 100;
-      // 52주 저점에 가까울수록 높은 점수(저평가 관점)
-      parts.push([Math.max(0, Math.min(100, 100 - pos)), SCORE_WEIGHTS.week52]);
-    }
-
-    // 뉴스는 실질적 기업 이벤트(materialImpact=true)만 점수에 반영
-    let newsScore = 50;
-    if (newsInfo && newsInfo.hasImportantNews && newsInfo.materialImpact) {
-      const impact = Math.max(0, Math.min(30, Number(newsInfo.impactPct) || 0));
-      newsScore = newsInfo.direction === 'down'
-        ? 50 - impact / 2
-        : newsInfo.direction === 'up'
-          ? 50 + impact / 2
-          : 50;
-    }
-    parts.push([newsScore, SCORE_WEIGHTS.news]);
-
-    // 재무제표: 부채비율은 낮을수록, ROE는 높을수록 좋게 평가 (둘 다 있으면 평균)
-    const finParts = [];
-    if (s.debtRatio != null) finParts.push(Math.max(0, Math.min(100, 100 - s.debtRatio / 2)));
-    if (s.roe != null) finParts.push(Math.max(0, Math.min(100, s.roe * 5)));
-    if (finParts.length > 0) {
-      const finScore = finParts.reduce((a, b) => a + b, 0) / finParts.length;
-      parts.push([finScore, SCORE_WEIGHTS.financial]);
-    }
-
-    // 공매도 비중: 높을수록 하락 베팅이 많다는 뜻이라 감점 (비중 10%면 0점에 수렴)
-    if (s.shortSellingRatio != null) {
-      const shortScore = Math.max(0, Math.min(100, 100 - s.shortSellingRatio * 10));
-      parts.push([shortScore, SCORE_WEIGHTS.shortSelling]);
-    }
-
-    const totalWeight = parts.reduce((sum, [, w]) => sum + w, 0);
-    const weighted = parts.reduce((sum, [sc, w]) => sum + sc * w, 0);
-    return totalWeight > 0 ? weighted / totalWeight : null;
-  }
-
-  // 매크로 요소별 최대 조정폭 (중요도 차등, 합계 ±19점)
-  const MACRO_WEIGHTS = { usdkrw: 5, nasdaq: 5, geo: 4, vix: 3, us10y: 2 };
-
-  function computeMacroAdjustment(macro, geo) {
-    let adj = 0;
-
-    // 환율: 원화 강세(환율 하락) → +5, 원화 약세(환율 상승) → -5
-    if (macro && macro.usdkrw && macro.usdkrw.changeRate != null) {
-      const w = MACRO_WEIGHTS.usdkrw;
-      adj += macro.usdkrw.changeRate < 0 ? w : macro.usdkrw.changeRate > 0 ? -w : 0;
-    }
-    // 미국 증시(나스닥): 상승 → +5, 하락 → -5
-    if (macro && macro.nasdaq && macro.nasdaq.changeRate != null) {
-      const w = MACRO_WEIGHTS.nasdaq;
-      adj += macro.nasdaq.changeRate > 0 ? w : macro.nasdaq.changeRate < 0 ? -w : 0;
-    }
-    // 미국-이란 전쟁 리스크: 악재(확전) → -4, 호재(완화) → +4
-    if (geo && geo.hasRisk) {
-      const w = MACRO_WEIGHTS.geo;
-      adj += geo.direction === 'down' ? -w : geo.direction === 'up' ? w : 0;
-    }
-    // VIX(미국 변동성지수): 상승(불안 심화) → -3, 하락(안정) → +3
-    if (macro && macro.vix && macro.vix.changeRate != null) {
-      const w = MACRO_WEIGHTS.vix;
-      adj += macro.vix.changeRate > 0 ? -w : macro.vix.changeRate < 0 ? w : 0;
-    }
-    // 미국 10년물 국채금리: 상승(할인율 부담) → -2, 하락(부담 완화) → +2
-    if (macro && macro.us10y && macro.us10y.changeRate != null) {
-      const w = MACRO_WEIGHTS.us10y;
-      adj += macro.us10y.changeRate > 0 ? -w : macro.us10y.changeRate < 0 ? w : 0;
-    }
-
-    return adj;
-  }
-
-  function computeScore(s, newsInfo, macro, geo) {
-    const base = computeBaseScore(s, newsInfo);
-    if (base === null) return null;
-    const adj = computeMacroAdjustment(macro, geo);
-    return Math.max(0, Math.min(100, base + adj));
-  }
-
-  function scoreClass(score) {
-    if (score >= 60) return 's-pos';
-    if (score >= 40) return 's-mid';
-    return 's-neg';
-  }
-
-  function scoreLabel(score) {
-    if (score >= 70) return '긍정적';
-    if (score >= 55) return '다소 긍정';
-    if (score >= 45) return '중립';
-    if (score >= 30) return '다소 부정';
-    return '부정적';
-  }
-
-  // V4-1: 가격 위치 + 최근 추세 분석
-  // score_history.json의 일별 종가 기록을 이용합니다.
-  const V41_SIDEWAYS_5D = 2.0;
-  const V41_SIDEWAYS_20D = 5.0;
-
-  function signedPct(v) {
-    if (v == null || !Number.isFinite(v)) return '-';
-    return `${v > 0 ? '+' : ''}${v.toFixed(1)}%`;
-  }
-
-  function getHistoryMap(history) {
-    const map = {};
-    if (!history || !Array.isArray(history.days)) return map;
-    for (const day of history.days) {
-      for (const s of (day.stocks || [])) {
-        if (!map[s.code]) map[s.code] = [];
-        if (Number.isFinite(Number(s.price))) map[s.code].push({ date: day.date, price: Number(s.price) });
-      }
-    }
-    for (const code of Object.keys(map)) map[code].sort((a,b) => a.date.localeCompare(b.date));
-    return map;
-  }
-
-  function calcV41(s, historyMap) {
-    const high = Number(s.week52High), low = Number(s.week52Low), price = Number(s.price);
-    const result = { highDrop:null, lowRise:null, pos:null, r5:null, r20:null,
-      state5:'데이터 부족', state20:'데이터 부족', pattern:'관찰', patternClass:'warn' };
-
-    if (Number.isFinite(high) && high > 0 && Number.isFinite(price)) result.highDrop = (price / high - 1) * 100;
-    if (Number.isFinite(low) && low > 0 && Number.isFinite(price)) result.lowRise = (price / low - 1) * 100;
-    if (Number.isFinite(high) && Number.isFinite(low) && high > low && Number.isFinite(price))
-      result.pos = Math.max(0, Math.min(100, (price-low)/(high-low)*100));
-
-    const arr = historyMap[s.code] || [];
-    if (arr.length >= 6) {
-      const latest = arr[arr.length-1].price, p5 = arr[arr.length-6].price;
-      if (p5 > 0) result.r5 = (latest/p5-1)*100;
-    }
-    if (arr.length >= 21) {
-      const latest = arr[arr.length-1].price, p20 = arr[arr.length-21].price;
-      if (p20 > 0) result.r20 = (latest/p20-1)*100;
-    }
-
-    const state = (r,t) => r == null ? '데이터 부족' : Math.abs(r) <= t ? '횡보' : r > 0 ? '상승' : '하락';
-    result.state5 = state(result.r5, V41_SIDEWAYS_5D);
-    result.state20 = state(result.r20, V41_SIDEWAYS_20D);
-
-    if (result.highDrop != null && result.highDrop > -10 && result.r5 != null && result.r5 > 3) {
-      result.pattern='고점 추격 주의'; result.patternClass='bad';
-    } else if (result.highDrop != null && result.highDrop <= -15 && result.r20 != null && result.r20 < 0 &&
-               result.r5 != null && Math.abs(result.r5) <= V41_SIDEWAYS_5D) {
-      result.pattern='조정 후 횡보'; result.patternClass='good';
-    } else if (result.r5 != null && result.r20 != null && result.r5 > 0 && result.r20 > 0) {
-      result.pattern='상승 추세'; result.patternClass='good';
-    } else if (result.r5 != null && result.r20 != null && result.r5 < -3 && result.r20 < -5) {
-      result.pattern='하락 추세'; result.patternClass='bad';
-    } else if (result.r5 != null && Math.abs(result.r5) <= V41_SIDEWAYS_5D) {
-      result.pattern='단기 횡보'; result.patternClass='warn';
-    }
-    return result;
-  }
-
-  // V4-2: 기존 평가점수와 겹치지 않도록 가격 흐름만으로 판단합니다.
-  function calcVol(arr, n=5) {
-    if (!arr || arr.length < n+1) return null;
-    const rs=[];
-    for(let i=arr.length-n+1;i<arr.length;i++) if(arr[i-1]?.price) rs.push((arr[i].price/arr[i-1].price-1)*100);
-    if(rs.length<n)return null;
-    const m=rs.reduce((a,b)=>a+b,0)/rs.length;
-    return Math.sqrt(rs.reduce((a,b)=>a+(b-m)**2,0)/rs.length);
-  }
-  function calcV42(s, historyMap, marketPrices) {
-    const v=calcV41(s,historyMap), arr=historyMap[s.code]||[];
-    const r5=v.r5, r20=v.r20;
-    const prev5=arr.length>=11 ? (arr.at(-6).price/arr.at(-11).price-1)*100 : null;
-    const prev20=arr.length>=41 ? (arr.at(-21).price/arr.at(-41).price-1)*100 : null;
-    const vol5=calcVol(arr,5);
-    const priorArr=arr.length>=11 ? arr.slice(0,-5) : [];
-    const prevVol5=calcVol(priorArr,5);
-    const marketR5=marketPrices?.length>=6 ? (marketPrices.at(-1)/marketPrices.at(-6)-1)*100 : null;
-
-    // ① 단기 모멘텀이 살아나는가?
-    const q1=r5==null?null:r5>0;
-    // ② 중기 추세가 개선되고 있는가?
-    const q2=(r20==null||prev20==null)?null:r20>prev20;
-    // ③ 하락이 멈추고 반전 신호가 나타나는가?
-    const q3=(r5==null||prev5==null)?null:(r5>prev5 && r5>=-2);
-    // ④ 가격 변동성이 줄어들고 있는가?
-    const q4=(vol5==null||prevVol5==null)?null:vol5<prevVol5;
-    // ⑤ KOSPI 대비 상대적으로 강한가?
-    const q5=(r5==null||marketR5==null)?null:r5>marketR5;
-    const checks=[q1,q2,q3,q4,q5], trueCount=checks.filter(x=>x===true).length, knownCount=checks.filter(x=>x!==null).length;
-    let status='관찰',statusClass='warn';
-    if(v.pattern==='고점 추격 주의'||v.pattern==='하락 추세'){status='주의';statusClass='bad';}
-    else if(knownCount>=3&&trueCount/knownCount>=.8){status='관심';statusClass='good';}
-    else if(knownCount>=3&&trueCount/knownCount<=.4){status='주의';statusClass='bad';}
-    const reasons=[
-      q1===true?'단기 모멘텀 개선':q1===false?'단기 모멘텀 약함':'단기 모멘텀 데이터 부족',
-      q2===true?'중기 추세 개선':q2===false?'중기 추세 개선 안 됨':'중기 추세 비교 데이터 부족',
-      q3===true?'하락 둔화·반전 확인':q3===false?'반전 신호 부족':'반전 비교 데이터 부족',
-      q4===true?'변동성 축소':q4===false?'변동성 축소 안 됨':'변동성 비교 데이터 부족',
-      q5===true?'KOSPI보다 강함':q5===false?'KOSPI보다 약함':'시장 비교 데이터 부족'
-    ];
-    return {v,q1,q2,q3,q4,q5,trueCount,knownCount,status,statusClass,reasons,prev5,prev20,vol5,prevVol5,marketR5};
-  }
-
-  function renderV42(s,historyMap,marketPrices){
-    const a=calcV42(s,historyMap,marketPrices);
-    const missing=5-a.knownCount; const detail=`${a.trueCount}/5 충족${missing>0?` · ${missing}개 데이터 부족`:''}`; return `<div class="v42-badge ${a.statusClass}">${a.status==='관심'?'🟢':a.status==='관찰'?'🟡':'🔴'} V4-2 ${a.status} · ${detail}</div>`;
-  }
-
-  function renderV42Summary(data,historyMap,marketPrices){
-    const el=document.getElementById('v42-summary'); if(!el)return;
-    const items=data.stocks.map(s=>calcV42(s,historyMap,marketPrices));
-    const interest=items.filter(x=>x.status==='관심').length, watch=items.filter(x=>x.status==='관찰').length, caution=items.filter(x=>x.status==='주의').length;
-    el.style.display='block';
-    el.innerHTML=`<div class="v42-summary-head"><span class="v42-summary-title">V4-2 가격 타이밍 참고판정</span><span class="v42-summary-note">가격 흐름 5항목 · 기존 평가점수와 별개 · 매수/매도 신호 아님</span></div><div class="v42-chips"><span class="v42-chip">🟢 관심 <strong>${interest}</strong></span><span class="v42-chip">🟡 관찰 <strong>${watch}</strong></span><span class="v42-chip">🔴 주의 <strong>${caution}</strong></span></div>`;
-  }
-
-  function renderV41(s, historyMap) {
-    const v = calcV41(s, historyMap);
-    const highText = v.highDrop == null ? '-' : `${v.highDrop.toFixed(1)}%`;
-    const posText = v.pos == null ? '-' : `${v.pos.toFixed(0)}%`;
-    const r5Text = signedPct(v.r5), r20Text = signedPct(v.r20);
-    const c5 = v.state5==='상승' ? 'trend-up' : v.state5==='하락' ? 'trend-down' : 'trend-flat';
-    const c20 = v.state20==='상승' ? 'trend-up' : v.state20==='하락' ? 'trend-down' : 'trend-flat';
-    return `
-      <div class="v41-wrap">
-        <div class="v41-head">
-          <span class="v41-title">V4-1 가격 위치 · 단기 추세</span>
-          <span class="v41-pattern ${v.patternClass}">${v.pattern}</span>
+    <!-- 공동 체크리스트 -->
+    <div class="v33-check-card">
+      <div class="v33-section-head">
+        <div>
+          <div class="v33-section-title">☑️ 출발 전 체크</div>
+          <div class="v33-section-desc">한 사람이 체크하면 모두에게 반영됩니다.</div>
         </div>
-        <div class="v41-grid">
-          <div class="v41-item">52주 고점 대비 <strong>${highText}</strong></div>
-          <div class="v41-item">52주 범위 위치 <strong>${posText}</strong></div>
-          <div class="v41-item">최근 5일 <strong class="${c5}">${r5Text}</strong> · ${v.state5}</div>
-          <div class="v41-item">최근 20일 <strong class="${c20}">${r20Text}</strong> · ${v.state20}</div>
+        <strong id="v33ChecklistCount">0 / 4 완료</strong>
+      </div>
+
+      <div id="v33Checklist" class="v33-check-list">
+        <div class="v33-loading">체크리스트를 불러오는 중...</div>
+      </div>
+    </div>
+
+    <!-- 날짜 네비게이션 -->
+    <div class="v33-day-nav">
+      <button id="v33PrevDay" class="v33-day-arrow" onclick="v33ChangeDay(-1)" aria-label="이전 날짜">‹</button>
+      <div class="v33-day-center">
+        <div id="v33DayNumber" class="v33-day-number">DAY 1</div>
+        <div id="v33DateLabel" class="v33-date-label">날짜를 불러오는 중...</div>
+      </div>
+      <button id="v33NextDay" class="v33-day-arrow" onclick="v33ChangeDay(1)" aria-label="다음 날짜">›</button>
+    </div>
+
+    <!-- 일정 -->
+    <div class="v33-section">
+      <div class="v33-section-head">
+        <div>
+          <div class="v33-section-title">🗓️ 오늘 일정</div>
+          <div class="v33-section-desc">여행방 참여자 모두가 일정을 추가할 수 있어요.</div>
         </div>
-        <div class="v41-note">최근 5일 ±2%를 횡보, 최근 20일 ±5%를 횡보로 표시합니다. V4-1은 매수·매도 신호가 아닌 가격 흐름 참고용입니다.</div>
-      </div>`;
-  }
+      </div>
 
-  function renderV41Summary(data, historyMap) {
-    const el = document.getElementById('v41-summary');
-    if (!el) return;
-    const items = data.stocks.map(s => ({s, v:calcV41(s, historyMap)}));
-    const adjusted = items.filter(x=>x.v.pattern==='조정 후 횡보').length;
-    const chase = items.filter(x=>x.v.pattern==='고점 추격 주의').length;
-    const sideways = items.filter(x=>x.v.state5==='횡보').length;
-    const enough = items.filter(x=>x.v.r20!=null).length;
-    el.style.display='block';
-    el.innerHTML=`<div class="v41-summary-head"><span class="v41-summary-title">V4-1 가격·추세 요약</span><span class="v41-summary-note">현재 ${data.stocks.length}종목 · 20일 데이터 확보 ${enough}종목</span></div>
-      <div class="v41-chips"><span class="v41-chip">🟢 조정 후 횡보 <strong>${adjusted}</strong></span><span class="v41-chip">⚠️ 고점 추격 주의 <strong>${chase}</strong></span><span class="v41-chip">↔ 최근 5일 횡보 <strong>${sideways}</strong></span></div>`;
-  }
+      <div id="v33ScheduleList" class="v33-list">
+        <div class="v33-loading">일정을 불러오는 중...</div>
+      </div>
 
-  async function loadValidationBanner() {
-    const el = document.getElementById('validation-banner');
-    if (!el) return;
-    try {
-      const r = await fetch('data/validation.json?ts=' + Date.now());
-      if (!r.ok) return;
-      const v = await r.json();
-      const total = Number(v.universe || 0);
-      const c = v.coverage || {};
-      if (!total) return;
-      const complete = Number(v.scoreReady || 0);
-      el.style.display = 'block';
-      if (complete === total) {
-        el.style.borderColor = '#245b44';
-        el.style.color = '#72d6a5';
-        el.innerHTML = `🟢 데이터 검증 완료 · 수급 ${c.flow}/${total} · 재무 ${c.financial}/${total} · 공매도 ${c.short}/${total}`;
-      } else {
-        el.innerHTML = `🟡 데이터 검증 진행 중 · 수급 ${c.flow||0}/${total} · 재무 ${c.financial||0}/${total} · 공매도 ${c.short||0}/${total} · <a href="data-validation.html" style="color:inherit">상세 검증창 열기 ↗</a>`;
+      <div class="v33-add-box">
+        <input id="v33ScheduleTitle" class="form-control" maxlength="80" placeholder="예: 호이안 올드타운 산책">
+        <input id="v33ScheduleDesc" class="form-control" maxlength="120" placeholder="메모 · 시간 · 장소 등 (선택)">
+        <button class="btn btn-primary btn-round w-100" onclick="v33AddSchedule()">＋ 일정 추가</button>
+      </div>
+    </div>
+
+    <!-- 장소 -->
+    <div class="v33-section">
+      <div class="v33-section-head">
+        <div>
+          <div class="v33-section-title">📍 가고 싶은 장소</div>
+          <div class="v33-section-desc">❤️가 많은 장소를 우선순위로 정해보세요.</div>
+        </div>
+      </div>
+
+      <div id="v33PlaceList" class="v33-list">
+        <div class="v33-loading">장소를 불러오는 중...</div>
+      </div>
+
+      <div class="v33-add-box">
+        <input id="v33PlaceName" class="form-control" maxlength="80" placeholder="예: 안방비치">
+        <input id="v33PlaceDesc" class="form-control" maxlength="120" placeholder="가고 싶은 이유 (선택)">
+        <button class="btn btn-outline-primary btn-round w-100" onclick="v33AddPlace()">＋ 가고 싶은 장소 추가</button>
+      </div>
+    </div>
+
+    <!-- 메뉴 -->
+    <div class="v33-section v33-section-last">
+      <div class="v33-section-head">
+        <div>
+          <div class="v33-section-title">🍜 먹고 싶은 메뉴</div>
+          <div class="v33-section-desc">여행 중 먹을 메뉴를 미리 모아보세요.</div>
+        </div>
+      </div>
+
+      <div id="v33FoodList" class="v33-list">
+        <div class="v33-loading">메뉴를 불러오는 중...</div>
+      </div>
+
+      <div class="v33-add-box">
+        <input id="v33FoodName" class="form-control" maxlength="80" placeholder="예: 반쎄오">
+        <input id="v33FoodDesc" class="form-control" maxlength="120" placeholder="맛집/메모 (선택)">
+        <button class="btn btn-outline-primary btn-round w-100" onclick="v33AddFood()">＋ 먹고 싶은 메뉴 추가</button>
+      </div>
+    </div>
+
+    <div id="v33Message" class="v33-message"></div>
+
+  </div>
+</div>
+
+  <!-- ============================================================
+     V3-2 공동 여행경비
+     ============================================================ -->
+
+<div id="expenseRoom" class="card hotel-card mb-4">
+
+  <div class="card-body">
+
+    <h5 class="card-title mb-3">
+      <i class="bi bi-wallet2"></i>
+      공동 여행경비
+    </h5>
+
+    <!-- 총액 -->
+    <div id="expenseSummary" class="expense-summary mb-3">
+      <div class="text-muted">
+        경비를 불러오는 중...
+      </div>
+    </div>
+
+    <!-- 경비 입력 -->
+
+    <div class="expense-form">
+
+      <div class="mb-2">
+        <label class="form-label small text-muted">
+          사용처
+        </label>
+
+        <input
+          id="expenseDescription"
+          class="form-control"
+          type="text"
+          maxlength="80"
+          placeholder="예: 저녁 식사"
+        >
+      </div>
+
+      <div class="row g-2 mb-2">
+
+        <div class="col-7">
+
+          <label class="form-label small text-muted">
+            금액
+          </label>
+
+          <input
+            id="expenseAmount"
+            class="form-control"
+            type="number"
+            inputmode="decimal"
+            placeholder="500000"
+          >
+
+        </div>
+
+        <div class="col-5">
+
+          <label class="form-label small text-muted">
+            통화
+          </label>
+
+          <select
+            id="expenseCurrency"
+            class="form-select"
+          >
+            <option value="VND">VND</option>
+            <option value="KRW">KRW</option>
+          </select>
+
+        </div>
+
+      </div>
+
+      <div class="row g-2 mb-2">
+
+        <div class="col-6">
+
+          <label class="form-label small text-muted">
+            날짜
+          </label>
+
+          <input
+            id="expenseDate"
+            class="form-control"
+            type="date"
+          >
+
+        </div>
+
+        <div class="col-6">
+
+          <label class="form-label small text-muted">
+            카테고리
+          </label>
+
+          <select
+            id="expenseCategory"
+            class="form-select"
+          >
+            <option value="식비">🍜 식비</option>
+            <option value="교통">🚕 교통</option>
+            <option value="숙박">🏨 숙박</option>
+            <option value="관광">🎡 관광</option>
+            <option value="쇼핑">🛍️ 쇼핑</option>
+            <option value="마사지">💆 마사지</option>
+            <option value="기타">📌 기타</option>
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- 결제자 -->
+
+      <div class="mb-2">
+
+        <label class="form-label small text-muted">
+          결제자
+        </label>
+
+        <select
+          id="expensePayer"
+          class="form-select"
+        >
+          <option value="">
+            참여자를 불러오는 중...
+          </option>
+        </select>
+
+      </div>
+
+      <!-- 부담자 -->
+
+      <div class="mb-2">
+
+        <label class="form-label small text-muted">
+          함께 부담할 사람
+        </label>
+
+        <div
+          id="expenseSplitMembers"
+          class="expense-members"
+        ></div>
+
+      </div>
+
+      <!-- 메모 -->
+
+      <div class="mb-3">
+
+        <label class="form-label small text-muted">
+          메모
+        </label>
+
+        <input
+          id="expenseNote"
+          class="form-control"
+          type="text"
+          maxlength="120"
+          placeholder="선택사항"
+        >
+
+      </div>
+
+      <button
+        class="btn btn-primary btn-round w-100"
+        onclick="addExpense()"
+      >
+        💰 경비 추가
+      </button>
+
+      <div
+        id="expenseMessage"
+        class="expense-message"
+      ></div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <!-- 경비 목록 -->
+
+    <h6 class="mb-3">
+      📋 경비 내역
+    </h6>
+
+    <div id="expenseList">
+      <div class="text-muted p-3 text-center">
+        경비를 불러오는 중...
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <!-- 정산 -->
+
+    <h6 class="mb-3">
+      💸 현재 정산
+    </h6>
+
+    <div id="settlementList">
+      <div class="text-muted">
+        정산 정보를 계산하는 중...
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class='hero mb-4'><h2>🏝 Da Nang Travel</h2><div>🌤 Weather | 💱 Exchange | 🚖 Grab</div></div>
+
+<!-- 항공권 -->
+<div class='card hotel-card mb-3'><div class='card-body'>
+  <h5 class='card-title mb-3'><i class='bi bi-airplane'></i> 항공권 (대한항공)</h5>
+  <div class='flight-row'>
+    <div class='flight-route'>
+      <div class='fp'><div class='code'>ICN</div><div class='city'>서울</div></div>
+      <div class='fp-mid'><div class='fp-num'>KE459</div><i class='bi bi-airplane-fill'></i></div>
+      <div class='fp'><div class='code'>DAD</div><div class='city'>다낭</div></div>
+    </div>
+    <div class='flight-time'>2026.08.23(일) 18:20 → 21:05</div>
+  </div>
+  <hr class='my-2'>
+  <div class='flight-row'>
+    <div class='flight-route'>
+      <div class='fp'><div class='code'>DAD</div><div class='city'>다낭</div></div>
+      <div class='fp-mid'><div class='fp-num'>KE460</div><i class='bi bi-airplane-fill'></i></div>
+      <div class='fp'><div class='code'>ICN</div><div class='city'>서울</div></div>
+    </div>
+    <div class='flight-time'>2026.09.04(금) 22:55 → 09.05(토) 05:30</div>
+  </div>
+</div></div>
+
+<!-- 환율 계산기 -->
+<div class='card hotel-card mb-3'><div class='card-body'>
+  <h5 class='card-title mb-3'><i class='bi bi-currency-exchange'></i> 실시간 환율 계산기</h5>
+  <div class='fx-row'>
+    <div class='fx-input-group'>
+      <label>KRW (원)</label>
+      <input id='fxKrw' type='text' inputmode='numeric' placeholder='0' class='form-control'>
+    </div>
+    <button class='fx-swap' onclick='swapFx()' aria-label='통화 교환'><i class='bi bi-arrow-left-right'></i></button>
+    <div class='fx-input-group'>
+      <label>VND (동)</label>
+      <input id='fxVnd' type='text' inputmode='numeric' placeholder='0' class='form-control'>
+    </div>
+  </div>
+  <div class='fx-rate' id='fxRate'>환율을 불러오는 중...</div>
+  <div class='fx-updated' id='fxUpdated'></div>
+</div></div>
+
+<!-- 날씨 -->
+<div class='card hotel-card mb-3'><div class='card-body'>
+  <h5 class='card-title mb-3'><i class='bi bi-cloud-sun'></i> 다낭 날씨</h5>
+  <div class='weather-now'>
+    <div>
+      <div class='weather-temp' id='wTemp'>-</div>
+      <div class='weather-desc' id='wDesc'>불러오는 중...</div>
+    </div>
+    <div class='weather-icon' id='wIcon'>🌤️</div>
+  </div>
+  <div class='weather-days' id='wDays'></div>
+</div></div>
+
+<!-- 빠른 이동 -->
+<div class='card hotel-card mb-4'><div class='card-body'>
+  <h5 class='card-title mb-3'><i class='bi bi-signpost-2'></i> 빠른 이동</h5>
+  <div class='row g-2'>
+    <div class='col-6'>
+      <button class='btn btn-outline-primary w-100 btn-round py-2' onclick="openMaps('Da Nang, Vietnam')"><i class='bi bi-geo-alt'></i> 구글맵 열기</button>
+    </div>
+    <div class="v34-stay-summary" id="v34StaySummary">숙소 상태 확인 중...</div>
+<div class='col-6'>
+      <button class='btn btn-outline-danger w-100 btn-round py-2' onclick='openGrab()'><i class='bi bi-car-front'></i> Grab 호출</button>
+    </div>
+  </div>
+</div></div>
+
+<h5 class='mb-3'><i class='bi bi-signpost-split'></i> 숙소 · 이동 순서</h5>
+<div class='card hotel-card'><div class='card-body'>
+  <div class='stay-open-row' data-v34-stay="Florence"><div class="v34-stay-status-wrap"></div><a class='btn btn-primary btn-round btn-sm' href='pages/florence.html'>열기</a></div>
+  <h4 class='mb-0'>🏨 Florence</h4>
+  <p class='mb-0 text-muted small'>8 Nại Nam 8, Hòa Cường, Đà Nẵng · 8/23–8/24</p>
+  <p class='mb-0 landmark-line'>🛒 롯데마트 48m · 🐉 용다리 2.9km · ✈️ 다낭공항 3.4km</p>
+</div></div>
+<div class='timeline-arrow'>↓</div>
+<div class='card hotel-card'><div class='card-body'>
+  <div class='stay-open-row' data-v34-stay="Bel Marina"><div class="v34-stay-status-wrap"></div><a class='btn btn-primary btn-round btn-sm' href='pages/belmarina.html'>열기</a></div>
+  <h4 class='mb-0'>🏨 Bel Marina</h4>
+  <p class='mb-0 text-muted small'>127 Nguyễn Phúc Tần, Hội An · 8/24–8/27</p>
+  <p class='mb-0 landmark-line'>🏮 호이안 구시가지 1.8km · 🏖️ 안방비치 5.7km</p>
+</div></div>
+<div class='timeline-arrow'>↓</div>
+<div class='card hotel-card'><div class='card-body'>
+  <div class='stay-open-row' data-v34-stay="Hyatt"><div class="v34-stay-status-wrap"></div><a class='btn btn-primary btn-round btn-sm' href='pages/hyatt.html'>열기</a></div>
+  <h4 class='mb-0'>🏨 Hyatt</h4>
+  <p class='mb-0 text-muted small'>5 Truong Sa Street · 8/27–8/29</p>
+  <p class='mb-0 landmark-line'>🏖️ 해변 바로 앞 · ⛰️ 오행산 841m</p>
+</div></div>
+<div class='timeline-arrow'>↓</div>
+<div class='card hotel-card mb-4'><div class='card-body'>
+  <div class='stay-open-row' data-v34-stay="Altara"><div class="v34-stay-status-wrap"></div><a class='btn btn-primary btn-round btn-sm' href='pages/altara.html'>열기</a></div>
+  <h4 class='mb-0'>🏨 Altara</h4>
+  <p class='mb-0 text-muted small'>120 Võ Nguyên Giáp · 8/29–9/5</p>
+  <p class='mb-0 landmark-line'>🏖️ 미케비치 2.6km · 🐉 용다리 2.6km · 🛍️ 한시장 2.8km</p>
+</div></div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src='app.js'></script>
+<div id="v35MobileApp" class="container"><div class="v35-page-dots" id="v35PageDots"></div><div class="v35-swipe-hint">← 좌우로 넘기거나 아래 메뉴를 눌러 이동</div>
+<section class="v35-mobile-page v35-active"><div class="v35-page-shell"><div class="v35-page-title">✈️ 항공권 정보</div><div class="v35-page-sub">출국 · 귀국 항공편</div><div class="card hotel-card"><div class="card-body"><h5>🇰🇷 인천 → 다낭</h5><p>KE459 · 18:20 출발 → 21:05 도착</p><hr><h5>🇻🇳 다낭 → 인천</h5><p>KE460 · 22:55 출발</p></div></div><button class="v35-next-btn" onclick="v35Go(1)">☑️ 공동 체크항목 →</button></div></section>
+<section class="v35-mobile-page"><div class="v35-page-shell"><div class="v35-page-title">☑️ 공동 체크항목</div><div class="v35-page-sub">여권 · 항공권 · 로밍 · 유심</div><div id="v33ChecklistMobile"></div><button class="v35-next-btn" onclick="v35Go(2)">💱 환율 & 날씨 →</button></div></section>
+<section class="v35-mobile-page"><div class="v35-page-shell"><div class="v35-page-title">💱 환율 & 🌤 날씨</div><div class="v35-page-sub">여행 중 자주 확인하는 정보</div><div id="v35CurrencySlot"></div><div id="v35WeatherSlot"></div><button class="v35-next-btn" onclick="v35Go(3)">📅 오늘의 일정 →</button></div></section>
+<section class="v35-mobile-page"><div class="v35-page-shell"><div class="v35-page-title">📅 오늘의 일정</div><div class="v35-page-sub">DAY 1 ~ DAY 13</div><div id="v35ScheduleSlot"></div><button class="v35-next-btn" onclick="v35Go(4)">📍 가고 싶은 장소 →</button></div></section>
+<section class="v35-mobile-page"><div class="v35-page-shell"><div class="v35-page-title">📍 가고 싶은 장소</div><div class="v35-page-sub">날짜별 여행 아이디어</div><div class="card hotel-card"><div class="card-body">여행방에서 장소를 추가하면 이곳에 표시됩니다.</div></div><button class="v35-next-btn" onclick="v35Go(5)">🍜 먹고 싶은 메뉴 →</button></div></section>
+<section class="v35-mobile-page"><div class="v35-page-shell"><div class="v35-page-title">🍜 먹고 싶은 메뉴</div><div class="v35-page-sub">함께 고르고 싶은 메뉴</div><div class="card hotel-card"><div class="card-body"><div class="v33-food-grid"><span>🍲 쌀국수</span><span>🥞 반쎄오</span><span>🥩 와규</span><span>🍤 해산물</span><span>🍚 한식</span><span>🍕 피자</span></div></div></div><button class="v35-next-btn" onclick="v35Go(6)">🏨 숙소 →</button></div></section>
+<section class="v35-mobile-page"><div class="v35-page-shell"><div class="v35-page-title">🏨 숙소</div><div class="v35-page-sub">현재 숙소와 다음 숙소</div><div id="v35StaySlot"></div><button class="v35-next-btn" onclick="v35Go(7)">👥 함께 쓰는 여행방 →</button></div></section>
+<section class="v35-mobile-page"><div class="v35-page-shell"><div class="v35-page-title">👥 함께 쓰는 여행방</div><div class="v35-page-sub">참여자 · 공동경비 · 체크항목</div><div id="v35RoomSlot"></div><button class="v35-next-btn" onclick="v35Go(0)">✈️ 처음으로</button></div></section>
+<nav class="v35-page-nav"><button class="v35-nav-btn active" data-page="0" onclick="window.v35Go(0); return false;"><span class="ico">✈️</span>항공권</button><button class="v35-nav-btn" data-page="1" onclick="window.v35Go(1); return false;"><span class="ico">☑️</span>체크</button><button class="v35-nav-btn" data-page="2" onclick="window.v35Go(2); return false;"><span class="ico">💱</span>환율/날씨</button><button class="v35-nav-btn" data-page="3" onclick="window.v35Go(3); return false;"><span class="ico">📅</span>일정</button><button class="v35-nav-btn" data-page="4" onclick="window.v35Go(4); return false;"><span class="ico">📍</span>장소</button><button class="v35-nav-btn" data-page="5" onclick="window.v35Go(5); return false;"><span class="ico">🍜</span>메뉴</button><button class="v35-nav-btn" data-page="6" onclick="window.v35Go(6); return false;"><span class="ico">🏨</span>숙소</button><button class="v35-nav-btn" data-page="7" onclick="window.v35Go(7); return false;"><span class="ico">👥</span>여행방</button></nav></div>
+
+<script id="v354-mobile-controller">
+(function(){
+  "use strict";
+  var page=0, total=8;
+
+  function render(){
+    var root=document.getElementById("v35MobileApp");
+    if(!root) return;
+
+    var pages=root.querySelectorAll(".v35-mobile-page");
+    for(var i=0;i<pages.length;i++){
+      pages[i].classList.toggle("v35-active", i===page);
+    }
+
+    var buttons=root.querySelectorAll(".v35-nav-btn");
+    for(var j=0;j<buttons.length;j++){
+      buttons[j].classList.toggle("active",
+        Number(buttons[j].getAttribute("data-page"))===page);
+    }
+
+    var dots=document.getElementById("v35PageDots");
+    if(dots){
+      var html="";
+      for(var k=0;k<total;k++){
+        html+='<span class="v35-dot '+(k===page?"active":"")+'"></span>';
       }
-    } catch(e) {}
-  }
-
-  async function load() {
-    try {
-      const [stocksRes, newsRes, macroRes, geoRes, historyRes] = await Promise.all([
-        fetch('data/stocks.json?ts=' + Date.now()),
-        fetch('data/news.json?ts=' + Date.now()).catch(() => null),
-        fetch('data/macro.json?ts=' + Date.now()).catch(() => null),
-        fetch('data/geopolitical.json?ts=' + Date.now()).catch(() => null),
-        fetch('data/score_history.json?ts=' + Date.now()).catch(() => null),
-      ]);
-      if (!stocksRes.ok) throw new Error('no data yet');
-      const data = await stocksRes.json();
-      const news = (newsRes && newsRes.ok) ? await newsRes.json() : {};
-      const macro = (macroRes && macroRes.ok) ? await macroRes.json() : null;
-      const geo = (geoRes && geoRes.ok) ? await geoRes.json() : null;
-      const history = (historyRes && historyRes.ok) ? await historyRes.json() : null;
-      const historyMap = getHistoryMap(history);
-      const marketPrices = (history?.days||[]).map(d=>Number(d.kospiPrice)).filter(v=>Number.isFinite(v)&&v>0);
-      if (macro) renderMacro(macro);
-      renderEarningsBanner(macro);
-      renderGeoBanner(geo);
-      renderV41Summary(data, historyMap);
-      renderV42Summary(data, historyMap, marketPrices);
-      render(data, news, macro, geo, historyMap, marketPrices);
-    } catch (e) {
-      document.getElementById('empty').style.display = 'block';
-      document.getElementById('updated').textContent = '데이터 없음';
+      dots.innerHTML=html;
     }
   }
 
-  function renderGeoBanner(geo) {
-    const el = document.getElementById('geo-banner');
-    if (!el) return;
-    if (geo && geo.hasRisk) {
-      const dir = geo.direction === 'down' ? 'down' : 'up';
-      el.style.display = 'block';
-      el.className = dir;
-      el.textContent = `⚠️ 미국-이란 지정학적 리스크 감지 (${dir === 'down' ? '악재' : '호재'} 반영) — ${geo.summary}`;
-    } else {
-      el.style.display = 'none';
-    }
-  }
-
-  const MACRO_LABELS = {
-    kospi: '코스피', kosdaq: '코스닥',
-    usdkrw: '원/달러', nasdaq: '나스닥', sox: 'SOX(반도체)',
-    vix: 'VIX', us10y: '미국10년물(%)',
+  window.v35Go=function(n){
+    n=parseInt(n,10);
+    if(isNaN(n)) n=0;
+    page=Math.max(0,Math.min(total-1,n));
+    render();
+    if(window.innerWidth<=767) window.scrollTo(0,0);
   };
 
-  function renderEarningsBanner(macro) {
-    const el = document.getElementById('earnings-banner');
-    if (!el) return;
-    if (!macro || !macro.nextEarningsEstimate) {
-      el.textContent = '';
-      return;
+  function init(){
+    document.body.classList.add("v35-mobile");
+    render();
+  }
+
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",init,{once:true});
+  }else{
+    init();
+  }
+
+  window.addEventListener("resize",render);
+  window.addEventListener("orientationchange",function(){
+    setTimeout(render,100);
+  });
+
+  var sx=0,sy=0;
+  document.addEventListener("touchstart",function(e){
+    if(window.innerWidth>767 || !e.touches[0]) return;
+    sx=e.touches[0].clientX;
+    sy=e.touches[0].clientY;
+  },{passive:true});
+
+  document.addEventListener("touchend",function(e){
+    if(window.innerWidth>767 || !e.changedTouches[0]) return;
+    var dx=e.changedTouches[0].clientX-sx;
+    var dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>70 && Math.abs(dx)>Math.abs(dy)){
+      window.v35Go(page+(dx<0?1:-1));
     }
-    const target = new Date(macro.nextEarningsEstimate + 'T00:00:00+09:00');
-    const now = new Date();
-    const dday = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
-    const dateStr = target.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
-    el.textContent = `📅 다음 분기 실적발표 예상: ${dateStr} 경 (D-${dday}) — 법정 제출기한 기준 추정치이며 종목별 실제 발표일과 다를 수 있어요`;
-  }
-
-  function renderMacro(macro) {
-    const el = document.getElementById('macro');
-    el.innerHTML = Object.keys(MACRO_LABELS).map(key => {
-      const m = macro[key];
-      if (!m || m.price == null) {
-        return `<div class="macro-item"><div class="macro-label">${MACRO_LABELS[key]}</div><div class="macro-price" style="color:var(--muted)">-</div></div>`;
-      }
-      const dir = dirOf(m.changeRate || 0);
-      const sign = (m.changeRate || 0) > 0 ? '+' : '';
-      return `
-        <div class="macro-item">
-          <div class="macro-label">${MACRO_LABELS[key]}</div>
-          <div class="macro-price">${m.price.toLocaleString('ko-KR')}</div>
-          <div class="macro-change ${dir}">${sign}${(m.changeRate || 0).toFixed(2)}%</div>
-        </div>`;
-    }).join('');
-  }
-
-  function dirOf(rate) {
-    return rate > 0 ? 'up' : rate < 0 ? 'down' : 'flat';
-  }
-
-  function render(data, news, macro, geo, historyMap, marketPrices) {
-    document.getElementById('updated').textContent =
-      '업데이트: ' + new Date(data.updatedAt).toLocaleString('ko-KR', { hour12: false });
-
-    // 섹터별로 묶기
-    const bySector = {};
-    for (const s of data.stocks) {
-      const sector = s.sector || '기타';
-      (bySector[sector] ||= []).push(s);
-    }
-
-    // 섹터 내부는 등락률 높은 순, 섹터 자체는 평균 등락률 높은 순
-    const sectorNames = Object.keys(bySector).sort((a, b) => {
-      const avg = arr => arr.reduce((sum, s) => sum + (parseFloat(s.changeRate) || 0), 0) / arr.length;
-      return avg(bySector[b]) - avg(bySector[a]);
-    });
-
-    const container = document.getElementById('sectors');
-    container.innerHTML = sectorNames.map(sector => {
-      const stocks = [...bySector[sector]].sort(
-        (a, b) => (parseFloat(b.changeRate) || 0) - (parseFloat(a.changeRate) || 0)
-      );
-      const avgRate = stocks.reduce((sum, s) => sum + (parseFloat(s.changeRate) || 0), 0) / stocks.length;
-      const avgDir = dirOf(avgRate);
-
-      const tiles = stocks.map(s => {
-        const rate = parseFloat(s.changeRate) || 0;
-        const dir = dirOf(rate);
-        const heatPct = Math.min(Math.abs(rate) / HEAT_CAP, 1) * 100;
-        const sign = rate > 0 ? '+' : '';
-
-        const n = news[s.name];
-        let newsHtml;
-        if (n && n.hasImportantNews) {
-          const badgeDir = n.direction === 'down' ? 'down' : 'up';
-          const badgeSign = n.direction === 'down' ? '-' : '+';
-          const sourceTag = n.source === '공시' ? '📄 공시' : '📰 뉴스';
-          const dateTag = n.date ? ` · ${n.date}` : '';
-          newsHtml = `
-            <div class="news-line important">
-              <span class="news-badge ${badgeDir}">영향도 ${badgeSign}${Math.round(n.impactPct)}%</span>
-              <span style="color:var(--muted); font-size:9.5px;">${sourceTag}${dateTag}</span><br/>
-              ${n.summary}
-            </div>`;
-        } else {
-          newsHtml = `<div class="news-line empty">최근 3일 내 특이 뉴스/공시 없음</div>`;
-        }
-
-        const score = computeScore(s, n, macro, geo);
-        const scoreHtml = score !== null
-          ? `<div class="score-badge ${scoreClass(score)}">${Math.round(score)}점 · ${scoreLabel(score)}</div>`
-          : '';
-
-        let extraHtml = '';
-        if (s.targetPrice || s.opinion) {
-          extraHtml += `<div class="extra-line">`;
-          if (s.opinion) extraHtml += `투자의견 ${s.opinion}`;
-          if (s.targetPrice) extraHtml += `${s.opinion ? ' · ' : ''}목표 ${Number(s.targetPrice).toLocaleString('ko-KR')}`;
-          extraHtml += `</div>`;
-        }
-
-        let rangeHtml = '';
-        if (s.week52High && s.week52Low && s.week52High > s.week52Low) {
-          const pos = Math.max(0, Math.min(100, (s.price - s.week52Low) / (s.week52High - s.week52Low) * 100));
-          rangeHtml = `
-            <div class="range-wrap">
-              <div class="range-labels"><span>52주저 ${Number(s.week52Low).toLocaleString('ko-KR')}</span><span>52주고 ${Number(s.week52High).toLocaleString('ko-KR')}</span></div>
-              <div class="range-track"><div class="range-dot" style="left:${pos}%"></div></div>
-            </div>`;
-        }
-
-        const v41Html = renderV41(s, historyMap || {});
-        const v42Html = renderV42(s, historyMap || {}, marketPrices || []);
-
-        let supportHtml = '';
-        if (s.supportLine) {
-          supportHtml = `<div class="extra-line">지지선(20일 저가) ${Number(s.supportLine).toLocaleString('ko-KR')}</div>`;
-        }
-
-        let finHtml = '';
-        if (s.debtRatio != null || s.roe != null) {
-          const bits = [];
-          if (s.debtRatio != null) bits.push(`부채비율 ${s.debtRatio.toFixed(0)}%`);
-          if (s.roe != null) bits.push(`ROE ${s.roe.toFixed(1)}%`);
-          finHtml = `<div class="extra-line">${bits.join(' · ')}</div>`;
-        }
-
-        let flowHtml = '';
-        if (s.volumeRatio || s.foreignNet != null || s.instNet != null || s.indivNet != null || s.shortSellingRatio != null) {
-          const bits = [];
-          if (s.volumeRatio) {
-            const surgeClass = s.volumeRatio >= 2 ? 'surge' : '';
-            bits.push(`거래량 <span class="${surgeClass}">${s.volumeRatio.toFixed(1)}배</span>`);
-          }
-          if (s.foreignNet != null) {
-            bits.push(`외국인 ${s.foreignNet > 0 ? '+' : ''}${(s.foreignNet / 10000).toFixed(1)}만주`);
-          }
-          if (s.instNet != null) {
-            bits.push(`기관 ${s.instNet > 0 ? '+' : ''}${(s.instNet / 10000).toFixed(1)}만주`);
-          }
-          if (s.indivNet != null) {
-            bits.push(`개인 ${s.indivNet > 0 ? '+' : ''}${(s.indivNet / 10000).toFixed(1)}만주(추정)`);
-          }
-          if (s.shortSellingRatio != null) {
-            const shortClass = s.shortSellingRatio >= 5 ? 'surge' : '';
-            bits.push(`공매도 <span class="${shortClass}">${s.shortSellingRatio.toFixed(1)}%</span>`);
-          }
-          flowHtml = `<div class="flow-line">${bits.join(' · ')}</div>`;
-        }
-
-        return `
-          <div class="tile" onclick="location.href='stock.html?code=${encodeURIComponent(s.code)}'">
-            ${scoreHtml}
-            ${v42Html}
-            <div class="tile-name">${s.name}</div>
-            <div class="tile-price">${Number(s.price).toLocaleString('ko-KR')}</div>
-            <div class="tile-change ${dir}">${sign}${rate.toFixed(2)}%</div>
-            <div class="heat-bar"><div class="heat-bar-fill ${dir}" style="width:${heatPct}%; background:currentColor"></div></div>
-            ${rangeHtml}
-            ${v41Html}
-            ${supportHtml}
-            ${flowHtml}
-            ${finHtml}
-            ${extraHtml}
-            ${newsHtml}
-          </div>`;
-      }).join('');
-
-      return `
-        <div class="sector-card">
-          <div class="sector-head">
-            <span class="sector-name">${sector}</span>
-            <span class="sector-avg ${avgDir}">${avgRate > 0 ? '+' : ''}${avgRate.toFixed(2)}%</span>
-          </div>
-          <div class="tiles">${tiles}</div>
-        </div>`;
-    }).join('');
-  }
-
-  load();
-  setInterval(load, 60000);
+  },{passive:true});
+})();
 </script>
 
-</body>
-</html>
+
+<script id="v354-fix-controller">
+(function(){
+  "use strict";
+  var current=0,total=8;
+  function render(){
+    var root=document.getElementById("v35MobileApp");
+    if(!root)return;
+    var pages=root.querySelectorAll(".v35-mobile-page");
+    for(var i=0;i<pages.length;i++)pages[i].classList.toggle("v35-active",i===current);
+    var buttons=root.querySelectorAll(".v35-nav-btn");
+    for(var j=0;j<buttons.length;j++)buttons[j].classList.toggle("active",Number(buttons[j].getAttribute("data-page"))===current);
+    var dots=document.getElementById("v35PageDots");
+    if(dots){
+      var html="";
+      for(var k=0;k<total;k++)html+='<span class="v35-dot '+(k===current?"active":"")+'"></span>';
+      dots.innerHTML=html;
+    }
+  }
+  window.v35Go=function(n){
+    n=parseInt(n,10); if(isNaN(n))n=0;
+    current=Math.max(0,Math.min(total-1,n));
+    render();
+    if(window.innerWidth<=767)window.scrollTo(0,0);
+  };
+  function init(){document.body.classList.add("v35-mobile");render();}
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init,{once:true});else init();
+  window.addEventListener("resize",render);
+  window.addEventListener("orientationchange",function(){setTimeout(render,100);});
+  var sx=0,sy=0;
+  document.addEventListener("touchstart",function(e){
+    if(window.innerWidth>767||!e.touches[0])return;
+    sx=e.touches[0].clientX;sy=e.touches[0].clientY;
+  },{passive:true});
+  document.addEventListener("touchend",function(e){
+    if(window.innerWidth>767||!e.changedTouches[0])return;
+    var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;
+    if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy))window.v35Go(current+(dx<0?1:-1));
+  },{passive:true});
+})();
+</script>
+
+
+
+
+
+
+
+
+<script id="v354-content-bridge-fix4">
+(function(){
+"use strict";
+
+function pageShell(n){
+  var pages=document.querySelectorAll("#v35MobileApp .v35-mobile-page");
+  return pages[n] ? pages[n].querySelector(".v35-page-shell") : null;
+}
+function move(el,target,before){
+  if(el && target){
+    if(before) target.insertBefore(el,before);
+    else target.appendChild(el);
+  }
+}
+function findCardByText(text){
+  var cards=document.querySelectorAll(".container.py-3 > .card");
+  for(var i=0;i<cards.length;i++){
+    if((cards[i].textContent||"").indexOf(text)>=0) return cards[i];
+  }
+  return null;
+}
+function findSectionByTitle(text){
+  var secs=document.querySelectorAll(".v33-section");
+  for(var i=0;i<secs.length;i++){
+    if((secs[i].textContent||"").indexOf(text)>=0) return secs[i];
+  }
+  return null;
+}
+
+function init(){
+  try{
+    var p1=pageShell(1), p2=pageShell(2), p3=pageShell(3),
+        p4=pageShell(4), p5=pageShell(5), p6=pageShell(6), p7=pageShell(7);
+
+    /* 공동 체크: 실제 V3-3 체크카드 전체를 이동 */
+    var checklist=document.querySelector(".v33-check-card");
+    var checkSlot=document.getElementById("v33ChecklistMobile");
+    if(checklist && checkSlot){
+      checkSlot.innerHTML="";
+      move(checklist,checkSlot);
+    }
+
+    /* 환율/날씨: 실제 카드 자체를 이동 (기존 API/ID/이벤트 보존) */
+    var fx=findCardByText("실시간 환율 계산기");
+    var weather=findCardByText("다낭 날씨");
+    move(fx,document.getElementById("v35CurrencySlot"));
+    move(weather,document.getElementById("v35WeatherSlot"));
+
+    /* 일정/장소/메뉴: 실제 V3-3 섹션 전체를 이동 */
+    var sched=findSectionByTitle("🗓️ 오늘 일정");
+    var place=findSectionByTitle("📍 가고 싶은 장소");
+    var food=findSectionByTitle("🍜 먹고 싶은 메뉴");
+    move(sched,document.getElementById("v35ScheduleSlot"));
+    move(place,p4);
+    move(food,p5);
+
+    /* 일정 날짜 네비게이션을 일정 페이지 위로 이동 */
+    var dayNav=document.querySelector(".v33-day-nav");
+    if(dayNav) move(dayNav,document.getElementById("v35ScheduleSlot"),sched);
+
+    /* 장소/메뉴는 각 페이지의 다음 버튼 바로 앞에 오도록 정리 */
+    if(place && p4){
+      var next4=p4.querySelector(".v35-next-btn");
+      if(next4) p4.insertBefore(place,next4);
+    }
+    if(food && p5){
+      var next5=p5.querySelector(".v35-next-btn");
+      if(next5) p5.insertBefore(food,next5);
+    }
+
+    /* 숙소: 기존 V3-4 카드/상태 UI를 그대로 이동 */
+    var staySlot=document.getElementById("v35StaySlot");
+    var staySummary=document.getElementById("v34StaySummary");
+    if(staySlot){
+      staySlot.innerHTML="";
+      if(staySummary){
+        var summaryCard=staySummary.closest(".card");
+        move(summaryCard,staySlot);
+      }
+      ["Florence","Bel Marina","Hyatt","Altara"].forEach(function(name){
+        var marker=document.querySelector('[data-v34-stay="'+name+'"]');
+        if(marker){
+          var card=marker.closest(".card");
+          if(card) move(card,staySlot);
+        }
+      });
+    }
+
+    /* 여행방: 기존 V3-1 방 + V3-2 공동경비를 그대로 이동 */
+    var room=document.getElementById("v35RoomSlot");
+    var trip=document.getElementById("tripRoom");
+    var expense=document.getElementById("expenseRoom");
+    if(room){
+      room.innerHTML="";
+      move(trip,room);
+      move(expense,room);
+    }
+
+    /* 모바일에서 원래 숨김 영역의 높이/레이아웃이 영향을 주지 않도록 */
+    if(window.innerWidth<=767){
+      document.body.classList.add("v35-mobile");
+      window.scrollTo(0,0);
+    }
+  }catch(err){
+    console.error("V3-5.4 FIX4:",err);
+  }
+}
+
+/* Supabase/V3-3 초기화가 끝난 뒤 DOM을 이동 */
+function run(){
+  setTimeout(init,1200);
+  setTimeout(init,2500);
+}
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",run,{once:true});
+}else{
+  run();
+}
+})();
+</script>
+
+</body></html>
