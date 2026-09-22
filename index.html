@@ -326,6 +326,10 @@
 .section-help{color:var(--muted);font-size:10px;line-height:1.5;margin:-4px 0 10px;}
 @media(max-width:700px){.guide-list{display:grid;grid-template-columns:1fr 1fr}.guide-item{font-size:9px}}
 </style>
+<style>
+.night-panel{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:16px;margin:14px 0;font-size:12px}
+.night-grid{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.night-item{border:1px solid var(--line);border-radius:7px;padding:10px;min-width:135px;flex:1}.night-item strong{display:block;margin:8px 0}.night-note{color:var(--muted);font-size:11px;line-height:1.7}.night-positive{color:#72d6a5}.night-negative{color:#ff7b84}.night-flat{color:var(--muted)}
+</style>
 </head>
 <body>
 
@@ -343,7 +347,9 @@
 
 <div id="earnings-banner" style="max-width:1360px; margin:14px auto 0; padding:8px 32px; font-size:11px; color:var(--muted);"></div>
 <div id="geo-banner" style="display:none; max-width:1360px; margin:8px auto 0; padding:10px 32px;"></div>
+<h2 style="max-width:1360px;margin:14px auto 0;padding:0 32px;font-size:14px">④ 시장 환경</h2>
 <div id="macro"></div>
+<section id="night-sector" class="night-panel" style="max-width:1296px;margin:14px auto" aria-label="야간 미국 섹터 동향"><h2 style="font-size:14px">④-1 야간 미국 섹터 동향</h2><div data-night-content aria-live="polite">자료를 불러오는 중…</div></section>
 
 <main>
   <div class="guide">
@@ -353,7 +359,7 @@
       <div class="guide-item"><b>② 종목 상세</b>점수·가격·V4-2를 종합 분석</div>
       <div class="guide-item"><b>③ 백테스트</b>점수와 다음날 실제 성과 비교</div>
       <div class="guide-item"><b>④ 일별 점수</b>날짜별 점수 변화 확인</div>
-      <div class="guide-item"><b>⑤ V4-3</b>점수·판정·패턴의 실제 성과 비교</div><div class="guide-item"><b>⑥ 데이터 검증</b>35개 종목의 재무·수급·공매도 수집 상태 확인</div>
+      <div class="guide-item"><b>⑤ V4-3</b>점수·판정·패턴의 실제 성과 비교</div>
       <div class="guide-item"><b>⑥ 뉴스·공시</b>판정에 영향을 줄 수 있는 최근 이슈 확인</div>
     </div>
   </div>
@@ -362,8 +368,6 @@
   참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
   <div id="v41-summary" class="v41-summary" style="margin-bottom:18px; display:none;"></div>
   <div id="v42-summary" class="v42-summary" style="display:none;"></div>
-
-  <div id="validation-banner" style="display:none;margin:0 0 14px;padding:11px 14px;border:1px solid #67552a;border-radius:9px;background:#12161c;color:#e6c36a;font-size:10px;line-height:1.6"></div>
 
   <div id="sectors"></div>
   <div id="empty" style="display:none">아직 데이터가 없어요. GitHub Actions가 처음 실행되면 채워집니다.</div>
@@ -638,28 +642,6 @@
       <div class="v41-chips"><span class="v41-chip">🟢 조정 후 횡보 <strong>${adjusted}</strong></span><span class="v41-chip">⚠️ 고점 추격 주의 <strong>${chase}</strong></span><span class="v41-chip">↔ 최근 5일 횡보 <strong>${sideways}</strong></span></div>`;
   }
 
-  async function loadValidationBanner() {
-    const el = document.getElementById('validation-banner');
-    if (!el) return;
-    try {
-      const r = await fetch('data/validation.json?ts=' + Date.now());
-      if (!r.ok) return;
-      const v = await r.json();
-      const total = Number(v.universe || 0);
-      const c = v.coverage || {};
-      if (!total) return;
-      const complete = Number(v.scoreReady || 0);
-      el.style.display = 'block';
-      if (complete === total) {
-        el.style.borderColor = '#245b44';
-        el.style.color = '#72d6a5';
-        el.innerHTML = `🟢 데이터 검증 완료 · 수급 ${c.flow}/${total} · 재무 ${c.financial}/${total} · 공매도 ${c.short}/${total}`;
-      } else {
-        el.innerHTML = `🟡 데이터 검증 진행 중 · 수급 ${c.flow||0}/${total} · 재무 ${c.financial||0}/${total} · 공매도 ${c.short||0}/${total} · <a href="data-validation.html" style="color:inherit">상세 검증창 열기 ↗</a>`;
-      }
-    } catch(e) {}
-  }
-
   async function load() {
     try {
       const [stocksRes, newsRes, macroRes, geoRes, historyRes] = await Promise.all([
@@ -887,5 +869,40 @@
   setInterval(load, 60000);
 </script>
 
+<script>
+(async function () {
+  const root = document.querySelector('[data-night-content]');
+  const labels = {sox:'반도체(SOX)',technology:'미국 기술(XLK)',financial:'금융(XLF)',energy:'에너지(XLE)',materials:'소재(XLB)',industrial:'산업재(XLI)',healthcare:'헬스케어(XLV)',discretionary:'경기소비재(XLY)',staples:'필수소비재(XLP)',utilities:'유틸리티(XLU)',nasdaq:'Nasdaq',sp500:'S&P 500'};
+  try {
+    const response = await fetch('data/sector-night.json?ts=' + Date.now(), {cache:'no-store'});
+    if (!response.ok) throw new Error('no data');
+    const data = await response.json();
+    const keys = ['sox','technology','financial','energy','materials','industrial'];
+    root.replaceChildren();
+    const note = document.createElement('div'); note.className = 'night-note';
+    note.textContent = '최근 완료 미국 거래일 종가 기준 · 수집 ' + (data.updatedAtKST || '확인 불가') + ' KST · 점수 미반영';
+    root.append(note);
+    if (!keys.length) throw new Error('no mapping');
+    const grid = document.createElement('div'); grid.className = 'night-grid';
+    keys.forEach(key => {
+      const m = data.markets?.[key];
+      const rate = m?.ok === true && typeof m.changeRate === 'number' && Number.isFinite(m.changeRate) ? m.changeRate : null;
+      const item = document.createElement('div'); item.className = 'night-item';
+      const title = document.createElement('span'); title.textContent = labels[key] || key;
+      const value = document.createElement('strong');
+      value.className = rate === null || rate === 0 ? 'night-flat' : rate > 0 ? 'night-positive' : 'night-negative';
+      value.textContent = rate === null ? '수집 실패' : (rate > 0 ? '🟢 +' : rate < 0 ? '🔴 ' : '') + rate.toFixed(2) + '%';
+      const date = document.createElement('div'); date.className = 'night-note';
+      date.textContent = m?.sessionDate ? '미국 ' + m.sessionDate + ' 마감' : '기준일 없음';
+      item.append(title, value, date); grid.append(item);
+    });
+    root.append(grid);
+    const age = Date.now() - Date.parse(data.updatedAt || '');
+    if (!Number.isFinite(age) || age > 36 * 3600 * 1000) {
+      const stale = document.createElement('div'); stale.className = 'night-note'; stale.textContent = '최근 수집 여부를 확인하세요. 휴장일에는 마지막 거래일을 표시합니다.'; root.append(stale);
+    }
+  } catch (_) { root.textContent = '야간 시장 자료가 없습니다. 07:30 업데이트 후 표시됩니다. · 점수 미반영'; }
+})();
+</script>
 </body>
 </html>

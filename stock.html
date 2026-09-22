@@ -12,7 +12,11 @@
 .num{display:inline-flex;align-items:center;justify-content:center;min-width:21px;height:21px;padding:0 6px;border-radius:999px;background:#202733;border:1px solid #3a4658;color:var(--text);font:700 10px 'JetBrains Mono',monospace;margin-right:6px;vertical-align:middle;}
 .section-help{color:var(--muted);font-size:10px;line-height:1.5;margin:-4px 0 10px;}
 @media(max-width:700px){.guide-list{display:grid;grid-template-columns:1fr 1fr}.guide-item{font-size:9px}}
-</style></head><body>
+</style><style>
+.night-panel{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:16px;margin:14px 0;font-size:12px}
+.night-grid{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}.night-item{border:1px solid var(--line);border-radius:7px;padding:10px;min-width:135px;flex:1}.night-item strong{display:block;margin:8px 0}.night-note{color:var(--muted);font-size:11px;line-height:1.7}.night-positive{color:#72d6a5}.night-negative{color:#ff7b84}.night-flat{color:var(--muted)}
+</style>
+</head><body>
 <header><h1><span class="num">②</span>종목 상세 분석</h1><div class="links"><a class="btn" href="index.html">← 관심종목</a><a id="naver" class="btn" target="_blank" rel="noopener">네이버 금융 ↗</a></div></header>
 <div class="wrap" id="app">
 <div class="guide"><div class="guide-title">② 이 화면에서 확인할 것</div><div class="guide-list">
@@ -23,6 +27,7 @@
 <div class="guide-item"><b>②-5 패턴 성과</b>같은 패턴의 과거 성과 확인</div><div class="guide-item"><b>②-6 데이터 검증</b>재무·수급·공매도 실제 수집값 확인</div>
 </div></div>
 <div>불러오는 중…</div></div>
+<section id="night-sector" class="night-panel" style="max-width:1044px;margin:14px auto" aria-label="야간 관련시장"><h2 style="font-size:14px">야간 관련시장</h2><div data-night-content aria-live="polite">자료를 불러오는 중…</div></section>
 <script>
 const SIDE5=2, SIDE20=5;
 function fmt(n){return n==null||!Number.isFinite(Number(n))?'-':Number(n).toLocaleString('ko-KR')}
@@ -39,4 +44,39 @@ function svgChart(arr){if(!arr.length)return'<div class="small">가격 기록이
 function outcomes(entries){const done=entries.filter(e=>e.return5d!=null);const avg=k=>done.length?done.reduce((a,e)=>a+Number(e[k]),0)/done.length:null;const win=k=>done.length?done.filter(e=>Number(e[k])>0).length/done.length*100:null;return{count:entries.length,avg5:avg('return5d'),avg20:avg('return20d'),win5:win('return5d')}}
 async function load(){const code=new URLSearchParams(location.search).get('code');if(!code){app.innerHTML='종목 코드가 없습니다.';return}const [sr,nr,hr,tr,mr,gr,vr]=await Promise.all([fetch('data/stocks.json?ts='+Date.now()),fetch('data/news.json?ts='+Date.now()),fetch('data/score_history.json?ts='+Date.now()),fetch('data/timing_history.json?ts='+Date.now()),fetch('data/macro.json?ts='+Date.now()),fetch('data/geopolitical.json?ts='+Date.now()),fetch('data/validation.json?ts='+Date.now())]);const stocks=await sr.json(),news=nr.ok?await nr.json():{},history=hr.ok?await hr.json():{days:[]},timing=tr.ok?await tr.json():{entries:[]},macro=mr.ok?await mr.json():null,geo=gr.ok?await gr.json():null,validation=vr?.ok?await vr.json():null;const marketPrices=(history?.days||[]).map(d=>Number(d.kospiPrice)).filter(v=>Number.isFinite(v)&&v>0);const s=stocks.stocks.find(x=>x.code===code);if(!s){app.innerHTML='종목을 찾을 수 없습니다.';return}const n=news[s.name],map=getMap(history),a=v42(s,map,marketPrices),arr=map[code]||[], entries=(timing.entries||[]).filter(e=>e.code===code).sort((x,y)=>y.date.localeCompare(x.date));document.getElementById('naver').href=`https://finance.naver.com/item/main.naver?code=${code}`;const scoreParts=[];if(s.targetPrice||s.opinion)scoreParts.push(`목표 ${fmt(s.targetPrice)}${s.opinion?' · '+s.opinion:''}`);if(s.debtRatio!=null)scoreParts.push(`부채비율 ${Number(s.debtRatio).toFixed(0)}%`);if(s.roe!=null)scoreParts.push(`ROE ${Number(s.roe).toFixed(1)}%`);const st=entries.length?outcomes(entries):null;app.innerHTML=`<a class="back" href="index.html">← 관심종목으로 돌아가기</a><div class="card hero"><div><div class="name">${s.name}</div><div class="code">${s.code} · ${s.sector||'기타'}</div><div class="badge ${a.cls}">${a.status==='관심'?'🟢':a.status==='관찰'?'🟡':'🔴'} V4-2 ${a.status}</div></div><div><div class="price">${fmt(s.price)}</div><div class="change ${Number(s.changeRate)>0?'up':Number(s.changeRate)<0?'down':'flat'}">${pct(Number(s.changeRate))}</div></div></div><div class="card"><div class="section-title"><span class="num">②-1</span>현재 분석</div><div class="grid"><div class="metric"><span>기존 평가점수</span><strong>${score(s,n,macro,geo)==null?'-':Math.round(score(s,n,macro,geo))+'점'}</strong></div><div class="metric"><span>52주 고점 대비</span><strong>${pct(a.highDrop)}</strong></div><div class="metric"><span>최근 5일</span><strong>${pct(a.r5)}</strong></div><div class="metric"><span>최근 20일</span><strong>${pct(a.r20)}</strong></div></div><div class="small" style="margin-top:10px">${scoreParts.join(' · ')||'목표가/재무 데이터가 없는 종목입니다.'}</div></div><div class="card"><div class="section-title"><span class="num">②-2</span>V4-2 판정 근거 · 5개 질문</div><div class="checks"><div class="check"><div class="q">① 단기 모멘텀이 살아나는가?</div>${qmark(a.q1)}</div><div class="check"><div class="q">② 중기 추세가 개선되고 있는가?</div>${qmark(a.q2)}</div><div class="check"><div class="q">③ 하락이 멈추고 반전 신호가 나타나는가?</div>${qmark(a.q3)}</div><div class="check"><div class="q">④ 가격 변동성이 줄어들고 있는가?</div>${qmark(a.q4)}</div><div class="check"><div class="q">⑤ KOSPI 대비 상대적으로 강한가?</div>${qmark(a.q5)}</div></div><p class="reasons">현재 패턴: <b>${a.pattern}</b> · V4-2 <b>${a.trueCount}/5 충족${(5-a.knownCount)>0?` · ${5-a.knownCount}개 데이터 부족`:''}</b><br>5일 ${pct(a.r5)} · 20일 ${pct(a.r20)} · KOSPI 5일 ${pct(a.marketR5)}<br>변동성 최근 ${a.vol5==null?'-':a.vol5.toFixed(2)+'%'} · 직전 ${a.prevVol5==null?'-':a.prevVol5.toFixed(2)+'%'}</p><div class="small">※ V4-2는 기존 평가점수의 재무·목표가·뉴스 항목과 분리해 가격 흐름만 관찰합니다. 5개 중 충족 항목 수로 관심/관찰/주의를 정하며, 매수·매도 추천이 아닙니다.</div></div><div class="card"><div class="section-title"><span class="num">②-3</span>가격 흐름</div>${svgChart(arr.slice(-60))}<div class="legend">최근 기록 ${arr.length}거래일 · 60개까지 표시</div></div><div class="card"><div class="section-title"><span class="num">②-4</span>자동 기록 · 같은 패턴의 실제 결과</div>${entries.length?`<div class="table-wrap"><table class="history"><thead><tr><th>판정일</th><th>당시 상태</th><th>패턴</th><th>기준가격</th><th>1일</th><th>5일</th><th>20일</th></tr></thead><tbody>${entries.map(e=>`<tr><td>${e.date}</td><td>${e.status}</td><td>${e.pattern}</td><td>${fmt(e.price)}</td><td>${pct(e.return1d)}</td><td>${pct(e.return5d)}</td><td>${pct(e.return20d)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="small">아직 자동 기록이 없습니다. GitHub Actions가 실행되면서 하루 1건씩 쌓입니다.</div>'}</div><div class="card"><div class="section-title"><span class="num">②-5</span>패턴 성과</div>${st?`<div class="stats"><div class="metric"><span>발생 횟수</span><strong>${st.count}회</strong></div><div class="metric"><span>평균 5일 수익률</span><strong>${pct(st.avg5)}</strong></div><div class="metric"><span>평균 20일 수익률</span><strong>${pct(st.avg20)}</strong></div><div class="metric"><span>5일 양수 비율</span><strong>${st.win5==null?'-':st.win5.toFixed(0)+'%'}</strong></div></div><p class="small" style="margin-top:10px">표본이 적을 때는 결과가 크게 흔들릴 수 있습니다. 우선 기록을 쌓고 이후 패턴별 성과를 비교합니다.</p>`:'<div class="small">성과를 계산할 기록이 아직 없습니다.</div>'}</div><div class="card"><div class="section-title"><span class="num">②-6</span>데이터 검증</div><div class="grid"><div class="metric"><span>수급</span><strong>${s.dataCollection?.flow?.ok?'🟢 정상':'🔴 실패'}</strong></div><div class="metric"><span>재무</span><strong>${s.dataCollection?.financial?.ok?'🟢 정상':'🔴 실패'}</strong></div><div class="metric"><span>공매도</span><strong>${s.dataCollection?.short?.ok?'🟢 정상':'🔴 실패'}</strong></div><div class="metric"><span>점수 데이터</span><strong>${s.dataCollection?.financial?.ok&&s.dataCollection?.short?.ok?'🟢 사용 가능':'🟡 검증 대기'}</strong></div></div><div class="table-wrap" style="margin-top:10px"><table class="history"><thead><tr><th>항목</th><th>실제 값</th><th>기준일/기간</th><th>출처·상태</th></tr></thead><tbody><tr><td>외국인 순매수</td><td>${s.foreignNet==null?'-':Number(s.foreignNet).toLocaleString('ko-KR')+'주'}</td><td>${s.investorTrendDate||'-'}</td><td>${s.dataCollection?.flow?.ok?'🟢 '+(s.dataCollection.flow.source||'Integration'):'🔴 수집 실패'}</td></tr><tr><td>기관 순매수</td><td>${s.instNet==null?'-':Number(s.instNet).toLocaleString('ko-KR')+'주'}</td><td>${s.investorTrendDate||'-'}</td><td>${s.dataCollection?.flow?.ok?'🟢 정상':'🔴 수집 실패'}</td></tr><tr><td>ROE</td><td>${s.roe==null?'-':Number(s.roe).toFixed(2)+'%'}</td><td>${s.financialPeriod||'-'}</td><td>${s.dataCollection?.financial?.ok?'🟢 '+(s.financialMethod||'정상'):'🔴 '+(s.dataCollection?.financial?.message||'확인 필요')}</td></tr><tr><td>부채비율</td><td>${s.debtRatio==null?'-':Number(s.debtRatio).toFixed(2)+'%'}</td><td>${s.financialPeriod||'-'}</td><td>${s.dataCollection?.financial?.ok?'🟢 정상':'🔴 확인 필요'}</td></tr><tr><td>공매도 잔고비중</td><td>${s.shortSellingRatio==null?'-':Number(s.shortSellingRatio).toFixed(2)+'%'}</td><td>${s.shortSellingDate||'-'}</td><td>${s.dataCollection?.short?.ok?'🟢 '+(s.dataCollection.short.message||'KRX'):'🔴 '+(s.dataCollection?.short?.message||'수집 실패')}</td></tr></tbody></table></div><div class="small" style="margin-top:10px">※ 이 영역은 점수와 별도로 원천 데이터 수집 성공 여부를 확인합니다. 재무·공매도가 비어 있으면 기존 버전 값을 재사용하지 않고 검증 대기로 표시합니다. 전체 35개 종목 상태는 <a href="data-validation.html" style="color:var(--text)">⑥ 데이터 검증</a>에서 확인합니다.</div></div>`}
 load().catch(e=>{console.error(e);app.innerHTML='데이터를 불러오지 못했습니다.'});
-</script></body></html>
+</script><script>
+(async function () {
+  const root = document.querySelector('[data-night-content]');
+  const labels = {sox:'반도체(SOX)',technology:'미국 기술(XLK)',financial:'금융(XLF)',energy:'에너지(XLE)',materials:'소재(XLB)',industrial:'산업재(XLI)',healthcare:'헬스케어(XLV)',discretionary:'경기소비재(XLY)',staples:'필수소비재(XLP)',utilities:'유틸리티(XLU)',nasdaq:'Nasdaq',sp500:'S&P 500'};
+  try {
+    const response = await fetch('data/sector-night.json?ts=' + Date.now(), {cache:'no-store'});
+    if (!response.ok) throw new Error('no data');
+    const data = await response.json();
+    const keys = (data.stockMap?.[new URLSearchParams(location.search).get('code')] || []).slice(0, 3);
+    root.replaceChildren();
+    const note = document.createElement('div'); note.className = 'night-note';
+    note.textContent = '최근 완료 미국 거래일 종가 기준 · 수집 ' + (data.updatedAtKST || '확인 불가') + ' KST · 점수 미반영';
+    root.append(note);
+    if (!keys.length) throw new Error('no mapping');
+    const grid = document.createElement('div'); grid.className = 'night-grid';
+    keys.forEach(key => {
+      const m = data.markets?.[key];
+      const rate = m?.ok === true && typeof m.changeRate === 'number' && Number.isFinite(m.changeRate) ? m.changeRate : null;
+      const item = document.createElement('div'); item.className = 'night-item';
+      const title = document.createElement('span'); title.textContent = labels[key] || key;
+      const value = document.createElement('strong');
+      value.className = rate === null || rate === 0 ? 'night-flat' : rate > 0 ? 'night-positive' : 'night-negative';
+      value.textContent = rate === null ? '수집 실패' : (rate > 0 ? '🟢 +' : rate < 0 ? '🔴 ' : '') + rate.toFixed(2) + '%';
+      const date = document.createElement('div'); date.className = 'night-note';
+      date.textContent = m?.sessionDate ? '미국 ' + m.sessionDate + ' 마감' : '기준일 없음';
+      item.append(title, value, date); grid.append(item);
+    });
+    root.append(grid);
+    const age = Date.now() - Date.parse(data.updatedAt || '');
+    if (!Number.isFinite(age) || age > 36 * 3600 * 1000) {
+      const stale = document.createElement('div'); stale.className = 'night-note'; stale.textContent = '최근 수집 여부를 확인하세요. 휴장일에는 마지막 거래일을 표시합니다.'; root.append(stale);
+    }
+  } catch (_) { root.textContent = '야간 시장 자료가 없습니다. 07:30 업데이트 후 표시됩니다. · 점수 미반영'; }
+})();
+</script>
+</body></html>
