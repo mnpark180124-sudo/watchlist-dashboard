@@ -770,11 +770,71 @@ def estimate_next_earnings() -> str:
     return upcoming.isoformat()
 
 
+def _to_float(v):
+    if v is None:
+        return None
+    try:
+        return float(str(v).replace(",", "").replace("%", "").strip())
+    except (TypeError, ValueError):
+        return None
+
+
 def fetch_naver_index(code: str, label: str) -> dict:
-    """네이버 지수 일별시세 표에서 최근 2개 거래일의 가격을 가져와 직접 등락을 계산한다.
-    (표 형식: 날짜/체결가/전일비/등락률/거래량/거래대금, 6칸짜리 행만 데이터로 인정)
-    전일비/등락률 컬럼은 상승·하락 아이콘으로 부호를 표시해서 텍스트 파싱이 불안정하기 때문에,
-    가격 두 값의 차이로 직접 계산해 부호 불일치를 원천적으로 막는다."""
+    """KOSPI/KOSDAQ 지수를 네이버 모바일 JSON에서 수집한다.
+
+    1차: /api/index/{code}/basic (현재 지수 + 등락률)
+    2차: /api/index/{code}/price?pageSize=2&page=1 (최근 2거래일 종가로 직접 계산)
+    3차: 기존 PC 일별시세 HTML (최후 fallback)
+
+    PC HTML 구조 변경 때문에 지수가 '-'로 남는 문제를 피하기 위해 JSON API를 우선한다.
+    """
+    headers = {
+        "User-Agent": "Mozilla/5.0",
+        "Referer": "https://m.stock.naver.com/",
+        "Accept": "application/json,text/plain,*/*",
+    }
+
+    # 1) 모바일 basic JSON
+    try:
+        url = f"https://m.stock.naver.com/api/index/{code}/basic"
+        res = SESSION.get(url, headers=headers, timeout=10)
+        res.raise_for_status()
+        data = res.json()
+        price = _to_float(data.get("closePrice") or data.get("nowVal") or data.get("price"))
+        rate = _to_float(data.get("fluctuationsRatio") or data.get("changeRate"))
+        change = _to_float(data.get("compareToPreviousClosePrice") or data.get("change"))
+        if price is not None:
+            return {"price": price, "change": change, "changeRate": rate}
+    except Exception as e:
+        print(f"[지수 JSON basic 실패] {label}({code}): {e}")
+
+    # 2) 모바일 일별 가격 JSON — 필드명이 바뀌어도 closePrice/localTradedAt 중심으로 처리
+    try:
+        url = f"https://m.stock.naver.com/api/index/{code}/price?pageSize=2&page=1"
+        res = SESSION.get(url, headers=headers, timeout=10)
+        res.raise_for_status()
+        data = res.json()
+        rows = data if isinstance(data, list) else (
+            data.get("priceInfos") or data.get("prices") or data.get("datas") or data.get("result") or []
+        )
+        prices = []
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            price = _to_float(row.get("closePrice") or row.get("close") or row.get("nowVal"))
+            if price is not None:
+                prices.append(price)
+            if len(prices) >= 2:
+                break
+        if len(prices) >= 2:
+            latest, prev = prices[0], prices[1]
+            diff = latest - prev
+            rate = round(diff / prev * 100, 2) if prev else None
+            return {"price": latest, "change": round(diff, 2), "changeRate": rate}
+    except Exception as e:
+        print(f"[지수 JSON price 실패] {label}({code}): {e}")
+
+    # 3) 기존 PC HTML fallback
     url = f"https://finance.naver.com/sise/sise_index_day.naver?code={code}&page=1"
     try:
         res = SESSION.get(url, timeout=10)
@@ -783,30 +843,22 @@ def fetch_naver_index(code: str, label: str) -> dict:
         table = soup.find("table", class_="type_1")
         if table is None:
             raise ValueError("표를 못 찾음")
-
-        def clean(v):
-            v = v.replace(",", "").replace("%", "").strip()
-            return float(v) if v else None
-
         prices = []
         for row in table.find_all("tr"):
             cols = row.find_all("td")
-            if len(cols) != 6:
-                continue  # 헤더/빈 행 건너뜀
-            price = clean(cols[1].get_text())
+            if len(cols) < 2:
+                continue
+            price = _to_float(cols[1].get_text())
             if price is not None:
                 prices.append(price)
             if len(prices) >= 2:
                 break
-
         if len(prices) < 2:
             raise ValueError("최근 2개 거래일 데이터를 못 모음")
-
-        today, prev = prices[0], prices[1]
-        diff = today - prev
+        latest, prev = prices[0], prices[1]
+        diff = latest - prev
         rate = round(diff / prev * 100, 2) if prev else None
-
-        return {"price": today, "change": round(diff, 2), "changeRate": rate}
+        return {"price": latest, "change": round(diff, 2), "changeRate": rate}
     except Exception as e:
         print(f"[지수 실패] {label}({code}): {e}")
         return {"price": None, "change": None, "changeRate": None}
