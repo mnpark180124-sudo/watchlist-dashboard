@@ -363,9 +363,7 @@
       <div class="guide-item"><b>⑥ 뉴스·공시</b>판정에 영향을 줄 수 있는 최근 이슈 확인</div>
     </div>
   </div>
-  <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(15%)·뉴스/공시 영향(15%)·재무제표(10%)·공매도 비중(10%)의
-  가중합에, 환율(±5)·미증시(±5)·지정학적 리스크(±4)·VIX(±3)·미국10년물(±2)을 중요도에 따라 차등 반영해 조정한
-  참고용 지표입니다(매크로 조정 최대 ±19점). 매수/매도 추천이 아닙니다.</p>
+  <p id="disclaimer">평가점수 = 목표주가 상승여력(30%)·투자의견(20%)·52주 위치(15%)·뉴스/공시 영향(15%)·재무제표(10%)·공매도 비중(10%)을 세분화해 반영하고, 시장환경은 최대 ±10점만 조정합니다. 금융주는 일반기업 부채비율 감점을 제외하며, 결측 항목은 중립 50점으로 처리합니다. 야간 미국 섹터 동향은 점수에 반영하지 않습니다. 매수/매도 추천이 아닙니다.</p>
   <div id="v41-summary" class="v41-summary" style="margin-bottom:18px; display:none;"></div>
   <div id="v42-summary" class="v42-summary" style="display:none;"></div>
 
@@ -376,102 +374,33 @@
 <script>
   const HEAT_CAP = 10; // 등락률 이 값(%) 이상이면 히트바가 꽉 참
 
-  // 기본 점수 가중치 (종목 자체 지표, 합계 100)
-  const SCORE_WEIGHTS = { target: 0.30, opinion: 0.20, week52: 0.15, news: 0.15, financial: 0.10, shortSelling: 0.10 };
-  const OPINION_SCORE = { "강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0 };
-  // 매크로 조정치 (시장 전체 공통, 각각 최대 ±20점씩 가감 후 합산)
-  // 매크로 조정치는 MACRO_WEIGHTS(요소별 차등 가중치)로 계산됨
-
-  function computeBaseScore(s, newsInfo) {
-    const parts = [];
-
-    if (s.targetPrice) {
-      const upsidePct = (s.targetPrice / s.price - 1) * 100;
-      const sc = Math.max(0, Math.min(100, (upsidePct / 50) * 100));
-      parts.push([sc, SCORE_WEIGHTS.target]);
-    }
-    if (s.opinion && OPINION_SCORE[s.opinion] !== undefined) {
-      parts.push([OPINION_SCORE[s.opinion], SCORE_WEIGHTS.opinion]);
-    }
-    if (s.week52High && s.week52Low && s.week52High > s.week52Low) {
-      const pos = (s.price - s.week52Low) / (s.week52High - s.week52Low) * 100;
-      // 52주 저점에 가까울수록 높은 점수(저평가 관점)
-      parts.push([Math.max(0, Math.min(100, 100 - pos)), SCORE_WEIGHTS.week52]);
-    }
-
-    // 뉴스는 실질적 기업 이벤트(materialImpact=true)만 점수에 반영
-    let newsScore = 50;
-    if (newsInfo && newsInfo.hasImportantNews && newsInfo.materialImpact) {
-      const impact = Math.max(0, Math.min(30, Number(newsInfo.impactPct) || 0));
-      newsScore = newsInfo.direction === 'down'
-        ? 50 - impact / 2
-        : newsInfo.direction === 'up'
-          ? 50 + impact / 2
-          : 50;
-    }
-    parts.push([newsScore, SCORE_WEIGHTS.news]);
-
-    // 재무제표: 부채비율은 낮을수록, ROE는 높을수록 좋게 평가 (둘 다 있으면 평균)
-    const finParts = [];
-    if (s.debtRatio != null) finParts.push(Math.max(0, Math.min(100, 100 - s.debtRatio / 2)));
-    if (s.roe != null) finParts.push(Math.max(0, Math.min(100, s.roe * 5)));
-    if (finParts.length > 0) {
-      const finScore = finParts.reduce((a, b) => a + b, 0) / finParts.length;
-      parts.push([finScore, SCORE_WEIGHTS.financial]);
-    }
-
-    // 공매도 비중: 높을수록 하락 베팅이 많다는 뜻이라 감점 (비중 10%면 0점에 수렴)
-    if (s.shortSellingRatio != null) {
-      const shortScore = Math.max(0, Math.min(100, 100 - s.shortSellingRatio * 10));
-      parts.push([shortScore, SCORE_WEIGHTS.shortSelling]);
-    }
-
-    const totalWeight = parts.reduce((sum, [, w]) => sum + w, 0);
-    const weighted = parts.reduce((sum, [sc, w]) => sum + sc * w, 0);
-    return totalWeight > 0 ? weighted / totalWeight : null;
+  // 평가점수 A안 개선형: 포화 완화 + 금융주/결측 보정 + 매크로 최대 ±10
+  const SCORE_WEIGHTS={target:0.30,opinion:0.20,week52:0.15,news:0.15,financial:0.10,shortSelling:0.10};
+  const OPINION_SCORE={"강력매수":95,"매수":80,"비중확대":70,"중립":55,"보유":55,"비중축소":35,"매도":20,"강력매도":10};
+  const MACRO_WEIGHTS={usdkrw:2,nasdaq:3,geo:2,vix:2,us10y:1};
+  function piecewise(v,bands,def=50){if(v==null||!Number.isFinite(Number(v)))return def;v=Number(v);for(const [l,s] of bands)if(v<=l)return s;return bands.at(-1)[1];}
+  function targetScore(u){if(u==null)return 50;if(u<=0)return 20;return piecewise(u,[[10,30],[20,45],[30,58],[40,68],[50,76],[60,82],[70,87],[85,92],[100,96],[Infinity,100]]);}
+  function week52Score(dd){if(dd==null)return 50;const d=Math.abs(Math.min(0,dd));return piecewise(d,[[10,45],[20,55],[30,70],[40,82],[50,90],[60,85],[70,75],[Infinity,60]]);}
+  function roeScore(v){return piecewise(v,[[0,20],[5,35],[10,50],[15,62],[20,72],[25,80],[30,85],[40,92],[Infinity,100]]);}
+  function debtScore(v){return piecewise(v,[[50,95],[80,90],[100,82],[150,70],[200,55],[300,40],[Infinity,25]]);}
+  function shortScore(v){return piecewise(v,[[0.1,90],[0.3,85],[0.5,80],[0.8,75],[1.0,70],[1.5,60],[2.0,50],[3.0,40],[Infinity,30]]);}
+  function computeBaseScore(s,newsInfo){
+    const p=Number(s.price),t=Number(s.targetPrice),u=(s.targetPrice&&p>0)?(t/p-1)*100:null,h=Number(s.week52High),dd=(s.week52High&&p>0)?(p/h-1)*100:null;
+    let ns=50;if(newsInfo&&newsInfo.hasImportantNews&&newsInfo.materialImpact){const i=Math.max(0,Math.min(30,Number(newsInfo.impactPct)||0));if(newsInfo.direction==='down')ns=50-i/2;else if(newsInfo.direction==='up')ns=50+i/2;}
+    const rs=roeScore(s.roe);let fs=s.sector==='금융'?rs:(s.roe==null&&s.debtRatio==null?50:rs*.60+debtScore(s.debtRatio)*.40);
+    const sc={target:targetScore(u),opinion:OPINION_SCORE[s.opinion]??50,week52:week52Score(dd),news:ns,financial:fs,shortSelling:shortScore(s.shortSellingRatio)};
+    return Object.entries(SCORE_WEIGHTS).reduce((sum,[k,w])=>sum+sc[k]*w,0);
   }
-
-  // 매크로 요소별 최대 조정폭 (중요도 차등, 합계 ±19점)
-  const MACRO_WEIGHTS = { usdkrw: 5, nasdaq: 5, geo: 4, vix: 3, us10y: 2 };
-
-  function computeMacroAdjustment(macro, geo) {
-    let adj = 0;
-
-    // 환율: 원화 강세(환율 하락) → +5, 원화 약세(환율 상승) → -5
-    if (macro && macro.usdkrw && macro.usdkrw.changeRate != null) {
-      const w = MACRO_WEIGHTS.usdkrw;
-      adj += macro.usdkrw.changeRate < 0 ? w : macro.usdkrw.changeRate > 0 ? -w : 0;
-    }
-    // 미국 증시(나스닥): 상승 → +5, 하락 → -5
-    if (macro && macro.nasdaq && macro.nasdaq.changeRate != null) {
-      const w = MACRO_WEIGHTS.nasdaq;
-      adj += macro.nasdaq.changeRate > 0 ? w : macro.nasdaq.changeRate < 0 ? -w : 0;
-    }
-    // 미국-이란 전쟁 리스크: 악재(확전) → -4, 호재(완화) → +4
-    if (geo && geo.hasRisk) {
-      const w = MACRO_WEIGHTS.geo;
-      adj += geo.direction === 'down' ? -w : geo.direction === 'up' ? w : 0;
-    }
-    // VIX(미국 변동성지수): 상승(불안 심화) → -3, 하락(안정) → +3
-    if (macro && macro.vix && macro.vix.changeRate != null) {
-      const w = MACRO_WEIGHTS.vix;
-      adj += macro.vix.changeRate > 0 ? -w : macro.vix.changeRate < 0 ? w : 0;
-    }
-    // 미국 10년물 국채금리: 상승(할인율 부담) → -2, 하락(부담 완화) → +2
-    if (macro && macro.us10y && macro.us10y.changeRate != null) {
-      const w = MACRO_WEIGHTS.us10y;
-      adj += macro.us10y.changeRate > 0 ? -w : macro.us10y.changeRate < 0 ? w : 0;
-    }
-
-    return adj;
+  function computeMacroAdjustment(macro,geo){
+    let a=0;
+    if(macro?.usdkrw?.changeRate!=null){const r=macro.usdkrw.changeRate,w=MACRO_WEIGHTS.usdkrw;a+=r<0?w:r>0?-w:0;}
+    if(macro?.nasdaq?.changeRate!=null){const r=macro.nasdaq.changeRate,w=MACRO_WEIGHTS.nasdaq;a+=r>0?w:r<0?-w:0;}
+    if(geo?.hasRisk){const w=MACRO_WEIGHTS.geo;a+=geo.direction==='down'?-w:geo.direction==='up'?w:0;}
+    if(macro?.vix?.changeRate!=null){const r=macro.vix.changeRate,w=MACRO_WEIGHTS.vix;a+=r>0?-w:r<0?w:0;}
+    if(macro?.us10y?.changeRate!=null){const r=macro.us10y.changeRate,w=MACRO_WEIGHTS.us10y;a+=r>0?-w:r<0?w:0;}
+    return Math.max(-10,Math.min(10,a));
   }
-
-  function computeScore(s, newsInfo, macro, geo) {
-    const base = computeBaseScore(s, newsInfo);
-    if (base === null) return null;
-    const adj = computeMacroAdjustment(macro, geo);
-    return Math.max(0, Math.min(100, base + adj));
-  }
+  function computeScore(s,newsInfo,macro,geo){const b=computeBaseScore(s,newsInfo);return b==null?null:Math.max(0,Math.min(100,b+computeMacroAdjustment(macro,geo)));}
 
   function scoreClass(score) {
     if (score >= 60) return 's-pos';

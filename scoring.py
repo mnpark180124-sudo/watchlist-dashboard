@@ -1,104 +1,58 @@
+"""평가점수 A안 개선형.
+index.html의 JS 계산식과 동일하게 유지한다.
+- 포화 완화(piecewise)
+- 금융주: 일반기업 부채비율 감점 제외, ROE 중심
+- ETF/결측: 누락 항목 재정규화 대신 중립 50점
+- 뉴스: materialImpact=true 실질 이벤트만 반영
+- 매크로: 최대 ±10점, 야간 미국 섹터는 점수 미반영
 """
-평가점수 계산 로직 (index.html의 JS 계산식을 파이썬으로 그대로 복제)
-
-주의: index.html의 computeBaseScore / computeMacroAdjustment / SCORE_WEIGHTS / MACRO_WEIGHTS를
-바꾸면 이 파일도 반드시 같이 고쳐야 한다. 안 그러면 화면에 보이는 점수랑 기록(backtest)용
-점수가 서로 달라진다.
-"""
-
-SCORE_WEIGHTS = {"target": 0.30, "opinion": 0.20, "week52": 0.15, "news": 0.15, "financial": 0.10, "shortSelling": 0.10}
-OPINION_SCORE = {"강력매수": 100, "매수": 80, "중립": 50, "매도": 20, "강력매도": 0}
-MACRO_WEIGHTS = {"usdkrw": 5, "nasdaq": 5, "geo": 4, "vix": 3, "us10y": 2}
-
-
-def compute_base_score(stock: dict, news_info: dict | None) -> float | None:
-    parts = []  # (score, weight)
-
-    target_price = stock.get("targetPrice")
-    price = stock.get("price")
-    if target_price and price:
-        upside_pct = (target_price / price - 1) * 100
-        sc = max(0, min(100, (upside_pct / 50) * 100))
-        parts.append((sc, SCORE_WEIGHTS["target"]))
-
-    opinion = stock.get("opinion")
-    if opinion in OPINION_SCORE:
-        parts.append((OPINION_SCORE[opinion], SCORE_WEIGHTS["opinion"]))
-
-    week52_high = stock.get("week52High")
-    week52_low = stock.get("week52Low")
-    if week52_high and week52_low and week52_high > week52_low and price is not None:
-        pos = (price - week52_low) / (week52_high - week52_low) * 100
-        parts.append((max(0, min(100, 100 - pos)), SCORE_WEIGHTS["week52"]))
-
-    # 뉴스는 "관련 뉴스가 있음"만으로 점수를 움직이지 않는다.
-    # materialImpact=true인 실질적 기업 이벤트만 반영하며 영향도는 최대 30%로 제한한다.
-    news_score = 50.0
+SCORE_WEIGHTS={"target":0.30,"opinion":0.20,"week52":0.15,"news":0.15,"financial":0.10,"shortSelling":0.10}
+OPINION_SCORE={"강력매수":95,"매수":80,"비중확대":70,"중립":55,"보유":55,"비중축소":35,"매도":20,"강력매도":10}
+MACRO_WEIGHTS={"usdkrw":2,"nasdaq":3,"geo":2,"vix":2,"us10y":1}
+def _piecewise(v,bands,default=50):
+    if v is None:return default
+    for limit,score in bands:
+        if v<=limit:return score
+    return bands[-1][1]
+def _target_score(u):
+    if u is None:return 50
+    if u<=0:return 20
+    return _piecewise(u,[(10,30),(20,45),(30,58),(40,68),(50,76),(60,82),(70,87),(85,92),(100,96),(float("inf"),100)])
+def _week52_score(dd):
+    if dd is None:return 50
+    d=abs(min(0.0,dd))
+    return _piecewise(d,[(10,45),(20,55),(30,70),(40,82),(50,90),(60,85),(70,75),(float("inf"),60)])
+def _roe_score(v):return _piecewise(v,[(0,20),(5,35),(10,50),(15,62),(20,72),(25,80),(30,85),(40,92),(float("inf"),100)])
+def _debt_score(v):return _piecewise(v,[(50,95),(80,90),(100,82),(150,70),(200,55),(300,40),(float("inf"),25)])
+def _short_score(v):return _piecewise(v,[(0.1,90),(0.3,85),(0.5,80),(0.8,75),(1.0,70),(1.5,60),(2.0,50),(3.0,40),(float("inf"),30)])
+def compute_base_score(stock:dict,news_info:dict|None)->float|None:
+    price=stock.get("price"); target=stock.get("targetPrice")
+    upside=((target/price-1)*100) if target and price else None
+    high=stock.get("week52High"); dd=((price/high-1)*100) if high and price else None
+    news=50.0
     if news_info and news_info.get("hasImportantNews") and news_info.get("materialImpact"):
-        impact = max(0.0, min(30.0, float(news_info.get("impactPct") or 0)))
-        direction = news_info.get("direction")
-        if direction == "down":
-            news_score = 50 - impact / 2
-        elif direction == "up":
-            news_score = 50 + impact / 2
-    parts.append((news_score, SCORE_WEIGHTS["news"]))
-
-    fin_parts = []
-    debt_ratio = stock.get("debtRatio")
-    roe = stock.get("roe")
-    if debt_ratio is not None:
-        fin_parts.append(max(0, min(100, 100 - debt_ratio / 2)))
-    if roe is not None:
-        fin_parts.append(max(0, min(100, roe * 5)))
-    if fin_parts:
-        parts.append((sum(fin_parts) / len(fin_parts), SCORE_WEIGHTS["financial"]))
-
-    short_ratio = stock.get("shortSellingRatio")
-    if short_ratio is not None:
-        short_score = max(0, min(100, 100 - short_ratio * 10))
-        parts.append((short_score, SCORE_WEIGHTS["shortSelling"]))
-
-    total_weight = sum(w for _, w in parts)
-    if total_weight <= 0:
-        return None
-    weighted = sum(sc * w for sc, w in parts)
-    return weighted / total_weight
-
-
-def compute_macro_adjustment(macro: dict | None, geo: dict | None) -> float:
-    adj = 0.0
-
+        impact=max(0.0,min(30.0,float(news_info.get("impactPct") or 0)))
+        if news_info.get("direction")=="down":news=50-impact/2
+        elif news_info.get("direction")=="up":news=50+impact/2
+    roe=_roe_score(stock.get("roe"))
+    if stock.get("sector")=="금융":fin=roe
+    elif stock.get("roe") is None and stock.get("debtRatio") is None:fin=50
+    else:fin=roe*0.60+_debt_score(stock.get("debtRatio"))*0.40
+    scores={"target":_target_score(upside),"opinion":OPINION_SCORE.get(stock.get("opinion"),50),"week52":_week52_score(dd),"news":news,"financial":fin,"shortSelling":_short_score(stock.get("shortSellingRatio"))}
+    return sum(scores[k]*SCORE_WEIGHTS[k] for k in SCORE_WEIGHTS)
+def compute_macro_adjustment(macro:dict|None,geo:dict|None)->float:
+    adj=0.0
     if macro and macro.get("usdkrw") and macro["usdkrw"].get("changeRate") is not None:
-        rate = macro["usdkrw"]["changeRate"]
-        w = MACRO_WEIGHTS["usdkrw"]
-        adj += w if rate < 0 else (-w if rate > 0 else 0)
-
+        r=macro["usdkrw"]["changeRate"];w=MACRO_WEIGHTS["usdkrw"];adj+=w if r<0 else (-w if r>0 else 0)
     if macro and macro.get("nasdaq") and macro["nasdaq"].get("changeRate") is not None:
-        rate = macro["nasdaq"]["changeRate"]
-        w = MACRO_WEIGHTS["nasdaq"]
-        adj += w if rate > 0 else (-w if rate < 0 else 0)
-
+        r=macro["nasdaq"]["changeRate"];w=MACRO_WEIGHTS["nasdaq"];adj+=w if r>0 else (-w if r<0 else 0)
     if geo and geo.get("hasRisk"):
-        w = MACRO_WEIGHTS["geo"]
-        direction = geo.get("direction")
-        adj += -w if direction == "down" else (w if direction == "up" else 0)
-
+        w=MACRO_WEIGHTS["geo"];d=geo.get("direction");adj+=-w if d=="down" else (w if d=="up" else 0)
     if macro and macro.get("vix") and macro["vix"].get("changeRate") is not None:
-        rate = macro["vix"]["changeRate"]
-        w = MACRO_WEIGHTS["vix"]
-        adj += -w if rate > 0 else (w if rate < 0 else 0)
-
+        r=macro["vix"]["changeRate"];w=MACRO_WEIGHTS["vix"];adj+=-w if r>0 else (w if r<0 else 0)
     if macro and macro.get("us10y") and macro["us10y"].get("changeRate") is not None:
-        rate = macro["us10y"]["changeRate"]
-        w = MACRO_WEIGHTS["us10y"]
-        adj += -w if rate > 0 else (w if rate < 0 else 0)
-
-    return adj
-
-
-def compute_score(stock: dict, news_info: dict | None, macro: dict | None, geo: dict | None) -> float | None:
-    base = compute_base_score(stock, news_info)
-    if base is None:
-        return None
-    adj = compute_macro_adjustment(macro, geo)
-    return max(0, min(100, base + adj))
+        r=macro["us10y"]["changeRate"];w=MACRO_WEIGHTS["us10y"];adj+=-w if r>0 else (w if r<0 else 0)
+    return max(-10.0,min(10.0,adj))
+def compute_score(stock:dict,news_info:dict|None,macro:dict|None,geo:dict|None)->float|None:
+    base=compute_base_score(stock,news_info)
+    return None if base is None else max(0,min(100,base+compute_macro_adjustment(macro,geo)))
