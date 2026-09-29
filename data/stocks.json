@@ -1,26 +1,26 @@
 {
-  "updatedAt": "2026-09-28T19:39:38.238141+09:00",
+  "updatedAt": "2026-09-29T10:57:32.389564+09:00",
   "stocks": [
     {
       "name": "삼성전자",
       "code": "005930",
       "sector": "반도체/전자",
-      "price": 269000.0,
-      "change": -16500.0,
-      "changeRate": "-5.78",
-      "riseFall": "하락",
+      "price": 274750.0,
+      "change": 4750.0,
+      "changeRate": "1.76",
+      "riseFall": "상승",
       "week52High": 380000,
-      "week52Low": 82500,
+      "week52Low": 83400,
       "targetPrice": 493864,
       "opinion": "매수",
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 4513767,
-      "instNet": 1346883,
-      "indivNet": -7630126,
-      "investorTrendDate": "20260923",
+      "foreignNet": -4999903,
+      "instNet": -2410724,
+      "indivNet": 5330121,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 29.94,
@@ -31,7 +31,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.0999755859375,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -42,7 +42,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -55,7 +55,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -64,22 +64,22 @@
       "name": "삼성전자우",
       "code": "005935",
       "sector": "반도체/전자",
-      "price": 205000.0,
-      "change": -15000.0,
-      "changeRate": "-6.82",
+      "price": 205500.0,
+      "change": -1500.0,
+      "changeRate": "-0.72",
       "riseFall": "하락",
       "week52High": 243500,
-      "week52Low": 65100,
+      "week52Low": 66100,
       "targetPrice": 493864,
       "opinion": "매수",
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 637584,
-      "instNet": -161838,
-      "indivNet": -453906,
-      "investorTrendDate": "20260923",
+      "foreignNet": -2049537,
+      "instNet": -103970,
+      "indivNet": 2089696,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 29.94,
@@ -89,8 +89,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.199951171875,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.2099609375,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -101,7 +101,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -114,7 +114,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -123,22 +123,22 @@
       "name": "SK하이닉스",
       "code": "000660",
       "sector": "반도체/전자",
-      "price": 1757000.0,
-      "change": -105000.0,
-      "changeRate": "-5.64",
-      "riseFall": "하락",
+      "price": 1775000.0,
+      "change": 7000.0,
+      "changeRate": "0.40",
+      "riseFall": "상승",
       "week52High": 3002000,
-      "week52Low": 335500,
+      "week52Low": 347500,
       "targetPrice": 3296818,
       "opinion": "매수",
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -636435,
-      "instNet": 122948,
-      "indivNet": -101336,
-      "investorTrendDate": "20260923",
+      "foreignNet": -988534,
+      "instNet": -274871,
+      "indivNet": 676119,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 45.95,
@@ -149,7 +149,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.0200042724609375,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -160,7 +160,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -173,7 +173,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -182,10 +182,10 @@
       "name": "삼성SDI",
       "code": "006400",
       "sector": "2차전지",
-      "price": 528000.0,
-      "change": 7000.0,
-      "changeRate": "1.34",
-      "riseFall": "상승",
+      "price": 515000.0,
+      "change": -18000.0,
+      "changeRate": "-3.38",
+      "riseFall": "하락",
       "week52High": 820000,
       "week52Low": 200500,
       "targetPrice": 720632,
@@ -194,10 +194,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 23272,
-      "instNet": -86459,
-      "indivNet": 67633,
-      "investorTrendDate": "20260923",
+      "foreignNet": 79555,
+      "instNet": 10365,
+      "indivNet": -89495,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 79.27,
@@ -208,7 +208,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.25,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -219,7 +219,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -232,7 +232,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -241,9 +241,9 @@
       "name": "TIGER 코리아AI전기전자",
       "code": "0117V0",
       "sector": "반도체/전자",
-      "price": 18985.0,
-      "change": -465.0,
-      "changeRate": "-2.39",
+      "price": 18975.0,
+      "change": -10.0,
+      "changeRate": "-0.05",
       "riseFall": "하락",
       "week52High": 32990,
       "week52Low": 10175,
@@ -253,10 +253,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -18180,
-      "instNet": 108538,
-      "indivNet": -46218,
-      "investorTrendDate": "20260923",
+      "foreignNet": -48424,
+      "instNet": -21437,
+      "indivNet": 79393,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": null,
@@ -278,7 +278,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -300,22 +300,22 @@
       "name": "KODEX AI반도체",
       "code": "395160",
       "sector": "반도체/전자",
-      "price": 41200.0,
-      "change": -1835.0,
-      "changeRate": "-4.26",
-      "riseFall": "하락",
+      "price": 41820.0,
+      "change": 620.0,
+      "changeRate": "1.50",
+      "riseFall": "상승",
       "week52High": 64125,
-      "week52Low": 12685,
+      "week52Low": 12900,
       "targetPrice": null,
       "opinion": null,
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -26736,
-      "instNet": 219382,
-      "indivNet": -184361,
-      "investorTrendDate": "20260923",
+      "foreignNet": -157649,
+      "instNet": -18737,
+      "indivNet": 153794,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": null,
@@ -337,7 +337,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -359,9 +359,9 @@
       "name": "LIG디펜스앤에어로스페이스",
       "code": "079550",
       "sector": "방산/조선/기계",
-      "price": 689000.0,
-      "change": -3000.0,
-      "changeRate": "-0.43",
+      "price": 681000.0,
+      "change": -12000.0,
+      "changeRate": "-1.73",
       "riseFall": "하락",
       "week52High": 1118000,
       "week52Low": 360000,
@@ -371,10 +371,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 4102,
-      "instNet": -15211,
-      "indivNet": 11058,
-      "investorTrendDate": "20260923",
+      "foreignNet": 8939,
+      "instNet": -81,
+      "indivNet": -9063,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 446.35,
@@ -384,8 +384,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.3798828125,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.3701171875,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -396,7 +396,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -409,7 +409,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -418,9 +418,9 @@
       "name": "HD건설기계",
       "code": "267270",
       "sector": "방산/조선/기계",
-      "price": 128300.0,
-      "change": -1400.0,
-      "changeRate": "-1.08",
+      "price": 123200.0,
+      "change": -5800.0,
+      "changeRate": "-4.50",
       "riseFall": "하락",
       "week52High": 227000,
       "week52Low": 85800,
@@ -430,10 +430,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -168653,
-      "instNet": -64829,
-      "indivNet": 225954,
-      "investorTrendDate": "20260923",
+      "foreignNet": 23817,
+      "instNet": -43466,
+      "indivNet": 19605,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 86.64,
@@ -444,7 +444,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.0,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -455,7 +455,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -468,7 +468,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -477,10 +477,10 @@
       "name": "HD현대마린솔루션",
       "code": "443060",
       "sector": "방산/조선/기계",
-      "price": 242500.0,
-      "change": 3500.0,
-      "changeRate": "1.46",
-      "riseFall": "상승",
+      "price": 233000.0,
+      "change": -12500.0,
+      "changeRate": "-5.09",
+      "riseFall": "하락",
       "week52High": 290500,
       "week52Low": 158000,
       "targetPrice": 328667,
@@ -489,10 +489,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 8347,
-      "instNet": -5198,
-      "indivNet": -2554,
-      "investorTrendDate": "20260923",
+      "foreignNet": 7978,
+      "instNet": -429,
+      "indivNet": -7029,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 54.27,
@@ -502,8 +502,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.35009765625,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.3701171875,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -514,7 +514,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -527,7 +527,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -536,10 +536,10 @@
       "name": "OCI홀딩스",
       "code": "010060",
       "sector": "태양광/화학",
-      "price": 230000.0,
-      "change": 24000.0,
-      "changeRate": "11.65",
-      "riseFall": "상승",
+      "price": 213000.0,
+      "change": -15500.0,
+      "changeRate": "-6.78",
+      "riseFall": "하락",
       "week52High": 414000,
       "week52Low": 82100,
       "targetPrice": 430000,
@@ -548,10 +548,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -16499,
-      "instNet": 52797,
-      "indivNet": -36260,
-      "investorTrendDate": "20260923",
+      "foreignNet": 65428,
+      "instNet": 19145,
+      "indivNet": -87590,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 66.35,
@@ -561,8 +561,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.490234375,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 1.2900390625,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -573,7 +573,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -586,7 +586,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -595,10 +595,10 @@
       "name": "OCI",
       "code": "456040",
       "sector": "태양광/화학",
-      "price": 79600.0,
-      "change": 2700.0,
-      "changeRate": "3.51",
-      "riseFall": "상승",
+      "price": 76500.0,
+      "change": -3200.0,
+      "changeRate": "-4.02",
+      "riseFall": "하락",
       "week52High": 164600,
       "week52Low": 53100,
       "targetPrice": 149333,
@@ -607,10 +607,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 6381,
-      "instNet": 8280,
-      "indivNet": -14734,
-      "investorTrendDate": "20260923",
+      "foreignNet": 6591,
+      "instNet": -847,
+      "indivNet": -5360,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 95.38,
@@ -620,8 +620,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.27001953125,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.280029296875,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -632,7 +632,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -645,7 +645,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -654,22 +654,22 @@
       "name": "효성티앤씨",
       "code": "298020",
       "sector": "태양광/화학",
-      "price": 309000.0,
-      "change": -2500.0,
-      "changeRate": "-0.80",
+      "price": 290500.0,
+      "change": -24000.0,
+      "changeRate": "-7.63",
       "riseFall": "하락",
       "week52High": 557000,
       "week52Low": 199000,
-      "targetPrice": 530000,
+      "targetPrice": 526667,
       "opinion": "매수",
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 1670,
-      "instNet": -1575,
-      "indivNet": -75,
-      "investorTrendDate": "20260923",
+      "foreignNet": 2395,
+      "instNet": -742,
+      "indivNet": -1658,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 193.27,
@@ -679,8 +679,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.22998046875,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.280029296875,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -691,7 +691,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -704,7 +704,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -713,22 +713,22 @@
       "name": "LS",
       "code": "006260",
       "sector": "전력/인프라",
-      "price": 312000.0,
-      "change": -9500.0,
-      "changeRate": "-2.95",
-      "riseFall": "하락",
+      "price": 317000.0,
+      "change": 4000.0,
+      "changeRate": "1.28",
+      "riseFall": "상승",
       "week52High": 604000,
-      "week52Low": 161200,
+      "week52Low": 161300,
       "targetPrice": 556000,
       "opinion": "매수",
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -6950,
-      "instNet": 4217,
-      "indivNet": 2164,
-      "investorTrendDate": "20260923",
+      "foreignNet": 15074,
+      "instNet": 7448,
+      "indivNet": -22726,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 225.47,
@@ -739,7 +739,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.01000213623046875,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -750,7 +750,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -763,7 +763,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -772,10 +772,10 @@
       "name": "삼성E&A",
       "code": "028050",
       "sector": "전력/인프라",
-      "price": 49750.0,
-      "change": 400.0,
-      "changeRate": "0.81",
-      "riseFall": "상승",
+      "price": 47950.0,
+      "change": -2050.0,
+      "changeRate": "-4.10",
+      "riseFall": "하락",
       "week52High": 67300,
       "week52Low": 23150,
       "targetPrice": 68909,
@@ -784,10 +784,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -577513,
-      "instNet": 90840,
-      "indivNet": 498061,
-      "investorTrendDate": "20260923",
+      "foreignNet": 65593,
+      "instNet": 100524,
+      "indivNet": -161298,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 125.8,
@@ -798,7 +798,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.199951171875,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -809,7 +809,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -822,7 +822,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -831,9 +831,9 @@
       "name": "에이피알",
       "code": "278470",
       "sector": "바이오/뷰티",
-      "price": 366500.0,
-      "change": -2000.0,
-      "changeRate": "-0.54",
+      "price": 361500.0,
+      "change": -7000.0,
+      "changeRate": "-1.90",
       "riseFall": "하락",
       "week52High": 475000,
       "week52Low": 204000,
@@ -843,10 +843,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 18534,
-      "instNet": 13870,
-      "indivNet": -29866,
-      "investorTrendDate": "20260923",
+      "foreignNet": -12365,
+      "instNet": 13442,
+      "indivNet": -1808,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 73.11,
@@ -856,8 +856,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 2.060546875,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 2.009765625,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -868,7 +868,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -881,7 +881,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -890,9 +890,9 @@
       "name": "한국콜마",
       "code": "161890",
       "sector": "바이오/뷰티",
-      "price": 148000.0,
-      "change": 1000.0,
-      "changeRate": "0.68",
+      "price": 148900.0,
+      "change": 500.0,
+      "changeRate": "0.34",
       "riseFall": "상승",
       "week52High": 171500,
       "week52Low": 55200,
@@ -902,10 +902,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 72309,
-      "instNet": -10196,
-      "indivNet": -61710,
-      "investorTrendDate": "20260923",
+      "foreignNet": 24606,
+      "instNet": -7982,
+      "indivNet": -17664,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 107.38,
@@ -916,7 +916,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.469970703125,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -927,7 +927,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -940,7 +940,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -949,10 +949,10 @@
       "name": "에스티팜",
       "code": "237690",
       "sector": "바이오/뷰티",
-      "price": 92800.0,
-      "change": 1500.0,
-      "changeRate": "1.64",
-      "riseFall": "상승",
+      "price": 91500.0,
+      "change": -1600.0,
+      "changeRate": "-1.72",
+      "riseFall": "하락",
       "week52High": 172100,
       "week52Low": 83000,
       "targetPrice": 184385,
@@ -961,10 +961,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 4035,
-      "instNet": -8144,
-      "indivNet": 3977,
-      "investorTrendDate": "20260923",
+      "foreignNet": 10653,
+      "instNet": 13409,
+      "indivNet": -24108,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 31.97,
@@ -975,7 +975,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.0200042724609375,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -986,7 +986,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -999,7 +999,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1008,9 +1008,9 @@
       "name": "감성코퍼레이션",
       "code": "036620",
       "sector": "바이오/뷰티",
-      "price": 3655.0,
-      "change": -60.0,
-      "changeRate": "-1.62",
+      "price": 3635.0,
+      "change": -35.0,
+      "changeRate": "-0.95",
       "riseFall": "하락",
       "week52High": 8470,
       "week52Low": 3535,
@@ -1020,10 +1020,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 993,
-      "instNet": -6017,
-      "indivNet": 6213,
-      "investorTrendDate": "20260923",
+      "foreignNet": 162204,
+      "instNet": -231526,
+      "indivNet": 63870,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 37.97,
@@ -1033,8 +1033,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.409912109375,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.39990234375,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1045,7 +1045,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1058,7 +1058,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1067,9 +1067,9 @@
       "name": "두산퓨얼셀",
       "code": "336260",
       "sector": "에너지",
-      "price": 46150.0,
-      "change": -1050.0,
-      "changeRate": "-2.22",
+      "price": 43550.0,
+      "change": -2900.0,
+      "changeRate": "-6.24",
       "riseFall": "하락",
       "week52High": 108900,
       "week52Low": 18230,
@@ -1079,10 +1079,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 108134,
-      "instNet": -57290,
-      "indivNet": -50704,
-      "investorTrendDate": "20260923",
+      "foreignNet": -5856,
+      "instNet": -69216,
+      "indivNet": 76855,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 226.12,
@@ -1092,8 +1092,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 5.7109375,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 5.5,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1104,7 +1104,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1117,7 +1117,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1126,9 +1126,9 @@
       "name": "두산에너빌리티",
       "code": "034020",
       "sector": "에너지",
-      "price": 81200.0,
-      "change": -500.0,
-      "changeRate": "-0.61",
+      "price": 79500.0,
+      "change": -2500.0,
+      "changeRate": "-3.05",
       "riseFall": "하락",
       "week52High": 139200,
       "week52Low": 57000,
@@ -1138,10 +1138,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -1560727,
-      "instNet": -869702,
-      "indivNet": 2402184,
-      "investorTrendDate": "20260923",
+      "foreignNet": -128386,
+      "instNet": -48275,
+      "indivNet": 222511,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 129.1,
@@ -1151,8 +1151,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.7099609375,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.77001953125,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1163,7 +1163,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1176,7 +1176,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1185,10 +1185,10 @@
       "name": "SFA넥셀",
       "code": "222080",
       "sector": "에너지",
-      "price": 7600.0,
-      "change": 140.0,
-      "changeRate": "1.88",
-      "riseFall": "상승",
+      "price": 7370.0,
+      "change": -200.0,
+      "changeRate": "-2.64",
+      "riseFall": "하락",
       "week52High": 19880,
       "week52Low": 5690,
       "targetPrice": null,
@@ -1197,10 +1197,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -49254,
-      "instNet": -15464,
-      "indivNet": 66538,
-      "investorTrendDate": "20260923",
+      "foreignNet": 63197,
+      "instNet": -10478,
+      "indivNet": -51881,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 30.04,
@@ -1210,8 +1210,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.7900390625,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.7998046875,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1222,7 +1222,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1235,7 +1235,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1244,10 +1244,10 @@
       "name": "한농화성",
       "code": "011500",
       "sector": "태양광/화학",
-      "price": 13340.0,
-      "change": 270.0,
-      "changeRate": "2.07",
-      "riseFall": "상승",
+      "price": 13030.0,
+      "change": -360.0,
+      "changeRate": "-2.69",
+      "riseFall": "하락",
       "week52High": 29450,
       "week52Low": 9250,
       "targetPrice": null,
@@ -1256,10 +1256,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 3667,
-      "instNet": -74,
-      "indivNet": -3593,
-      "investorTrendDate": "20260923",
+      "foreignNet": 7811,
+      "instNet": -11,
+      "indivNet": -7500,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 36.68,
@@ -1270,7 +1270,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.330078125,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1281,7 +1281,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1294,7 +1294,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1303,10 +1303,10 @@
       "name": "태광",
       "code": "023160",
       "sector": "기타",
-      "price": 27550.0,
-      "change": 1150.0,
-      "changeRate": "4.36",
-      "riseFall": "상승",
+      "price": 26850.0,
+      "change": -800.0,
+      "changeRate": "-2.89",
+      "riseFall": "하락",
       "week52High": 56500,
       "week52Low": 19420,
       "targetPrice": 48000,
@@ -1315,10 +1315,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -2057,
-      "instNet": 5523,
-      "indivNet": -3345,
-      "investorTrendDate": "20260923",
+      "foreignNet": -26167,
+      "instNet": 53233,
+      "indivNet": -31029,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 10.63,
@@ -1328,8 +1328,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.83984375,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 1.009765625,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1340,7 +1340,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1353,7 +1353,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1362,9 +1362,9 @@
       "name": "아이쓰리시스템",
       "code": "214430",
       "sector": "기타",
-      "price": 66400.0,
-      "change": -2000.0,
-      "changeRate": "-2.92",
+      "price": 66800.0,
+      "change": -100.0,
+      "changeRate": "-0.15",
       "riseFall": "하락",
       "week52High": 137900,
       "week52Low": 49200,
@@ -1374,10 +1374,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -6521,
-      "instNet": 2110,
-      "indivNet": 3992,
-      "investorTrendDate": "20260923",
+      "foreignNet": -3565,
+      "instNet": -352,
+      "indivNet": 3756,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 35.65,
@@ -1388,7 +1388,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.429931640625,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1399,7 +1399,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1412,7 +1412,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1421,10 +1421,10 @@
       "name": "포스코엠텍",
       "code": "009520",
       "sector": "기타",
-      "price": 12430.0,
-      "change": 190.0,
-      "changeRate": "1.55",
-      "riseFall": "상승",
+      "price": 12130.0,
+      "change": -350.0,
+      "changeRate": "-2.80",
+      "riseFall": "하락",
       "week52High": 23800,
       "week52Low": 8270,
       "targetPrice": null,
@@ -1433,10 +1433,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -20565,
-      "instNet": -4601,
-      "indivNet": 24966,
-      "investorTrendDate": "20260923",
+      "foreignNet": 52557,
+      "instNet": -3906,
+      "indivNet": -49642,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 35.84,
@@ -1446,8 +1446,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.8798828125,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 1.91015625,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1458,7 +1458,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1471,7 +1471,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1480,10 +1480,10 @@
       "name": "티엘비",
       "code": "356860",
       "sector": "기타",
-      "price": 43400.0,
-      "change": -1200.0,
-      "changeRate": "-2.69",
-      "riseFall": "하락",
+      "price": 44800.0,
+      "change": 1100.0,
+      "changeRate": "2.52",
+      "riseFall": "상승",
       "week52High": 143200,
       "week52Low": 19600,
       "targetPrice": 58800,
@@ -1492,10 +1492,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 44408,
-      "instNet": -147405,
-      "indivNet": 102692,
-      "investorTrendDate": "20260923",
+      "foreignNet": 66966,
+      "instNet": -34617,
+      "indivNet": -27970,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 95.41,
@@ -1505,8 +1505,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.0400390625,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.6298828125,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1517,7 +1517,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1530,7 +1530,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1539,10 +1539,10 @@
       "name": "LG에너지솔루션",
       "code": "373220",
       "sector": "2차전지",
-      "price": 361000.0,
-      "change": 9500.0,
-      "changeRate": "2.70",
-      "riseFall": "상승",
+      "price": 351500.0,
+      "change": -12500.0,
+      "changeRate": "-3.43",
+      "riseFall": "하락",
       "week52High": 527000,
       "week52Low": 290500,
       "targetPrice": 519667,
@@ -1551,10 +1551,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 8538,
-      "instNet": 10657,
-      "indivNet": -3339,
-      "investorTrendDate": "20260923",
+      "foreignNet": 67811,
+      "instNet": 59943,
+      "indivNet": -122379,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 129.0,
@@ -1565,7 +1565,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 1.7900390625,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1576,7 +1576,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1589,7 +1589,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1598,10 +1598,10 @@
       "name": "에코프로",
       "code": "086520",
       "sector": "2차전지",
-      "price": 81200.0,
-      "change": 1100.0,
-      "changeRate": "1.37",
-      "riseFall": "상승",
+      "price": 78700.0,
+      "change": -3200.0,
+      "changeRate": "-3.91",
+      "riseFall": "하락",
       "week52High": 190000,
       "week52Low": 45050,
       "targetPrice": null,
@@ -1610,10 +1610,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": 13043,
-      "instNet": -38754,
-      "indivNet": 25532,
-      "investorTrendDate": "20260923",
+      "foreignNet": 147080,
+      "instNet": 40216,
+      "indivNet": -182073,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 117.92,
@@ -1623,8 +1623,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 7.76953125,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 7.75,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1635,7 +1635,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1648,7 +1648,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1657,10 +1657,10 @@
       "name": "포스코퓨처엠",
       "code": "003670",
       "sector": "2차전지",
-      "price": 182700.0,
-      "change": 2800.0,
-      "changeRate": "1.56",
-      "riseFall": "상승",
+      "price": 174700.0,
+      "change": -10500.0,
+      "changeRate": "-5.67",
+      "riseFall": "하락",
       "week52High": 304000,
       "week52Low": 114700,
       "targetPrice": 216063,
@@ -1669,10 +1669,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -86163,
-      "instNet": -6535,
-      "indivNet": 93126,
-      "investorTrendDate": "20260923",
+      "foreignNet": -24580,
+      "instNet": 49725,
+      "indivNet": -25013,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 102.65,
@@ -1682,8 +1682,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 3.69921875,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 3.720703125,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1694,7 +1694,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1707,7 +1707,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1716,22 +1716,22 @@
       "name": "KB금융",
       "code": "105560",
       "sector": "금융",
-      "price": 173600.0,
-      "change": 400.0,
-      "changeRate": "0.23",
-      "riseFall": "상승",
+      "price": 172000.0,
+      "change": -2200.0,
+      "changeRate": "-1.26",
+      "riseFall": "하락",
       "week52High": 195900,
       "week52Low": 109200,
-      "targetPrice": 226278,
+      "targetPrice": 227824,
       "opinion": "매수",
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -128026,
-      "instNet": 92288,
-      "indivNet": 36396,
-      "investorTrendDate": "20260923",
+      "foreignNet": -61085,
+      "instNet": 97509,
+      "indivNet": -32557,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 1211.73,
@@ -1742,7 +1742,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.0,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1753,7 +1753,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1766,7 +1766,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1775,10 +1775,10 @@
       "name": "신한지주",
       "code": "055550",
       "sector": "금융",
-      "price": 110700.0,
-      "change": 1400.0,
-      "changeRate": "1.28",
-      "riseFall": "상승",
+      "price": 109700.0,
+      "change": -1600.0,
+      "changeRate": "-1.44",
+      "riseFall": "하락",
       "week52High": 116500,
       "week52Low": 68100,
       "targetPrice": 137556,
@@ -1787,10 +1787,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -257811,
-      "instNet": 71427,
-      "indivNet": 187001,
-      "investorTrendDate": "20260923",
+      "foreignNet": -63841,
+      "instNet": 135206,
+      "indivNet": -71141,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 1201.94,
@@ -1801,7 +1801,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.01000213623046875,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1812,7 +1812,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1825,7 +1825,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1834,10 +1834,10 @@
       "name": "하나금융지주",
       "code": "086790",
       "sector": "금융",
-      "price": 134400.0,
-      "change": 1300.0,
-      "changeRate": "0.98",
-      "riseFall": "상승",
+      "price": 133900.0,
+      "change": -1400.0,
+      "changeRate": "-1.03",
+      "riseFall": "하락",
       "week52High": 146400,
       "week52Low": 84000,
       "targetPrice": 166053,
@@ -1846,10 +1846,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -154831,
-      "instNet": 62530,
-      "indivNet": 86678,
-      "investorTrendDate": "20260923",
+      "foreignNet": 64839,
+      "instNet": -28658,
+      "indivNet": -36624,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 1377.89,
@@ -1860,7 +1860,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.01000213623046875,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1871,7 +1871,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1884,7 +1884,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1893,10 +1893,10 @@
       "name": "현대차",
       "code": "005380",
       "sector": "자동차",
-      "price": 354000.0,
-      "change": 500.0,
-      "changeRate": "0.14",
-      "riseFall": "상승",
+      "price": 348500.0,
+      "change": -6000.0,
+      "changeRate": "-1.69",
+      "riseFall": "하락",
       "week52High": 787000,
       "week52Low": 211000,
       "targetPrice": 694000,
@@ -1905,10 +1905,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -140017,
-      "instNet": -74462,
-      "indivNet": 209043,
-      "investorTrendDate": "20260923",
+      "foreignNet": -28575,
+      "instNet": 18521,
+      "indivNet": 9980,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 188.95,
@@ -1918,8 +1918,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.650390625,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 1.6904296875,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1930,7 +1930,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -1943,7 +1943,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1952,10 +1952,10 @@
       "name": "기아",
       "code": "000270",
       "sector": "자동차",
-      "price": 116800.0,
-      "change": 1400.0,
-      "changeRate": "1.21",
-      "riseFall": "상승",
+      "price": 114600.0,
+      "change": -3000.0,
+      "changeRate": "-2.55",
+      "riseFall": "하락",
       "week52High": 212500,
       "week52Low": 98400,
       "targetPrice": 213600,
@@ -1964,10 +1964,10 @@
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -153930,
-      "instNet": -124980,
-      "indivNet": 279828,
-      "investorTrendDate": "20260923",
+      "foreignNet": 66608,
+      "instNet": -9130,
+      "indivNet": -57579,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 61.76,
@@ -1977,8 +1977,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.08001708984375,
-      "shortSellingDate": "20260921",
+      "shortSellingRatio": 0.09002685546875,
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1989,7 +1989,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -2002,7 +2002,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -2011,22 +2011,22 @@
       "name": "현대모비스",
       "code": "012330",
       "sector": "자동차",
-      "price": 371000.0,
-      "change": 3500.0,
-      "changeRate": "0.95",
-      "riseFall": "상승",
+      "price": 366000.0,
+      "change": -7000.0,
+      "changeRate": "-1.88",
+      "riseFall": "하락",
       "week52High": 822000,
       "week52Low": 283000,
-      "targetPrice": 723200,
+      "targetPrice": 721200,
       "opinion": "매수",
       "volume": null,
       "avgVolume20": null,
       "volumeRatio": null,
       "supportLine": null,
-      "foreignNet": -9927,
-      "instNet": -26146,
-      "indivNet": 36381,
-      "investorTrendDate": "20260923",
+      "foreignNet": 31981,
+      "instNet": -4369,
+      "indivNet": -26399,
+      "investorTrendDate": "20260928",
       "flowSource": "Naver 투자자별 매매동향",
       "flowStatus": "ok",
       "debtRatio": 43.05,
@@ -2037,7 +2037,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.07000732421875,
-      "shortSellingDate": "20260921",
+      "shortSellingDate": "20260922",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -2048,7 +2048,7 @@
         "flow": {
           "ok": true,
           "source": "Naver 투자자별 매매동향",
-          "date": "20260923",
+          "date": "20260928",
           "status": "ok"
         },
         "financial": {
@@ -2061,7 +2061,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260921",
+          "date": "20260922",
           "message": "KRX 시장단위 잔고비중"
         }
       }
