@@ -1,0 +1,62 @@
+name: Update Night Sector
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 22 * * 1-5'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: watchlist-data-writes
+  cancel-in-progress: false
+
+jobs:
+  update-night-sector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependency
+        run: python -m pip install --upgrade pip yfinance
+      - name: Sync latest main
+        run: git pull --rebase origin main
+      - name: Collect completed US sessions
+        run: python night_sector.py
+      - name: Validate output
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("data/sector-night.json")
+          if not p.exists(): raise SystemExit("sector-night.json missing")
+          d=json.loads(p.read_text(encoding="utf-8"))
+          required=["sox","technology","financial","energy","materials","industrial","healthcare","discretionary","staples","utilities","nasdaq","sp500"]
+          m=d.get("markets") or {}
+          missing=[k for k in required if k not in m]
+          if missing: raise SystemExit(f"missing markets: {missing}")
+          ok=[k for k in required if m[k].get("ok") is True]
+          if not ok: raise SystemExit("no successful markets")
+          print(f"validated {len(ok)}/{len(required)} markets")
+          print("updatedAtKST:",d.get("updatedAtKST"))
+          PY
+      - name: Commit updated night-sector data
+        run: |
+          if git diff --quiet -- data/sector-night.json; then
+            echo "No night-sector data change."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/sector-night.json
+          git commit -m "Update night sector data"
+          git pull --rebase origin main
+          git push origin main
