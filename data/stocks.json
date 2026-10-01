@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-10-01T13:21:37.568974+09:00",
+  "updatedAt": "2026-10-01T20:08:40.915297+09:00",
   "stocks": [
     {
       "name": "삼성전자",
       "code": "005930",
       "sector": "반도체/전자",
-      "price": 273000.0,
-      "change": 4500.0,
-      "changeRate": "1.68",
+      "price": 274500.0,
+      "change": 6000.0,
+      "changeRate": "2.23",
       "riseFall": "상승",
       "week52High": 380000,
       "week52Low": 86500,
@@ -30,8 +30,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.08001708984375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.09002685546875,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -55,7 +55,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -64,9 +64,9 @@
       "name": "삼성전자우",
       "code": "005935",
       "sector": "반도체/전자",
-      "price": 202500.0,
-      "change": 7300.0,
-      "changeRate": "3.74",
+      "price": 202000.0,
+      "change": 6800.0,
+      "changeRate": "3.48",
       "riseFall": "상승",
       "week52High": 243500,
       "week52Low": 69500,
@@ -89,8 +89,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.27001953125,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.280029296875,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -114,7 +114,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -123,9 +123,9 @@
       "name": "SK하이닉스",
       "code": "000660",
       "sector": "반도체/전자",
-      "price": 1808500.0,
-      "change": 32500.0,
-      "changeRate": "1.83",
+      "price": 1828000.0,
+      "change": 52000.0,
+      "changeRate": "2.93",
       "riseFall": "상승",
       "week52High": 3002000,
       "week52Low": 370000,
@@ -149,7 +149,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.029998779296875,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -173,7 +173,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -182,9 +182,9 @@
       "name": "삼성SDI",
       "code": "006400",
       "sector": "2차전지",
-      "price": 516000.0,
-      "change": 1000.0,
-      "changeRate": "0.19",
+      "price": 517000.0,
+      "change": 2000.0,
+      "changeRate": "0.39",
       "riseFall": "상승",
       "week52High": 820000,
       "week52Low": 200500,
@@ -208,7 +208,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.22998046875,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -232,7 +232,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -241,10 +241,10 @@
       "name": "TIGER 코리아AI전기전자",
       "code": "0117V0",
       "sector": "반도체/전자",
-      "price": 18875.0,
-      "change": -70.0,
-      "changeRate": "-0.37",
-      "riseFall": "하락",
+      "price": 19070.0,
+      "change": 125.0,
+      "changeRate": "0.66",
+      "riseFall": "상승",
       "week52High": 32990,
       "week52Low": 10175,
       "targetPrice": null,
@@ -300,9 +300,9 @@
       "name": "KODEX AI반도체",
       "code": "395160",
       "sector": "반도체/전자",
-      "price": 42540.0,
-      "change": 490.0,
-      "changeRate": "1.17",
+      "price": 43005.0,
+      "change": 955.0,
+      "changeRate": "2.27",
       "riseFall": "상승",
       "week52High": 64125,
       "week52Low": 13655,
@@ -359,9 +359,9 @@
       "name": "LIG디펜스앤에어로스페이스",
       "code": "079550",
       "sector": "방산/조선/기계",
-      "price": 722000.0,
-      "change": 40000.0,
-      "changeRate": "5.87",
+      "price": 723000.0,
+      "change": 41000.0,
+      "changeRate": "6.01",
       "riseFall": "상승",
       "week52High": 1118000,
       "week52Low": 360000,
@@ -384,8 +384,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.320068359375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.330078125,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -409,7 +409,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -418,9 +418,9 @@
       "name": "HD건설기계",
       "code": "267270",
       "sector": "방산/조선/기계",
-      "price": 120700.0,
-      "change": -2800.0,
-      "changeRate": "-2.27",
+      "price": 119800.0,
+      "change": -3700.0,
+      "changeRate": "-3.00",
       "riseFall": "하락",
       "week52High": 227000,
       "week52Low": 85800,
@@ -443,8 +443,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.0,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.029998779296875,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -468,7 +468,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -477,9 +477,9 @@
       "name": "HD현대마린솔루션",
       "code": "443060",
       "sector": "방산/조선/기계",
-      "price": 233500.0,
-      "change": -4500.0,
-      "changeRate": "-1.89",
+      "price": 237000.0,
+      "change": -1000.0,
+      "changeRate": "-0.42",
       "riseFall": "하락",
       "week52High": 290500,
       "week52Low": 158000,
@@ -503,7 +503,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.39990234375,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -527,7 +527,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -561,8 +561,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.169921875,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 1.41015625,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -586,7 +586,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -595,9 +595,9 @@
       "name": "OCI",
       "code": "456040",
       "sector": "태양광/화학",
-      "price": 73300.0,
-      "change": -2300.0,
-      "changeRate": "-3.04",
+      "price": 73500.0,
+      "change": -2100.0,
+      "changeRate": "-2.78",
       "riseFall": "하락",
       "week52High": 164600,
       "week52Low": 54000,
@@ -620,8 +620,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.1400146484375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.1700439453125,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -645,7 +645,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -654,9 +654,9 @@
       "name": "효성티앤씨",
       "code": "298020",
       "sector": "태양광/화학",
-      "price": 274500.0,
-      "change": -4500.0,
-      "changeRate": "-1.61",
+      "price": 275500.0,
+      "change": -3500.0,
+      "changeRate": "-1.25",
       "riseFall": "하락",
       "week52High": 557000,
       "week52Low": 199000,
@@ -679,8 +679,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.239990234375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.35009765625,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -704,7 +704,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -713,9 +713,9 @@
       "name": "LS",
       "code": "006260",
       "sector": "전력/인프라",
-      "price": 299500.0,
-      "change": -9000.0,
-      "changeRate": "-2.92",
+      "price": 298500.0,
+      "change": -10000.0,
+      "changeRate": "-3.24",
       "riseFall": "하락",
       "week52High": 604000,
       "week52Low": 166700,
@@ -738,8 +738,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.0,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.01000213623046875,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -763,7 +763,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -772,9 +772,9 @@
       "name": "삼성E&A",
       "code": "028050",
       "sector": "전력/인프라",
-      "price": 47350.0,
-      "change": -350.0,
-      "changeRate": "-0.73",
+      "price": 47450.0,
+      "change": -250.0,
+      "changeRate": "-0.52",
       "riseFall": "하락",
       "week52High": 67300,
       "week52Low": 23150,
@@ -798,7 +798,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.199951171875,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -822,7 +822,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -831,10 +831,10 @@
       "name": "에이피알",
       "code": "278470",
       "sector": "바이오/뷰티",
-      "price": 368500.0,
-      "change": 2500.0,
-      "changeRate": "0.68",
-      "riseFall": "상승",
+      "price": 366000.0,
+      "change": 0.0,
+      "changeRate": "0.00",
+      "riseFall": "보합",
       "week52High": 475000,
       "week52Low": 204000,
       "targetPrice": 537619,
@@ -856,8 +856,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 2.109375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 2.08984375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -881,7 +881,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -890,10 +890,10 @@
       "name": "한국콜마",
       "code": "161890",
       "sector": "바이오/뷰티",
-      "price": 148200.0,
-      "change": 2200.0,
-      "changeRate": "1.51",
-      "riseFall": "상승",
+      "price": 146000.0,
+      "change": 0.0,
+      "changeRate": "0.00",
+      "riseFall": "보합",
       "week52High": 171500,
       "week52Low": 55200,
       "targetPrice": 171950,
@@ -915,8 +915,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.469970703125,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.43994140625,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -940,7 +940,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -949,9 +949,9 @@
       "name": "에스티팜",
       "code": "237690",
       "sector": "바이오/뷰티",
-      "price": 94300.0,
-      "change": 2600.0,
-      "changeRate": "2.84",
+      "price": 95200.0,
+      "change": 3500.0,
+      "changeRate": "3.82",
       "riseFall": "상승",
       "week52High": 172100,
       "week52Low": 83000,
@@ -975,7 +975,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.0200042724609375,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -999,7 +999,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1008,10 +1008,10 @@
       "name": "감성코퍼레이션",
       "code": "036620",
       "sector": "바이오/뷰티",
-      "price": 3695.0,
-      "change": -20.0,
-      "changeRate": "-0.54",
-      "riseFall": "하락",
+      "price": 3740.0,
+      "change": 25.0,
+      "changeRate": "0.67",
+      "riseFall": "상승",
       "week52High": 8470,
       "week52Low": 3535,
       "targetPrice": 5800,
@@ -1033,8 +1033,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.330078125,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.320068359375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1058,7 +1058,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1067,9 +1067,9 @@
       "name": "두산퓨얼셀",
       "code": "336260",
       "sector": "에너지",
-      "price": 44850.0,
-      "change": -700.0,
-      "changeRate": "-1.54",
+      "price": 45100.0,
+      "change": -450.0,
+      "changeRate": "-0.99",
       "riseFall": "하락",
       "week52High": 108900,
       "week52Low": 18230,
@@ -1092,8 +1092,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 5.390625,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 5.05078125,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1117,7 +1117,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1126,9 +1126,9 @@
       "name": "두산에너빌리티",
       "code": "034020",
       "sector": "에너지",
-      "price": 82400.0,
-      "change": 800.0,
-      "changeRate": "0.98",
+      "price": 82300.0,
+      "change": 700.0,
+      "changeRate": "0.86",
       "riseFall": "상승",
       "week52High": 139200,
       "week52Low": 57000,
@@ -1151,8 +1151,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.8701171875,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.89990234375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1176,7 +1176,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1185,9 +1185,9 @@
       "name": "SFA넥셀",
       "code": "222080",
       "sector": "에너지",
-      "price": 7990.0,
-      "change": 120.0,
-      "changeRate": "1.52",
+      "price": 8070.0,
+      "change": 200.0,
+      "changeRate": "2.54",
       "riseFall": "상승",
       "week52High": 19880,
       "week52Low": 5690,
@@ -1210,8 +1210,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.7998046875,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.77001953125,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1235,7 +1235,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1244,9 +1244,9 @@
       "name": "한농화성",
       "code": "011500",
       "sector": "태양광/화학",
-      "price": 14450.0,
-      "change": 60.0,
-      "changeRate": "0.42",
+      "price": 14670.0,
+      "change": 280.0,
+      "changeRate": "1.95",
       "riseFall": "상승",
       "week52High": 29450,
       "week52Low": 9250,
@@ -1269,8 +1269,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.2900390625,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.31005859375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1294,7 +1294,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1303,9 +1303,9 @@
       "name": "태광",
       "code": "023160",
       "sector": "기타",
-      "price": 28400.0,
-      "change": 700.0,
-      "changeRate": "2.53",
+      "price": 28550.0,
+      "change": 850.0,
+      "changeRate": "3.07",
       "riseFall": "상승",
       "week52High": 56500,
       "week52Low": 19420,
@@ -1328,8 +1328,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.1396484375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 1.26953125,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1353,7 +1353,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1362,9 +1362,9 @@
       "name": "아이쓰리시스템",
       "code": "214430",
       "sector": "기타",
-      "price": 70900.0,
-      "change": 2700.0,
-      "changeRate": "3.96",
+      "price": 83800.0,
+      "change": 15600.0,
+      "changeRate": "22.87",
       "riseFall": "상승",
       "week52High": 137900,
       "week52Low": 49200,
@@ -1387,8 +1387,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.419921875,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.39990234375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1412,7 +1412,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1421,9 +1421,9 @@
       "name": "포스코엠텍",
       "code": "009520",
       "sector": "기타",
-      "price": 12570.0,
-      "change": 90.0,
-      "changeRate": "0.72",
+      "price": 12690.0,
+      "change": 210.0,
+      "changeRate": "1.68",
       "riseFall": "상승",
       "week52High": 23800,
       "week52Low": 8270,
@@ -1446,8 +1446,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.83984375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 1.8095703125,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1471,7 +1471,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1480,9 +1480,9 @@
       "name": "티엘비",
       "code": "356860",
       "sector": "기타",
-      "price": 47250.0,
-      "change": 1600.0,
-      "changeRate": "3.50",
+      "price": 48300.0,
+      "change": 2650.0,
+      "changeRate": "5.81",
       "riseFall": "상승",
       "week52High": 143200,
       "week52Low": 19600,
@@ -1505,8 +1505,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.52978515625,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.669921875,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1530,7 +1530,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1564,8 +1564,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.76953125,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 1.7802734375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1589,7 +1589,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1598,9 +1598,9 @@
       "name": "에코프로",
       "code": "086520",
       "sector": "2차전지",
-      "price": 83600.0,
-      "change": 3000.0,
-      "changeRate": "3.72",
+      "price": 84800.0,
+      "change": 4200.0,
+      "changeRate": "5.21",
       "riseFall": "상승",
       "week52High": 190000,
       "week52Low": 45050,
@@ -1623,8 +1623,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 7.640625,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 7.76171875,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1648,7 +1648,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1657,9 +1657,9 @@
       "name": "포스코퓨처엠",
       "code": "003670",
       "sector": "2차전지",
-      "price": 180800.0,
-      "change": 2000.0,
-      "changeRate": "1.12",
+      "price": 182600.0,
+      "change": 3800.0,
+      "changeRate": "2.13",
       "riseFall": "상승",
       "week52High": 304000,
       "week52Low": 114700,
@@ -1682,8 +1682,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 3.869140625,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 3.98046875,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1707,7 +1707,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1716,9 +1716,9 @@
       "name": "KB금융",
       "code": "105560",
       "sector": "금융",
-      "price": 166900.0,
-      "change": -1900.0,
-      "changeRate": "-1.13",
+      "price": 167400.0,
+      "change": -1400.0,
+      "changeRate": "-0.83",
       "riseFall": "하락",
       "week52High": 195900,
       "week52Low": 109200,
@@ -1742,7 +1742,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.0,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1766,7 +1766,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1775,9 +1775,9 @@
       "name": "신한지주",
       "code": "055550",
       "sector": "금융",
-      "price": 104700.0,
-      "change": -1400.0,
-      "changeRate": "-1.32",
+      "price": 104600.0,
+      "change": -1500.0,
+      "changeRate": "-1.41",
       "riseFall": "하락",
       "week52High": 116500,
       "week52Low": 68100,
@@ -1801,7 +1801,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.01000213623046875,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1825,7 +1825,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1834,9 +1834,9 @@
       "name": "하나금융지주",
       "code": "086790",
       "sector": "금융",
-      "price": 128700.0,
-      "change": -1300.0,
-      "changeRate": "-1.00",
+      "price": 128900.0,
+      "change": -1100.0,
+      "changeRate": "-0.85",
       "riseFall": "하락",
       "week52High": 146400,
       "week52Low": 84000,
@@ -1860,7 +1860,7 @@
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
       "shortSellingRatio": 0.01000213623046875,
-      "shortSellingDate": "20260928",
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1884,7 +1884,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1893,9 +1893,9 @@
       "name": "현대차",
       "code": "005380",
       "sector": "자동차",
-      "price": 347500.0,
-      "change": 2500.0,
-      "changeRate": "0.72",
+      "price": 349000.0,
+      "change": 4000.0,
+      "changeRate": "1.16",
       "riseFall": "상승",
       "week52High": 787000,
       "week52Low": 211000,
@@ -1918,8 +1918,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 1.7197265625,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 1.740234375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -1943,7 +1943,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -1952,9 +1952,9 @@
       "name": "기아",
       "code": "000270",
       "sector": "자동차",
-      "price": 112900.0,
-      "change": 100.0,
-      "changeRate": "0.09",
+      "price": 113300.0,
+      "change": 500.0,
+      "changeRate": "0.44",
       "riseFall": "상승",
       "week52High": 212500,
       "week52Low": 98400,
@@ -1977,8 +1977,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.0999755859375,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.1099853515625,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -2002,7 +2002,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
@@ -2011,9 +2011,9 @@
       "name": "현대모비스",
       "code": "012330",
       "sector": "자동차",
-      "price": 378500.0,
-      "change": 11500.0,
-      "changeRate": "3.13",
+      "price": 381000.0,
+      "change": 14000.0,
+      "changeRate": "3.81",
       "riseFall": "상승",
       "week52High": 822000,
       "week52Low": 283000,
@@ -2036,8 +2036,8 @@
       "financialStatus": "ok",
       "financialMethod": "api-explicit-debtRatio+api-explicit-roe",
       "financialMessage": "정상",
-      "shortSellingRatio": 0.07000732421875,
-      "shortSellingDate": "20260928",
+      "shortSellingRatio": 0.08001708984375,
+      "shortSellingDate": "20260929",
       "shortSellingStatus": "ok",
       "shortSellingMessage": "KRX 시장단위 잔고비중",
       "dataCollection": {
@@ -2061,7 +2061,7 @@
         "short": {
           "ok": true,
           "status": "ok",
-          "date": "20260928",
+          "date": "20260929",
           "message": "KRX 시장단위 잔고비중"
         }
       }
