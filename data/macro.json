@@ -1,20 +1,20 @@
 {
-  "updatedAt": "2026-10-13T14:27:13.315382+09:00",
+  "updatedAt": "2026-10-13T14:31:48.155307+09:00",
   "nextEarningsEstimate": "2026-11-14",
   "kospi": {
-    "price": 6064.73,
-    "change": -319.51,
-    "changeRate": -5.0
+    "price": 6040.73,
+    "change": -343.51,
+    "changeRate": -5.38
   },
   "kosdaq": {
-    "price": 837.26,
-    "change": -11.93,
-    "changeRate": -1.4
+    "price": 833.78,
+    "change": -15.41,
+    "changeRate": -1.81
   },
   "usdkrw": {
-    "price": 1344.19,
-    "change": 1.2,
-    "changeRate": 0.09
+    "price": 1343.84,
+    "change": 0.85,
+    "changeRate": 0.06
   },
   "nasdaq": {
     "price": 27245.9,
