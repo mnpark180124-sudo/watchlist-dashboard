@@ -1,15 +1,15 @@
 {
   "version": "night-sector-1",
-  "updatedAt": "2026-10-13T12:06:28.481816+09:00",
-  "updatedAtKST": "2026-10-13 12:06",
+  "updatedAt": "2026-10-14T10:19:14.131047+09:00",
+  "updatedAtKST": "2026-10-14 10:19",
   "markets": {
     "sox": {
       "ticker": "^SOX",
       "label": "반도체(SOX)",
-      "price": 12236.7881,
-      "changeRate": -2.67,
-      "sessionDate": "2026-10-12",
-      "previousSessionDate": "2026-10-09",
+      "price": 12208.7949,
+      "changeRate": -0.23,
+      "sessionDate": "2026-10-13",
+      "previousSessionDate": "2026-10-12",
       "ok": true
     },
     "technology": {
@@ -96,19 +96,19 @@
     "nasdaq": {
       "ticker": "^IXIC",
       "label": "NASDAQ",
-      "price": 27245.9023,
-      "changeRate": -0.44,
-      "sessionDate": "2026-10-12",
-      "previousSessionDate": "2026-10-09",
+      "price": 27204.3809,
+      "changeRate": -0.15,
+      "sessionDate": "2026-10-13",
+      "previousSessionDate": "2026-10-12",
       "ok": true
     },
     "sp500": {
       "ticker": "^GSPC",
       "label": "S&P 500",
-      "price": 7807.2402,
-      "changeRate": -0.06,
-      "sessionDate": "2026-10-12",
-      "previousSessionDate": "2026-10-09",
+      "price": 7805.4502,
+      "changeRate": -0.02,
+      "sessionDate": "2026-10-13",
+      "previousSessionDate": "2026-10-12",
       "ok": true
     }
   },
