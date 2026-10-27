@@ -7699,6 +7699,356 @@
       "nextDayReturn": 0.46,
       "marketReturn": -1.46,
       "excessReturn": 1.92
+    },
+    {
+      "date": "2026-10-27",
+      "code": "005930",
+      "name": "삼성전자",
+      "prevDate": "2026-10-26",
+      "prevScore": 83.5,
+      "nextDayReturn": 4.21,
+      "marketReturn": 3.09,
+      "excessReturn": 1.12
+    },
+    {
+      "date": "2026-10-27",
+      "code": "005935",
+      "name": "삼성전자우",
+      "prevDate": "2026-10-26",
+      "prevScore": 81.8,
+      "nextDayReturn": 4.17,
+      "marketReturn": 3.09,
+      "excessReturn": 1.08
+    },
+    {
+      "date": "2026-10-27",
+      "code": "000660",
+      "name": "SK하이닉스",
+      "prevDate": "2026-10-26",
+      "prevScore": 86.2,
+      "nextDayReturn": 5.75,
+      "marketReturn": 3.09,
+      "excessReturn": 2.66
+    },
+    {
+      "date": "2026-10-27",
+      "code": "006400",
+      "name": "삼성SDI",
+      "prevDate": "2026-10-26",
+      "prevScore": 69.6,
+      "nextDayReturn": 4.85,
+      "marketReturn": 3.09,
+      "excessReturn": 1.76
+    },
+    {
+      "date": "2026-10-27",
+      "code": "0117V0",
+      "name": "TIGER 코리아AI전기전자",
+      "prevDate": "2026-10-26",
+      "prevScore": 55.2,
+      "nextDayReturn": 2.7,
+      "marketReturn": 3.09,
+      "excessReturn": -0.39
+    },
+    {
+      "date": "2026-10-27",
+      "code": "395160",
+      "name": "KODEX AI반도체",
+      "prevDate": "2026-10-26",
+      "prevScore": 55.2,
+      "nextDayReturn": 6.3,
+      "marketReturn": 3.09,
+      "excessReturn": 3.21
+    },
+    {
+      "date": "2026-10-27",
+      "code": "079550",
+      "name": "LIG디펜스앤에어로스페이스",
+      "prevDate": "2026-10-26",
+      "prevScore": 78.1,
+      "nextDayReturn": 3.64,
+      "marketReturn": 3.09,
+      "excessReturn": 0.55
+    },
+    {
+      "date": "2026-10-27",
+      "code": "267270",
+      "name": "HD건설기계",
+      "prevDate": "2026-10-26",
+      "prevScore": 80.0,
+      "nextDayReturn": -1.59,
+      "marketReturn": 3.09,
+      "excessReturn": -4.68
+    },
+    {
+      "date": "2026-10-27",
+      "code": "443060",
+      "name": "HD현대마린솔루션",
+      "prevDate": "2026-10-26",
+      "prevScore": 83.4,
+      "nextDayReturn": 4.4,
+      "marketReturn": 3.09,
+      "excessReturn": 1.31
+    },
+    {
+      "date": "2026-10-27",
+      "code": "010060",
+      "name": "OCI홀딩스",
+      "prevDate": "2026-10-26",
+      "prevScore": 75.0,
+      "nextDayReturn": 0.39,
+      "marketReturn": 3.09,
+      "excessReturn": -2.7
+    },
+    {
+      "date": "2026-10-27",
+      "code": "456040",
+      "name": "OCI",
+      "prevDate": "2026-10-26",
+      "prevScore": 76.5,
+      "nextDayReturn": 1.57,
+      "marketReturn": 3.09,
+      "excessReturn": -1.52
+    },
+    {
+      "date": "2026-10-27",
+      "code": "298020",
+      "name": "효성티앤씨",
+      "prevDate": "2026-10-26",
+      "prevScore": 76.8,
+      "nextDayReturn": 2.24,
+      "marketReturn": 3.09,
+      "excessReturn": -0.85
+    },
+    {
+      "date": "2026-10-27",
+      "code": "006260",
+      "name": "LS",
+      "prevDate": "2026-10-26",
+      "prevScore": 78.7,
+      "nextDayReturn": 3.85,
+      "marketReturn": 3.09,
+      "excessReturn": 0.76
+    },
+    {
+      "date": "2026-10-27",
+      "code": "028050",
+      "name": "삼성E&A",
+      "prevDate": "2026-10-26",
+      "prevScore": 63.7,
+      "nextDayReturn": 4.01,
+      "marketReturn": 3.09,
+      "excessReturn": 0.92
+    },
+    {
+      "date": "2026-10-27",
+      "code": "278470",
+      "name": "에이피알",
+      "prevDate": "2026-10-26",
+      "prevScore": 79.4,
+      "nextDayReturn": -1.25,
+      "marketReturn": 3.09,
+      "excessReturn": -4.34
+    },
+    {
+      "date": "2026-10-27",
+      "code": "161890",
+      "name": "한국콜마",
+      "prevDate": "2026-10-26",
+      "prevScore": 74.4,
+      "nextDayReturn": 0.09,
+      "marketReturn": 3.09,
+      "excessReturn": -3.0
+    },
+    {
+      "date": "2026-10-27",
+      "code": "237690",
+      "name": "에스티팜",
+      "prevDate": "2026-10-26",
+      "prevScore": 83.5,
+      "nextDayReturn": -8.31,
+      "marketReturn": 3.09,
+      "excessReturn": -11.4
+    },
+    {
+      "date": "2026-10-27",
+      "code": "036620",
+      "name": "감성코퍼레이션",
+      "prevDate": "2026-10-26",
+      "prevScore": 81.2,
+      "nextDayReturn": 1.43,
+      "marketReturn": 3.09,
+      "excessReturn": -1.66
+    },
+    {
+      "date": "2026-10-27",
+      "code": "336260",
+      "name": "두산퓨얼셀",
+      "prevDate": "2026-10-26",
+      "prevScore": 63.3,
+      "nextDayReturn": 1.84,
+      "marketReturn": 3.09,
+      "excessReturn": -1.25
+    },
+    {
+      "date": "2026-10-27",
+      "code": "034020",
+      "name": "두산에너빌리티",
+      "prevDate": "2026-10-26",
+      "prevScore": 77.2,
+      "nextDayReturn": 2.77,
+      "marketReturn": 3.09,
+      "excessReturn": -0.32
+    },
+    {
+      "date": "2026-10-27",
+      "code": "222080",
+      "name": "SFA넥셀",
+      "prevDate": "2026-10-26",
+      "prevScore": 70.3,
+      "nextDayReturn": 2.67,
+      "marketReturn": 3.09,
+      "excessReturn": -0.42
+    },
+    {
+      "date": "2026-10-27",
+      "code": "011500",
+      "name": "한농화성",
+      "prevDate": "2026-10-26",
+      "prevScore": 59.6,
+      "nextDayReturn": 4.07,
+      "marketReturn": 3.09,
+      "excessReturn": 0.98
+    },
+    {
+      "date": "2026-10-27",
+      "code": "023160",
+      "name": "태광",
+      "prevDate": "2026-10-26",
+      "prevScore": 76.6,
+      "nextDayReturn": 5.74,
+      "marketReturn": 3.09,
+      "excessReturn": 2.65
+    },
+    {
+      "date": "2026-10-27",
+      "code": "214430",
+      "name": "아이쓰리시스템",
+      "prevDate": "2026-10-26",
+      "prevScore": 72.8,
+      "nextDayReturn": -1.72,
+      "marketReturn": 3.09,
+      "excessReturn": -4.81
+    },
+    {
+      "date": "2026-10-27",
+      "code": "009520",
+      "name": "포스코엠텍",
+      "prevDate": "2026-10-26",
+      "prevScore": 57.1,
+      "nextDayReturn": 4.15,
+      "marketReturn": 3.09,
+      "excessReturn": 1.06
+    },
+    {
+      "date": "2026-10-27",
+      "code": "356860",
+      "name": "티엘비",
+      "prevDate": "2026-10-26",
+      "prevScore": 74.7,
+      "nextDayReturn": 9.73,
+      "marketReturn": 3.09,
+      "excessReturn": 6.64
+    },
+    {
+      "date": "2026-10-27",
+      "code": "373220",
+      "name": "LG에너지솔루션",
+      "prevDate": "2026-10-26",
+      "prevScore": 58.4,
+      "nextDayReturn": 1.73,
+      "marketReturn": 3.09,
+      "excessReturn": -1.36
+    },
+    {
+      "date": "2026-10-27",
+      "code": "086520",
+      "name": "에코프로",
+      "prevDate": "2026-10-26",
+      "prevScore": 50.8,
+      "nextDayReturn": 6.27,
+      "marketReturn": 3.09,
+      "excessReturn": 3.18
+    },
+    {
+      "date": "2026-10-27",
+      "code": "003670",
+      "name": "포스코퓨처엠",
+      "prevDate": "2026-10-26",
+      "prevScore": 62.7,
+      "nextDayReturn": 2.55,
+      "marketReturn": 3.09,
+      "excessReturn": -0.54
+    },
+    {
+      "date": "2026-10-27",
+      "code": "105560",
+      "name": "KB금융",
+      "prevDate": "2026-10-26",
+      "prevScore": 70.8,
+      "nextDayReturn": -0.47,
+      "marketReturn": 3.09,
+      "excessReturn": -3.56
+    },
+    {
+      "date": "2026-10-27",
+      "code": "055550",
+      "name": "신한지주",
+      "prevDate": "2026-10-26",
+      "prevScore": 74.1,
+      "nextDayReturn": -0.7,
+      "marketReturn": 3.09,
+      "excessReturn": -3.79
+    },
+    {
+      "date": "2026-10-27",
+      "code": "086790",
+      "name": "하나금융지주",
+      "prevDate": "2026-10-26",
+      "prevScore": 70.8,
+      "nextDayReturn": -0.44,
+      "marketReturn": 3.09,
+      "excessReturn": -3.53
+    },
+    {
+      "date": "2026-10-27",
+      "code": "005380",
+      "name": "현대차",
+      "prevDate": "2026-10-26",
+      "prevScore": 76.0,
+      "nextDayReturn": 0.35,
+      "marketReturn": 3.09,
+      "excessReturn": -2.74
+    },
+    {
+      "date": "2026-10-27",
+      "code": "000270",
+      "name": "기아",
+      "prevDate": "2026-10-26",
+      "prevScore": 80.2,
+      "nextDayReturn": 0.28,
+      "marketReturn": 3.09,
+      "excessReturn": -2.81
+    },
+    {
+      "date": "2026-10-27",
+      "code": "012330",
+      "name": "현대모비스",
+      "prevDate": "2026-10-26",
+      "prevScore": 80.5,
+      "nextDayReturn": 0.91,
+      "marketReturn": 3.09,
+      "excessReturn": -2.18
     }
   ]
 }
