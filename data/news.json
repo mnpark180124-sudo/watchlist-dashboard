@@ -1,41 +1,48 @@
 {
   "삼성전자": {
-    "hasImportantNews": true,
-    "materialImpact": true,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "삼성전자가 게임 성능 제한 미고지 문제로 공정거래위원회로부터 201억 원의 과징금을 부과받았다. 기업의 대외 신뢰도 및 재무적 부담에 영향을 줄 수 있는 제재 사항이다.",
-    "impactPct": 5.0,
-    "direction": "down",
-    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9od1NjRnB6OWkzVlg4c3NSZjU3bHk2MXMyRnVMOXhMTG9OTGlZRTA3Qk5nc2JnZlZzeFozdkdPR1UxSmJfYVdEaU5PMGRTSVhBYmFBUDQ5YUNJYlliZG9YSmpuYzhWNHZCRENOY3A2SHfSAXBBVV95cUxPaHdTY0ZwejlpM1ZYOHNzUmY1N2x5NjFzMkZ1TDl4TExvTkxpWUUwN0JOZ3NiZ2ZWc3haM3ZHT0dVMUpiX2FXRGlOTzBkU0lYQWJhQVA0OWFDSWJZYmRvWEpqbmM4VjR2QkRDTmNwNkh3?oc=5",
-    "title": "“게임 성능 제한 미고지”…공정위, 삼성전자에 과징금 201억 부과 - 전기신문",
+    "hasImportantNews": false,
+    "materialImpact": false,
+    "source": "메트로신문",
+    "date": "2026-10-28",
+    "summary": "삼성전자의 갤럭시 워치 수면 무호흡 기능이 식약처 허가를 획득했습니다. 다만, 회사 전체 기업가치에 미치는 직접적인 재무적 영향은 제한적입니다.",
+    "impactPct": 0,
+    "direction": "neutral",
+    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5oLXRzZV9TS0tlbEN1dWp1ZVlBTkRNV0dJMC1Md3EwcmZDdXJWdHBNeFotNDZuWVMwOTNnUGN4Y2lodnpSRE9nVzBXM0owMThaMklLbHJMaW9qVFUxc3dMWWZfYTlMdEJO?oc=5",
+    "title": "평택시의회, 삼성전자 평택캠퍼스 현장 시찰 - 환경일보",
     "articles": [
       {
-        "title": "“게임 성능 제한 미고지”…공정위, 삼성전자에 과징금 201억 부과 - 전기신문",
-        "date": "2026-10-27",
-        "source": "전기신문",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9od1NjRnB6OWkzVlg4c3NSZjU3bHk2MXMyRnVMOXhMTG9OTGlZRTA3Qk5nc2JnZlZzeFozdkdPR1UxSmJfYVdEaU5PMGRTSVhBYmFBUDQ5YUNJYlliZG9YSmpuYzhWNHZCRENOY3A2SHfSAXBBVV95cUxPaHdTY0ZwejlpM1ZYOHNzUmY1N2x5NjFzMkZ1TDl4TExvTkxpWUUwN0JOZ3NiZ2ZWc3haM3ZHT0dVMUpiX2FXRGlOTzBkU0lYQWJhQVA0OWFDSWJZYmRvWEpqbmM4VjR2QkRDTmNwNkh3?oc=5",
+        "title": "평택시의회, 삼성전자 평택캠퍼스 현장 시찰 - 환경일보",
+        "date": "2026-10-28",
+        "source": "환경일보",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5oLXRzZV9TS0tlbEN1dWp1ZVlBTkRNV0dJMC1Md3EwcmZDdXJWdHBNeFotNDZuWVMwOTNnUGN4Y2lodnpSRE9nVzBXM0owMThaMklLbHJMaW9qVFUxc3dMWWZfYTlMdEJO?oc=5",
         "type": "news"
       },
       {
-        "title": "'삼성전자 기밀유출' 안승호 전 부사장 2심 징역 3년‥법정 구속 - MBC 뉴스",
-        "date": "2026-10-27",
-        "source": "MBC 뉴스",
-        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTFAybmU1WnF4U2p6WTBJVGZoakhBbUFLNmozVldQUlRqOV9wdmlZSTBvSmhNM0ZnVHdZSmEyeEJ5V0pIRjRjbzl3Q1Q3XzEycklPX0xyQ25OV2JxS254UF9WajlNOTlhLTU4SENicWwtbnYwbURqVW5N0gF3QVVfeXFMTXFMQlZISWxWbGI1cUJRSnNidmZLNFM4QVR6OURaMzBmcFdUU1c2WXVsS2tMUl9GUmRBUmQyZE9qWEc3cGpIYkhrX0NvdzJoRV9pMkRxd1BvaWZ6SHdIYldxTlYtZFdadkg2cUtqODBiX3MyVFlOdDQ?oc=5",
+        "title": "삼성전자, 갤럭시 워치 수면 무호흡 기능 고도화…식약처 허가 획득 - 메트로신문",
+        "date": "2026-10-28",
+        "source": "메트로신문",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBHd2UtV2RPQUNzZU5YZGNoNkpzRjlkOUJYOEpyQkZVN1FNWlJGcmR2SXlxajF5dmJ0ZmtsVW1aTXM1QXMzU1ktNUh4Z240NW4zX2R1OXdwU1V2REM0RUx5Xw?oc=5",
         "type": "news"
       },
       {
-        "title": "공정위, 4년 이상 끈 삼성전자 제재…과징금 왜 줄었나 - 연합인포맥스",
-        "date": "2026-10-27",
-        "source": "연합인포맥스",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBoYk1ZRHNWWjJpQktpWk9iRzZQQ0M0eGUzRTc2eTI5LTZmZV96ZDhmN0s4cmI2V282RUxkbnlvdktaTnZQektscTlOS3JURmkxZ1g4V2kwbVM5elN1ZXdjV01zbFlqbk5RbzYtMy1HNG8?oc=5",
+        "title": "삼성전자, 리센느와 '갤럭시 Z 폴드8' 캠페인 - 디일렉",
+        "date": "2026-10-28",
+        "source": "디일렉",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1EZ2ZjNlpnT2xwUG1neHpHbG9NTFZjOE9BcF82WlV2c3U1MW1pZUR5SUVCLUtMUkwyLXhMLWppQkdiQldUUld1M3NSNjNGOHBzZE5fMi1qajltRDc1Y0NqR2lXR2M3UQ?oc=5",
         "type": "news"
       },
       {
-        "title": "갤럭시 게임 성능 자랑하더니…삼성전자 과징금 200억 - 연합뉴스TV",
-        "date": "2026-10-27",
-        "source": "연합뉴스TV",
-        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBSR244OFA2UUF1NERPa3kxbHJtWHVLRTR0VjF6UWdBUlJNbFBzTU16NTNCQ0VBbTFFRm9KTGJoLVJLaUdmSEFhaTJITEVSenMteUxpTTUxUE9oSHJCb21LMm4xaTdJMmM?oc=5",
+        "title": "[테크스냅] 삼성전자, 리센느 손잡고 갤럭시 Z 폴드8 알린다 - 연합뉴스",
+        "date": "2026-10-28",
+        "source": "연합뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5IWW0tb0VhQmpqbXVOUzM2UHhwSGJBRFAtUWVpbjdHOVI1cm1CMVhmd3ZQdDJvb044WGNaQURvN0xmRS0xTVIzS1l6SzU1eV9Rb0JtSklvdGI5bTjSAWBBVV95cUxNNWI1T3MtRGlldnUyS3YzcnFxZ0theUZqR3g0d1c5VHNBZWFLOWdQX3hObi1sejNUQkFGV1ZWZ2R0a0hJMnRtaUphT2xaeGlVbFE5eHdOQzV5N1hCUlFhcXg?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "'끝판왕' 이라더니 성능 제한...삼성전자 201억 과징금에 \"법정대응\" [자막뉴스] - YTN",
+        "date": "2026-10-28",
+        "source": "YTN",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE9idk15eS11NmZUMGMzVFNDblpFQUh6RG1PYV9WXzlhZlhtN2Fka0hlUXFPYVMtX19JRWhSa2ZzZWNBLV9LckRqRG1yNW9rd3BTVXpPUUY5VmJ3VG5EeWp0NlRYMA?oc=5",
         "type": "news"
       }
     ]
@@ -43,74 +50,81 @@
   "삼성전자우": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "단순 주가 변동 및 수급 분석 기사로 실질적인 기업 가치 변동 이벤트는 없다.",
+    "source": "뉴스1",
+    "date": "2026-10-28",
+    "summary": "실적 발표를 앞두고 우선주 주가가 급등했으나, 단순 주가 변동 및 기대감 반영으로 실질적인 이벤트는 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1NaDhJTG1wY3p1a2FlaDA2eWp0aGc5MG9ERS1OQ0RXb19LRVZHRzhPT0l4SU9PQ241Y3RBbU50eWtpRXVNdnAyOXpLal8wYlRFMkhPX3Z0aGpKT2huZGx3U0dUeHdpTjRBbDJVQkx5Y0Y5dw?oc=5",
-    "title": "삼성전자우 주가, 10월 27일 장중 171,900원 4.69% 상승 - 톱스타뉴스",
+    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5uU2o1T21qTGI3VkdQNTNuQlN2bG1BYV9CcFlJRlpwcFJKV3c2MEtEMm5XY3VEWVNYSVo4dlE3bFVBMk4wRnBDWW0yMXc4S2JlV2JnSGJoRU1kZzdVTmhZcjlyd0NpWWZabUtoLVNPTllxdw?oc=5",
+    "title": "삼성전자우 주가, 10월 28일 장중 185,300원 8.30% 상승 - 톱스타뉴스",
     "articles": [
       {
-        "title": "삼성전자우 주가, 10월 27일 장중 171,900원 4.69% 상승 - 톱스타뉴스",
-        "date": "2026-10-27",
+        "title": "삼성전자우 주가, 10월 28일 장중 185,300원 8.30% 상승 - 톱스타뉴스",
+        "date": "2026-10-28",
         "source": "톱스타뉴스",
-        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE1NaDhJTG1wY3p1a2FlaDA2eWp0aGc5MG9ERS1OQ0RXb19LRVZHRzhPT0l4SU9PQ241Y3RBbU50eWtpRXVNdnAyOXpLal8wYlRFMkhPX3Z0aGpKT2huZGx3U0dUeHdpTjRBbDJVQkx5Y0Y5dw?oc=5",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5uU2o1T21qTGI3VkdQNTNuQlN2bG1BYV9CcFlJRlpwcFJKV3c2MEtEMm5XY3VEWVNYSVo4dlE3bFVBMk4wRnBDWW0yMXc4S2JlV2JnSGJoRU1kZzdVTmhZcjlyd0NpWWZabUtoLVNPTllxdw?oc=5",
         "type": "news"
       },
       {
-        "title": "AI 반등장서 삼성전기·삼성전자 담은 ‘상위 1%’…SK하닉은 순매도 1위[주식 초고수는 지금] - 서울경제",
-        "date": "2026-10-27",
-        "source": "서울경제",
-        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTFBHZFZ1NXNXR01lVXAxM09RaXBFZDVLWExub0w2ZTUtZ2l0TVRSalk1TkZOM0ZTVTNlTkpucDRqcFJyQzczMXBQaG9tcUltQUo3UmfSAVNBVV95cUxNUXh3RjhkX0N4VnR6bndKQmdLM2wyX0pfUlZ5VGI4WXRqTEJ3WjNKVW5OOGJoUkc0dU40WTJDSjZTSWpaMi1qNFM4cEJEQXRiZFM2bw?oc=5",
+        "title": "삼성전자 실적 발표 D-1…우선주 9%·삼성생명 8% 급등[핫종목] - 뉴스1",
+        "date": "2026-10-28",
+        "source": "뉴스1",
+        "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE52S213eU5feUZYMXVJaGhySHdNT2hCSnppZVJaZm9uWEVoTFVFZXY0Sy0tZE1FdXlwTFZwTzFReW9oNXEyYjl2MHRMS2dVVjQ4WnFoZnBWX280S00?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "[특징주] 삼성전자 23만원 돌파…실적 기대에 그룹주 동반 급등 - 뉴스핌",
+        "date": "2026-10-28",
+        "source": "뉴스핌",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5qMTlidHV4MllvRUpYYTZtSWZ0Z1hWZWdqczdVU2ZpaXM2cDc0b0k5R1lXYWc5N0JvV2YzZDc2X3dnNnY0S1U3cnVmRkxVdUJPSm56UmFDUXZhYlFV?oc=5",
         "type": "news"
       }
     ]
   },
   "SK하이닉스": {
-    "hasImportantNews": false,
-    "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "실적 발표를 앞두고 증권사 목표가 유지 및 시장 기대감에 대한 보도로 중요한 이벤트는 없다.",
-    "impactPct": 0,
-    "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE0xVEg3T3hQU1Ytd2F1blY4YVRvVU9hdEplN3NQaEhKdTU4SWRyTVhJRm9qamRjYVVXQm9yNV9uaUdjbDM1NzRHNVNJT0wxc0ZpNWN2TzJXVk90QdIBX0FVX3lxTE05YWl1cWhKODNvUWdTUHhMMzNIbGt0TnJubVB3d0FwZGlXeGVEVFZQMUJFZ3VxOXFSWFd4bUxNUmpIWUkzN2txeVA0N0xncjJSOEt0N1A3TWJ2LVlwcVZn?oc=5",
-    "title": "[박동흠의 생활 속 회계이야기]SK하이닉스 ‘솔리다임 상장 사태’가 K증시에 남긴 교훈 - 경향신문",
+    "hasImportantNews": true,
+    "materialImpact": true,
+    "source": "연합뉴스",
+    "date": "2026-10-28",
+    "summary": "SK하이닉스가 3분기 영업이익 83조 원으로 역대 최대 실적을 달성하며 매출 100조 원을 돌파했습니다. 반도체 시장 내 압도적인 실적 성장을 통해 기업가치 제고가 기대됩니다.",
+    "impactPct": 25.0,
+    "direction": "up",
+    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE91WnE4dEtPV3JSOXJOUHFsWXc5cFlGcHFfRnhjdm84RUlWMFloamhrUXlIR1hyQUJxNE1hSm03b1lQdzIwMzdUQlpNR3VwTnJodjVyeExiaXRoclljLXV1QVo4RS05UjNfd1hpOEZYenM?oc=5",
+    "title": "SK하이닉스 \"주가 저평가…자사주 매입·소각이 효과적\" - 연합인포맥스",
     "articles": [
       {
-        "title": "[박동흠의 생활 속 회계이야기]SK하이닉스 ‘솔리다임 상장 사태’가 K증시에 남긴 교훈 - 경향신문",
-        "date": "2026-10-27",
-        "source": "경향신문",
-        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE0xVEg3T3hQU1Ytd2F1blY4YVRvVU9hdEplN3NQaEhKdTU4SWRyTVhJRm9qamRjYVVXQm9yNV9uaUdjbDM1NzRHNVNJT0wxc0ZpNWN2TzJXVk90QdIBX0FVX3lxTE05YWl1cWhKODNvUWdTUHhMMzNIbGt0TnJubVB3d0FwZGlXeGVEVFZQMUJFZ3VxOXFSWFd4bUxNUmpIWUkzN2txeVA0N0xncjJSOEt0N1A3TWJ2LVlwcVZn?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "SK하이닉스 실적발표 D-1···관건은 ‘영업이익’과 ‘주주환원’ - 시사저널e",
-        "date": "2026-10-27",
-        "source": "시사저널e",
-        "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1JN2tIUGg1bXBYZ18tTTlQYXBRUVZ3cGJFNVNEaGM4OWtVNXlQOFhwTjd0aUVSV3FmeUpDdlk4QWZ0STFQdjA0cGwyTGN5dGQyMEN6VVRTdjBnakx4ZEpzZ3AxWThZNWZvVHAzS0ptY2tQU19URHfSAXZBVV95cUxNSTdrSFBoNW1wWGdfLU05UGFwUVFWd3BiRTVTRGhjODlrVTV5UDhYcE43dGlFUldxZnlKQ3ZZOEFmdEkxUHYwNHBsMkxjeXRkMjBDelVUU3YwZ2pMeGRKc2dwMVk4WTVmb1RwM0tKbWNrUFNfVER3?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "RBC, SK하이닉스 ADR 목표가 200달러 유지…40% 상승 여력 - 연합인포맥스",
-        "date": "2026-10-27",
+        "title": "SK하이닉스 \"주가 저평가…자사주 매입·소각이 효과적\" - 연합인포맥스",
+        "date": "2026-10-28",
         "source": "연합인포맥스",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBxTE14a3hXUElMR2ZfSk1nbjJTWnhQb2gwQ2JyMXJwbDBaalROMDZDYlJCTUx1MW5IT2N6RzVrU1E4SXZORWFrWm13UVdxMjJLWUFKaU5lSWRUQkkzWDdIWGZKMWlsMkFmRVp6SnBtdXk?oc=5",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE91WnE4dEtPV3JSOXJOUHFsWXc5cFlGcHFfRnhjdm84RUlWMFloamhrUXlIR1hyQUJxNE1hSm03b1lQdzIwMzdUQlpNR3VwTnJodjVyeExiaXRoclljLXV1QVo4RS05UjNfd1hpOEZYenM?oc=5",
         "type": "news"
       },
       {
-        "title": "3개월 동안 77조 쓸어 담는다…SK하이닉스 '역대급 실적' 예고 - 한국경제",
-        "date": "2026-10-27",
-        "source": "한국경제",
-        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1BUTJBbVoxZWZfempTOFhTeDEtWlk3S052am03MDV2MDJoaWVTZXc1NVBWTWd0MTJUMnhaaTdST28wY0h1Q1ZiN0YtbERSbFlrV01VTFBCMnYxQQ?oc=5",
+        "title": "SK하이닉스, 3분기 영업이익 83조 ‘어닝 서프라이즈’ - 한겨레",
+        "date": "2026-10-28",
+        "source": "한겨레",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE45THZxNnRhaDNXakthcXpUNUY0TC1uRGpKU3RrTTRvSEhNck5sQmxld0lKNjFVMkpqb3cyb1VxN1JacTh2SVJRLWFNQ0lhM3drdHhMNjBrclRmNDlzUlpUREVwbFdld3ZEa2c?oc=5",
         "type": "news"
       },
       {
-        "title": "SK하이닉스, 16조원 특별배당 보도에 2주 만에 최고가 기록 - Investing.com 한국어",
-        "date": "2026-10-27",
-        "source": "Investing.com 한국어",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1QcFRCUXZ2RFdtZEdEb0dKZmgtNldJcExheVgxRER6bi0zUXJTc2dDbWxVZWNOSVB6eG10RkVpVnFXWTZ5WmI1WnlIbW5YeklydzhGU3JhdHMwQjJKby16LW81aUJZZG93dEFLdV9xVDY?oc=5",
+        "title": "SK하이닉스 3분기 영업익 역대 최대 83조…매출 100조 첫 돌파(종합) - 연합뉴스",
+        "date": "2026-10-28",
+        "source": "연합뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE56aTRlYWdCbmRrYkQ1czlydm9JbWx2QUEzRU5obmlsQWIyOEdBZWZRdVVLbjJXemxKZzRISTF3SkcxbjliWVpQZUFEUVA0ZVBCTmZBUVBFSXRRdDNXbVY2N9IBYEFVX3lxTE56aTRlYWdCbmRrYkQ1czlydm9JbWx2QUEzRU5obmlsQWIyOEdBZWZRdVVLbjJXemxKZzRISTF3SkcxbjliWVpQZUFEUVA0ZVBCTmZBUVBFSXRRdDNXbVY2Nw?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "SK하이닉스, 영업익 83조 ’사상 최대’…60조 추가 주주환원 - 연합뉴스TV",
+        "date": "2026-10-28",
+        "source": "연합뉴스TV",
+        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBmSTNUb3Rfb19rSVM2a200bnJUbFhsaWRTOFhDaEJTdDRrVzBhV2lzaXhqXzA4WnNYaERhTmhsajdNLVJGb3RvdmdvbkxCd1VacVdJYkR0Tm1QY1M4a2JyeUY3SjdSVkE?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "속보 SK하이닉스 3분기 실적 발표...영업이익 83조 원 - YTN",
+        "date": "2026-10-28",
+        "source": "YTN",
+        "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE9vMmVQVWtFRHNVM0IwVk1aTjZWdnM1ZDZDNmRZOXRXVDNubGZWWGRkN2ZpSWdOemJJYnVSTXE4cWl6ZmtWQnR3UkR1d2lDU2g2akxJTzNjMzNwcnZOdHc?oc=5",
         "type": "news"
       }
     ]
@@ -118,14 +132,21 @@
   "삼성SDI": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
+    "source": "철강금속신문",
     "date": "2026-10-27",
-    "summary": "ESS 시장 공략 및 산업 동향 관련 기사로 직접적인 실질 이벤트는 없다.",
+    "summary": "삼성SDI가 하이니켈 ESS로 북미 시장 공략에 나섰습니다. 산업 내 마케팅 및 전략 활동으로 실질적인 계약 체결 공시는 아닙니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1iQ2RFYmdQYk5QMHBySGpHdWNvMlJXakNOZ1AxRlMwOW1sSklqTUNVdTliZlVKcjIzVjhWNEdvTnFoZmdNcUJ5YlpEVTZydTJ4bVBVaEMxZHNfVDRxZ1g1RkZ0YlBqLU9BSHc?oc=5",
-    "title": "삼성SDI, 하이니켈 ESS로 북미 시장 공략 - 철강금속신문",
+    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5zVDVQQTRtTWExMDBjWXNkT3RObFZqVzlkZkEtOHRaWEE1b2ozaUNLc2l3UFYyZm9wLUdULWtzNXhVcFVhT0FTOHZ1bGFLdms4VHc?oc=5",
+    "title": "LG에너지솔루션·삼성SDI·SK온, 배터리3사 실적 '제자리거름'..승부처는 에너지저장장치 - 한국정경신문",
     "articles": [
+      {
+        "title": "LG에너지솔루션·삼성SDI·SK온, 배터리3사 실적 '제자리거름'..승부처는 에너지저장장치 - 한국정경신문",
+        "date": "2026-10-28",
+        "source": "한국정경신문",
+        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5zVDVQQTRtTWExMDBjWXNkT3RObFZqVzlkZkEtOHRaWEE1b2ozaUNLc2l3UFYyZm9wLUdULWtzNXhVcFVhT0FTOHZ1bGFLdms4VHc?oc=5",
+        "type": "news"
+      },
       {
         "title": "삼성SDI, 하이니켈 ESS로 북미 시장 공략 - 철강금속신문",
         "date": "2026-10-27",
@@ -134,31 +155,24 @@
         "type": "news"
       },
       {
-        "title": "신흥에스이씨, 삼성SDI 북미 ESS 훈풍에 실적 '턴어라운드' - 디일렉",
+        "title": "삼성SDI, 美 ESS '투트랙 공략' - 머니투데이 - 머니투데이",
         "date": "2026-10-27",
-        "source": "디일렉",
-        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1MenFFbUlyNUpEZDUwVWt6c1A3dzNiX0JIdE9Sc3RRUmlPb2o2UC1paEJEZTNiX3puWEUtOTR2anVSNVJvZHptakZFSFM2THdrYWMyMUptT09MQTZFb3pOSllFNXR2UQ?oc=5",
+        "source": "머니투데이",
+        "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1Fa2l4ZVBPeU9GYWNhQ1c2QnlKLUloVENmbzl0ZG1oUXZaWFIteDlPRk03Y1ZIQ25NMTlPSVBKUGlUR1RvVHhnX3AtQm5heUJIWHgwOWI0TzNjT3g2U2NmNWdHNjdUNkk3MUR5NtIBckFVX3lxTFBLR1pMX3pVbVFBNUhUWDd1UXBlcWNSMXZyV0JjTXpZWFNvcDVKaGRoZS1wVDRoRTByRHVFdUFhV0Rfa3JPal9SQnRPV3FLQmp4bUVWNjItajRyRHE2T0p4RFpxeUJXc2JEcnk2NlhMYkpjQQ?oc=5",
         "type": "news"
       },
       {
-        "title": "ESS가 가른 3분기 K배터리…LG엔솔·삼성SDI '순항', SK온 '난항' - 글로벌이코노믹",
+        "title": "삼성SDI, 美 AOP와 1GWh ESS 공급 계약 - 전기신문",
         "date": "2026-10-27",
-        "source": "글로벌이코노믹",
-        "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxONlZldHVLck8yOHZrS1NuQS1qb21wTzBwV04wYmFKZEFwUGlsT2RGcWZBdlV4X0Rzam94MnlTRTdrRG1HbGNiTDZVYndtVk9HYzEtMF85SGhRakJZdV9ITW80b3BGSmRLMU41RlFDYVVSdEIzTEdhQnJzUThNZzg2VzBPVDd5QQ?oc=5",
+        "source": "전기신문",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9Jd2dyaXJ0UklSUFBsX3RxY3F0WUlIOUtja1R4dk1YODY3QnFXZk5VSXE0NU92M2lDWmpSWktJcS12RHVJRGNfT0FibWNuZTVReVhMQ1VpbUt0bVU5UFF5aTNUVEZhUTNta1BYY3dCMkTSAXBBVV95cUxPSXdncmlydFJJUlBQbF90cWNxdFlJSDlLY2tUeHZNWDg2N0JxV2ZOVUlxNDVPdjNpQ1pqUlpLSXEtdkR1SURjX09BYm1jbmU1UXlYTENVaW1LdG1VOVBReWkzVFRGYVEzbWtQWGN3QjJE?oc=5",
         "type": "news"
       },
       {
-        "title": "[단독] 필에너지, 삼성SDI 후광 무색…실적 부진에 대금도 밀렸다 - 더스탁(The Stock)",
-        "date": "2026-10-27",
-        "source": "더스탁(The Stock)",
-        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBYTkNLSmNNUHdZV0s5TTN2OFNjcWUwVFdBbDdpd1loRWJtTTNWVXBBSjNZVzJza05fTzNMa3d2TWxUdzhPVkVJYkY2Rmp3elJpS2pKWkJOdXFZNGN1SVljVmoybHdudjV0T0E?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "각형 내세운 삼성SDI, 미국 ESS 수주 '릴레이' - 프라임경제",
-        "date": "2026-10-27",
-        "source": "프라임경제",
-        "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9BQTRwc0pUWnVUdm1ncm5jYjMzVmN4UlBvVklzTFRxV2dnbHhzcFIzVkhWcGl1YzZVLUJJX2J1VEl6MUZKRXg1RmdNVEZ5VFBsdHdpZUJWLS0xWWhVbXBickVjRFhkMVJQVExIMA?oc=5",
+        "title": "삼성SDI ‘일체형 ESS’ 미 에너지기업에 대규모 공급 - 경향신문",
+        "date": "2026-10-26",
+        "source": "경향신문",
+        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTFBrYXlfeXFqc0tnbmtFRDJSYnRTOUV3V2RQM1Q1NXJLS1I3UGpBeW9Oakt1NHlnYi1xYnVoSk1naEl1b0VSTVJCYlkxWWdIVXB2MVFoMERrWDFmUdIBX0FVX3lxTE5QaGVzNUxxVEJ3cThMZ0FrUUs3aUx0RVF1V2FuSVZWbTNlajRXQmpwdjgwMTBpZFFmQmRmM242eGs1SXl2TTZfelF4eFZEMS1hZFU3SVlCdW5icnZ6anNr?oc=5",
         "type": "news"
       }
     ]
@@ -190,28 +204,14 @@
   "LIG디펜스앤에어로스페이스": {
     "hasImportantNews": true,
     "materialImpact": true,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "정부로부터 받은 2년 입찰 제한 조치에 대해 법원의 효력 정지 가처분 결정이 내려졌다. 당장의 경영 리스크는 일시적으로 해소되었다.",
-    "impactPct": 10.0,
-    "direction": "up",
-    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9KSWNBTnFhTExkQzdnY09sSm1mbXJHdWQ3N0ZtdkJfeHFITHFuRmV5QVZ6OHdYaWUwWkkzTEp4SXhSNlZqcndRbTVqUlhzWmdmeWtFc3BibTVfSGNvRmpibkROY3EzZnV4?oc=5",
-    "title": "[기업家] LIG디펜스앤에어로스페이스 ⑦ㅣ 법원 효력정지로 일단 제재 제동 - CBC뉴스",
+    "source": "에너지경제신문",
+    "date": "2026-10-26",
+    "summary": "LIG디펜스앤에어로스페이스가 방산업체 지정 취소 검토 가능성으로 주가가 급락했습니다. 방산업체 자격은 기업의 영업 환경에 중대한 영향을 미치는 요소입니다.",
+    "impactPct": 20.0,
+    "direction": "down",
+    "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQdW00N3h4N0RWWkxFZ29FdmtIY1NsZHNST1pQcEFyN1JwYTVUc2tuNkRCaUZ4bjB1dUVJZUh6YndCX3EtZnh2SDVoNzE5N09ScVR1UkxjSGdTVTJXVzhTZFRCWEdfbHFkZXJPMU9DeXlYZHAxdFBxZzJfSjF3OU9mcUJlenRlWTQ?oc=5",
+    "title": "[개장 전 주요 공시] IBK기업은행·LIG디펜스앤에어로스페이스·아리바이오홀딩스 등 - 글로벌이코노믹",
     "articles": [
-      {
-        "title": "[기업家] LIG디펜스앤에어로스페이스 ⑦ㅣ 법원 효력정지로 일단 제재 제동 - CBC뉴스",
-        "date": "2026-10-27",
-        "source": "CBC뉴스",
-        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9KSWNBTnFhTExkQzdnY09sSm1mbXJHdWQ3N0ZtdkJfeHFITHFuRmV5QVZ6OHdYaWUwWkkzTEp4SXhSNlZqcndRbTVqUlhzWmdmeWtFc3BibTVfSGNvRmpibkROY3EzZnV4?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "LIG디펜스앤에어로스페이스, '2년 입찰제한' 임시집행정지 - 파이낸셜뉴스",
-        "date": "2026-10-27",
-        "source": "파이낸셜뉴스",
-        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9oUmRGMENBX0piWkNlQlkzRVF5VW5GQS1FY1RaTmJiNWdLMGVUdmRGSk10YWFSd005anF3cUQwSU84OUhjOGtMX0VndkZrZWNPOXViUGthWWNNZw?oc=5",
-        "type": "news"
-      },
       {
         "title": "[개장 전 주요 공시] IBK기업은행·LIG디펜스앤에어로스페이스·아리바이오홀딩스 등 - 글로벌이코노믹",
         "date": "2026-10-27",
@@ -225,25 +225,53 @@
         "source": "에너지경제신문",
         "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE02dnV1X0lXWHlhVXNhNVM1VjRmRkpLMERoSVhZclM3R1c2WkVna0tLbzFqeWdNY19QYS1Jd014UmlCaVFPY21vY21LM0czMmp2Y3VuNFg4MnllekU?oc=5",
         "type": "news"
+      },
+      {
+        "title": "[특징주] '방산업체 지정 취소' 가능성…LIG디펜스앤에어로스페이스 8% 급락 - 뉴스핌",
+        "date": "2026-10-26",
+        "source": "뉴스핌",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFBteWpoUUl0c20wLVhxMzVrejJoSDhQOGM4R0FOMmxsMDVTbHRVMnlNTkhBZlk4cEc5cXhWb2ZDd0ZBRXBvYTBJYVh5Q0ljbERIV2Vob2Zta1JaOW5M?oc=5",
+        "type": "news"
       }
     ]
   },
   "HD건설기계": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "3분기 실적 발표 내용이나 이미 공개된 재무 정보에 대한 분석 기사로 중요한 개별 사건은 없다.",
+    "source": "아주경제",
+    "date": "2026-10-28",
+    "summary": "HD건설기계가 군산 엔진 신공장을 준공하며 생산 기지를 구축했습니다. 향후 사업 확대 기대감은 있으나 단기적인 재무적 이벤트는 아닙니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5vM254Rm44NjFFUVJlQTFWRGlMTUI3TmZpUDhzemJ3YjNRWEpkVVpPbi1WSmMtMkNXZ25DakllVjNlSWNmQS1jRWhrbDFZQjRZQ21rblRwWVJHQW5VaHN4SXB4cmtEdw?oc=5",
-    "title": "HD건설기계 3분기 매출 2조915억원·영업익 1577억원 - 비건뉴스",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5CektFbEYzbVFkX3NzVzRMMFJHUGg4djU5LVd5UFJDSTIxTW1aNjZJRnhETUVCaTZET0NVYzZqcWxCejFIcS1nT09pNF9TNl9hWWhSbDJoaTBhZ9IBWEFVX3lxTE0xMlRnQWNJaGo2Q3g4REc2eEFORWFVdWtJUzZGQkg2a1VvSlVURjFMekdRSkhkbmNIMktuRGtzWldQNnpVV2xucndwUG5nR0h6TFZvd2FEY1Y?oc=5",
+    "title": "HD건설기계, 군산 엔진 신공장 준공…AI 데이터센터 엔진 시장 공략 - 아주경제",
     "articles": [
       {
-        "title": "HD건설기계 3분기 매출 2조915억원·영업익 1577억원 - 비건뉴스",
-        "date": "2026-10-27",
-        "source": "비건뉴스",
-        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE5vM254Rm44NjFFUVJlQTFWRGlMTUI3TmZpUDhzemJ3YjNRWEpkVVpPbi1WSmMtMkNXZ25DakllVjNlSWNmQS1jRWhrbDFZQjRZQ21rblRwWVJHQW5VaHN4SXB4cmtEdw?oc=5",
+        "title": "HD건설기계, 군산 엔진 신공장 준공…AI 데이터센터 엔진 시장 공략 - 아주경제",
+        "date": "2026-10-28",
+        "source": "아주경제",
+        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5CektFbEYzbVFkX3NzVzRMMFJHUGg4djU5LVd5UFJDSTIxTW1aNjZJRnhETUVCaTZET0NVYzZqcWxCejFIcS1nT09pNF9TNl9hWWhSbDJoaTBhZ9IBWEFVX3lxTE0xMlRnQWNJaGo2Q3g4REc2eEFORWFVdWtJUzZGQkg2a1VvSlVURjFMekdRSkhkbmNIMktuRGtzWldQNnpVV2xucndwUG5nR0h6TFZvd2FEY1Y?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "HD건설기계, 군산 엔진 신공장 준공…'파워솔루션' 사업 확대 - 뉴시스",
+        "date": "2026-10-28",
+        "source": "뉴시스",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1yMVowbjJSeXU1U2NhaUhKQlN1dV9laENnMnBxQUlvT3FSdzVmMmhUNEwtV3ZwZ2ttSHdJa0R0T0FBcEhYUVFQLW5pZEtET0J2TnhiY3k1dmxqQ19meFFoOA?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "HD건설기계, 군산에 초대형 발전·방산 엔진 생산기지 구축 - 전북제일신문",
+        "date": "2026-10-28",
+        "source": "전북제일신문",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1BUmpjbUo2YnMtNWJ4Y3ZiREVfZTVTVTQtMjZvbXpTZS1XWE44TU83ZDJuV0J4d2x3enhZWWV4WWZfbTNwdExSbVE3a0JPaGo0UGx0Q18wczRQYnM3VmFpRzMxNXJWQ0p6Z3c?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "HD건설기계 주가 상승 중 - 아시아뉴스통신",
+        "date": "2026-10-28",
+        "source": "아시아뉴스통신",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5kUk9TajA3YVlLSGx6T1lfZktYQjlSd2pjeFdweHdJMy1sRHdlc0pjV05GYWJ1dERXSnRxNVA5c21obkxvTE9CSVF3M0EyYklCSXhfbnNtcEc4LU5X?oc=5",
         "type": "news"
       },
       {
@@ -252,60 +280,39 @@
         "source": "FETV",
         "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE43UW9LeTA2anBDU21Qa2xIM3dkdDVLWnNQck5NWVd0SXoyQjFuYkdPdUw5QzM5N3FTQXdxOXpzQ2dkTjFkdXJOVVhRM0pEVm1BX2N2WUNnYm5OM29yd0ZHTXdQLVVwazMx?oc=5",
         "type": "news"
-      },
-      {
-        "title": "[분석] HD건설기계, 단기 실적 부담에도 성장 기대… 증권가가 주목한 엔진 사업 - 비즈트리뷴",
-        "date": "2026-10-27",
-        "source": "비즈트리뷴",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1YNm12UzlEOVB3LXhTTG5McGVrWjZFdVBfNUNVTjZZc294MTJSTGdjOHpyemdqQlphQUJiSGJnX3hiVUxyRHRDdmN4czFSQlkxcEJVX1hOWk5TQXFxc01XTVdydG4wZmpER2ZwTHl2LS0?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "[HD건설기계] HD건설기계, AI 데이터센터가 새로운 성장동력으로…엔진 사업의 반전(2026년_2Q) - 네이버 프리미엄콘텐츠",
-        "date": "2026-10-27",
-        "source": "네이버 프리미엄콘텐츠",
-        "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxPY243YUJCX0Juc1VlWnVUeVhteFZJTDFXX2pJcHhOaG1JT2Q4NDVHM3c0bkNubFI5TDNNX0FjLThrOWs3SWY4WkxZa0NZMHNuRkI3cWRlR3BXalRsRnEweldHYlpOVjc5MU1pQ21PYjRHNjM5TUtkTkxSVjJheGtIZXBHX2l4eEkx?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "HD건설기계 엔진 이익률 14%…데이터센터가 끌었다 - 자본시장뉴스",
-        "date": "2026-10-27",
-        "source": "자본시장뉴스",
-        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBjQzUtZ1MzczhxYVp1emdVMjBBZUVHTV9SaDNUNEFzRnpraENob2ZORDVLaXZZam5TdDZuTGl0dWtwYU4zN1RTMUNOTDY0T3pZR2tESnI1cmdUMEFSZVRDazZyZVhLOG8?oc=5",
-        "type": "news"
       }
     ]
   },
   "HD현대마린솔루션": {
     "hasImportantNews": true,
     "materialImpact": true,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "모회사 HD현대가 채무 상환을 목적으로 보유 중인 HD현대마린솔루션 지분 5.32%를 활용해 5,887억 원 규모의 교환사채(EB)를 발행했다. 이는 오버행 이슈를 유발할 가능성이 있는 재무 이벤트다.",
-    "impactPct": 15.0,
-    "direction": "down",
-    "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5kTmFBOXBaN0o3cThla1M5U0lwZnpheXRrd3ZhMVFENF9GcTVnbkt3Y2J0c2FHT2s5VFRyWHc0TTVFY3BYajNNMGVOSHdFT1RVanZlSkVIb1ZBQTVSWThiSG5md3JQaUN0WWRfZXRtTWRCNTg?oc=5",
-    "title": "HD현대 5887억 규모 교환사채 발행, HD현대마린솔루션 지분 5.32% 활용 - 비즈니스포스트",
+    "source": "koreasprint.com",
+    "date": "2026-10-28",
+    "summary": "HD현대마린솔루션이 3분기 매출 6,501억 원 및 영업이익 9,57억 원을 기록했습니다. 실적 공개는 기업의 수익성을 확인하는 중요한 이벤트입니다.",
+    "impactPct": 10.0,
+    "direction": "up",
+    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9YZlVuaG53S005SXk1MlZPS19ENTQ4RGZNbDhLeU5vengxbFpJMlVMbE9LdzJWX3BjRG9KTFhXdk5PNU5TQUMwTVJRRlFwZzRQN2pyaVlRS3FUenpKNVJWLXl1MjVyQ3ZVWXNuUzJR?oc=5",
+    "title": "HD현대마린솔루션, 3분기 매출 6501억원·영업이익 957억원 - https://www.koreasprint.com/",
     "articles": [
       {
-        "title": "HD현대 5887억 규모 교환사채 발행, HD현대마린솔루션 지분 5.32% 활용 - 비즈니스포스트",
-        "date": "2026-10-27",
-        "source": "비즈니스포스트",
-        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5kTmFBOXBaN0o3cThla1M5U0lwZnpheXRrd3ZhMVFENF9GcTVnbkt3Y2J0c2FHT2s5VFRyWHc0TTVFY3BYajNNMGVOSHdFT1RVanZlSkVIb1ZBQTVSWThiSG5md3JQaUN0WWRfZXRtTWRCNTg?oc=5",
+        "title": "HD현대마린솔루션, 3분기 매출 6501억원·영업이익 957억원 - https://www.koreasprint.com/",
+        "date": "2026-10-28",
+        "source": "https://www.koreasprint.com/",
+        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9YZlVuaG53S005SXk1MlZPS19ENTQ4RGZNbDhLeU5vengxbFpJMlVMbE9LdzJWX3BjRG9KTFhXdk5PNU5TQUMwTVJRRlFwZzRQN2pyaVlRS3FUenpKNVJWLXl1MjVyQ3ZVWXNuUzJR?oc=5",
         "type": "news"
       },
       {
-        "title": "HD현대, 현대마린솔루션 주식으로 5887억 EB 발행…\"채무 상환 투입\" - 한국경제",
+        "title": "HD현대마린솔루션, 보통주 1주당 900원 분기배당 - 비건뉴스",
         "date": "2026-10-27",
-        "source": "한국경제",
-        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE92S0M3bDBKdkN3VDA1d2M3RWxpbjY2alpwdk9QVXpGN1V3LXpBeFVHRjJnSmk4anJLUEdic3ljOFI5ZEVqTEloXzRVNVNjNXdBRGk1bkVMNEw2QQ?oc=5",
+        "source": "비건뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBWNGpFSHJTRFE3ZDVTWXBLQ0JkMndPZUNWRUhmOTMzLTBac3lpVGNBbGRYS1FYSFJ5ZGM5R05GUzlkRHlXWjlSUHN2VFFVSGhLMWhGTDFra1BTMm1jdFBXMVpNckEwQQ?oc=5",
         "type": "news"
       },
       {
-        "title": "HD현대, HD현대마린솔루션 주식 교환사채로 5887억 조달 - 매일경제",
+        "title": "HD현대, HD현대마린솔루션 주식 교환사채로 5887억 조달 - 매일경제 마켓",
         "date": "2026-10-27",
-        "source": "매일경제",
-        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5ibFJVRUZleVlLSFlwZVV0Q09FbUQ4QUZLMGxTSFhtS19NRi1xUm1pbExpVk5OMjVSa3ZmUFJ3dElTWWh5WG15OXYtQzVDWUZkMlE?oc=5",
+        "source": "매일경제 마켓",
+        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1PN1pTTXpRLVNiSU9MOHRLWjhpSWNzelR0QU1tbUR5SXd6WHNjUFpuLWticl9fMDhhRlZYSmdGVXpIOWM5SXlpRFZoME9WN2Y0eHc?oc=5",
         "type": "news"
       },
       {
@@ -327,9 +334,9 @@
   "OCI홀딩스": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
+    "source": "뉴스1",
     "date": "2026-10-27",
-    "summary": "미국 빅테크와 전력 계약 마무리 단계라는 산업 관련 뉴스이며 주가 하락은 단순 시장 수급 상황이다.",
+    "summary": "미국 빅테크와의 장기 전력 계약 체결을 추진 중이나 아직 완료된 건이 아니며 단순 진행 상황 보도입니다.",
     "impactPct": 0,
     "direction": "neutral",
     "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBTNW5Bems2N1IxR3pEcHRtNEV0TWpVanJsNUJlVHl4aFVIWEd4RkNJQXRJT1hybmo2Q0NnbXB6SWUydFMtS09qWGN0MHQtd2VUU19VMmFWUC1FQTJLel84emJUR3U?oc=5",
@@ -361,19 +368,19 @@
   "OCI": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "OCI홀딩스와 동일한 전력 계약 관련 보도로 중요한 개별 이벤트는 없다.",
+    "source": "디일렉",
+    "date": "2026-10-28",
+    "summary": "인텔과 오라클의 협력 기사로, OCI 본사와는 직접적인 기업 가치 변화가 없는 일반 산업 뉴스입니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBTNW5Bems2N1IxR3pEcHRtNEV0TWpVanJsNUJlVHl4aFVIWEd4RkNJQXRJT1hybmo2Q0NnbXB6SWUydFMtS09qWGN0MHQtd2VUU19VMmFWUC1FQTJLel84emJUR3U?oc=5",
-    "title": "OCI홀딩스, 美 빅테크와 장기 전력계약 연내 마무리…직접 운영 확대 - 뉴스1",
+    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1jaE43U0ROTlNXb3gtU0pzMHByY0tCSTZYNzBHWXExbU93UEZMcmxJb1d0ZllnMHlici1xRFVselB4N2pEekppTGZsTVljTDY0VmdHRlBpNjFaa05QODRTX0d1ck5wUQ?oc=5",
+    "title": "인텔-오라클, 동맹 강화...서버용 CPU 장기 공급 협력 확대 - 디일렉",
     "articles": [
       {
-        "title": "OCI홀딩스, 美 빅테크와 장기 전력계약 연내 마무리…직접 운영 확대 - 뉴스1",
-        "date": "2026-10-27",
-        "source": "뉴스1",
-        "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFBTNW5Bems2N1IxR3pEcHRtNEV0TWpVanJsNUJlVHl4aFVIWEd4RkNJQXRJT1hybmo2Q0NnbXB6SWUydFMtS09qWGN0MHQtd2VUU19VMmFWUC1FQTJLel84emJUR3U?oc=5",
+        "title": "인텔-오라클, 동맹 강화...서버용 CPU 장기 공급 협력 확대 - 디일렉",
+        "date": "2026-10-28",
+        "source": "디일렉",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1jaE43U0ROTlNXb3gtU0pzMHByY0tCSTZYNzBHWXExbU93UEZMcmxJb1d0ZllnMHlici1xRFVselB4N2pEekppTGZsTVljTDY0VmdHRlBpNjFaa05QODRTX0d1ck5wUQ?oc=5",
         "type": "news"
       }
     ]
@@ -381,9 +388,9 @@
   "효성티앤씨": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
+    "source": "경북매일",
     "date": "2026-10-27",
-    "summary": "사회공헌활동 업무협약 건으로 기업 가치에 직접적인 영향을 미치지 않는다.",
+    "summary": "농촌 초등학생 환경교육을 위한 업무협약으로 기업의 영업 가치와 무관합니다.",
     "impactPct": 0,
     "direction": "neutral",
     "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE9IMGVKbzlkb3NHbmxSOEhjVnFWM2hTUEt0N2JlSUhRMFJIcnJSRHhVVnZjU2xCcXVLWkxzWUpxdDc0T1hnZkNDZEhqYkxvSkxhNnh6YjhiV25nQQ?oc=5",
@@ -429,38 +436,60 @@
   "LS": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "",
-    "date": "",
-    "summary": "",
+    "source": "전기신문",
+    "date": "2026-10-28",
+    "summary": "베트남 추가 투자 및 수주 추진 기사로, 구체적인 계약 공시가 아닌 산업 전망 수준의 보도입니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "",
-    "title": "",
-    "articles": []
+    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9UcnlBblgzOUlyNmNnVWpkbnVmSUdkOE04Y0dMRTlXckcycC1OWEZlZXRnVWI4YklJYVVOYUUyTUdSN0d4b19jaU9IVFJsZndGeGJrREpQemhRUzFQZWJRdDZnOWF0XzNWUmp2RNIBcEFVX3lxTE5KM3Q1TU5XelppNTByT09EVnJpQm9tb2RaMGk0Uk9jNEdjOW5IZ21hOHRaVTdtb0owZ1N0aGNDUU1XUU4xYVh4VmtDelZibHI5MGI0a0psT2JLa05Nd2ZDZVRWZVF1S1F6bWVjRDJ6Mzg?oc=5",
+    "title": "LS에코에너지, 베트남에 또 추가 투자… 신사업 드라이브 속 재무 부담 없나 - 전기신문",
+    "articles": [
+      {
+        "title": "LS에코에너지, 베트남에 또 추가 투자… 신사업 드라이브 속 재무 부담 없나 - 전기신문",
+        "date": "2026-10-28",
+        "source": "전기신문",
+        "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9UcnlBblgzOUlyNmNnVWpkbnVmSUdkOE04Y0dMRTlXckcycC1OWEZlZXRnVWI4YklJYVVOYUUyTUdSN0d4b19jaU9IVFJsZndGeGJrREpQemhRUzFQZWJRdDZnOWF0XzNWUmp2RNIBcEFVX3lxTE5KM3Q1TU5XelppNTByT09EVnJpQm9tb2RaMGk0Uk9jNEdjOW5IZ21hOHRaVTdtb0owZ1N0aGNDUU1XUU4xYVh4VmtDelZibHI5MGI0a0psT2JLa05Nd2ZDZVRWZVF1S1F6bWVjRDJ6Mzg?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "'40억 달러 낙수효과' 노리는 LS엠트론, 아우디 美 공장發 대형 수주전 시동 - 더구루",
+        "date": "2026-10-28",
+        "source": "더구루",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTE92UkhncnFReGpYX2VNNjdhVHdUbjB2SkRQT1hnaU9uVEs5WmRnRHE0SUw3TWpjNE1LQmhGZmIycFJObk11QlNXNVdGZENoNExmVDdTWTVsS1h5dUVKSThYWFhiTQ?oc=5",
+        "type": "news"
+      }
+    ]
   },
   "삼성E&A": {
-    "hasImportantNews": false,
-    "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "이미 발표된 실적에 대한 분석 및 전략 제휴 관련 기사로 새로운 재무 이벤트는 없다.",
-    "impactPct": 0,
-    "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1SeExvcngyaElFbFlyemdtY3A2dmxaclByZExYVnVOVGEyOVdqRGhmMmZoNHdnaGQ4TnFTR0xYWEs0NFhGaThZSWhzY3JMQ2FheUlkOG9UVDU2Xzk2enRfeC10X242MUVnZHdKMzd2OFY?oc=5",
-    "title": "삼성E&A '깜짝 실적' 절반은 일회성…사우디 충당금 환입 덕 - 리드경제",
+    "hasImportantNews": true,
+    "materialImpact": true,
+    "source": "신아일보",
+    "date": "2026-10-28",
+    "summary": "삼성E&A가 분기 영업이익 역대 최대를 기록했습니다. 일회성 요인이 포함되었으나 본질적인 실적 개선은 기업가치에 유의미한 영향입니다.",
+    "impactPct": 15.0,
+    "direction": "up",
+    "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE12cDhvbnA2RGFLV3FSUy00d2FHZkg5QWxtXzNKaFBrOHlrRnF6bFZ0OWJaV1hneUc3SGNxOFhESENjNzRiOEw5Q2FzTGh6QTRBMVhDQTI2am5VSThWUm9qbXAyQm5pNDVOeFI4dA?oc=5",
+    "title": "[주목 e-주식] 체질 개선한 Q3 '삼성E&A'…\"영업익 5K억 인데, 순익 2167억원, 왜?\" - 이코노미톡뉴스",
     "articles": [
+      {
+        "title": "[주목 e-주식] 체질 개선한 Q3 '삼성E&A'…\"영업익 5K억 인데, 순익 2167억원, 왜?\" - 이코노미톡뉴스",
+        "date": "2026-10-28",
+        "source": "이코노미톡뉴스",
+        "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE12cDhvbnA2RGFLV3FSUy00d2FHZkg5QWxtXzNKaFBrOHlrRnF6bFZ0OWJaV1hneUc3SGNxOFhESENjNzRiOEw5Q2FzTGh6QTRBMVhDQTI2am5VSThWUm9qbXAyQm5pNDVOeFI4dA?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "'역대 최대' 분기 영업익…삼성E&A, 호실적 이어가 - 신아일보",
+        "date": "2026-10-28",
+        "source": "신아일보",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE4wWXNTbEM0VkROQ2VUYWwtc3J6RFF3NFdVc25aeEFqbEdtdlEwQjJlTXVyaUtTNmExY0xvVG5jRGNtRmpMNWE5dFRiZ1ZCcWoyYjFSZ0dtTThPWnBlTm1FS2l2anA5MjRxb0t1cmQxaW4?oc=5",
+        "type": "news"
+      },
       {
         "title": "삼성E&A '깜짝 실적' 절반은 일회성…사우디 충당금 환입 덕 - 리드경제",
         "date": "2026-10-27",
         "source": "리드경제",
         "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1SeExvcngyaElFbFlyemdtY3A2dmxaclByZExYVnVOVGEyOVdqRGhmMmZoNHdnaGQ4TnFTR0xYWEs0NFhGaThZSWhzY3JMQ2FheUlkOG9UVDU2Xzk2enRfeC10X242MUVnZHdKMzd2OFY?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "[전날 애프터마켓] '중복상장 우려 해소' SK하이닉스 3%대 강세…삼바·삼성E&A 웃고 2차전지·전력설비 고전 - 이투데이",
-        "date": "2026-10-27",
-        "source": "이투데이",
-        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1tMlUwY3pRWVNEQkRQYm1HQ3ZZNl9mVnBMY2xaLWozemRpSDNJMm1CVmpmYVdGeU84dHRDeFV6MFVWYTlYdmlHU2ZGQWVpR2RNVXhreQ?oc=5",
         "type": "news"
       },
       {
@@ -476,32 +505,46 @@
         "source": "CEO스코어데일리",
         "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1rME1GS3F4MHlFTUt1dVlXZ0pnNDhuU0MzNmVVRHhUdGhEODlJSndQTENwM3J3VndwRWNBbHBySWVjMElJOU5VNE9veWdlNFM4aW4zc2pyemRIWEJkb3dFd3o2aTlNYUdxNnMw?oc=5",
         "type": "news"
-      },
-      {
-        "title": "“중동사태가 열어준 ‘전천후 EPC’ 삼성E&A의 시대…올해 수주 19조 역대 최대” - 뉴스퀘스트",
-        "date": "2026-10-26",
-        "source": "뉴스퀘스트",
-        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBUWmRDLVJBY2t6RVZSY1lTYmlMbHlZT1BmSmhCS3EyMXEyMWh0TWp3N1dGdTMyRWJJemh0N3FvWC1aMFhDcnZZSEx3LXVjV1pINmphV1VvRE5yRHpGVHlaaFpWWndNVXktNnJQaXl6VQ?oc=5",
-        "type": "news"
       }
     ]
   },
   "에이피알": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "기업의 매출 성장 이력 및 산업 내 위치에 대한 일반 분석 기사다.",
+    "source": "연합인포맥스",
+    "date": "2026-10-28",
+    "summary": "아마존과의 협력 및 매장 활동 기사로 실질적인 실적 변동이나 계약 공시가 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5oRjMwV3R4bjl3bjVsYTNhVjNTQ0JyUllaSDBYdnVGNlpLNDRfS1BGcDBmUlZYanhtNGxySXZyT0dOdG5BTWliNkJ6Y3ROR2lzUFIzOGQ2UkFVSlJDUlI3LUJIbUZxbUJm?oc=5",
-    "title": "[기획] '위기를 기회로'…에이피알, 유럽서 성장 공식 잇는다 - 뉴스워치",
+    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1OeVJIQnNRQlNGLU8ybHBtOUNTYnpzSF80SF81UFptVFBIMnlCNnhPYU9sRnJacHRQUlhaU3F4dlAzdHRlR0xmbWtIZFAzU0hId2VKdlFjOFA0Z2wteVFvbmo1VVIyakxLbW0xT1R1cFo?oc=5",
+    "title": "[현장에서] 아마존과 에이피알 - 연합인포맥스",
     "articles": [
+      {
+        "title": "[현장에서] 아마존과 에이피알 - 연합인포맥스",
+        "date": "2026-10-28",
+        "source": "연합인포맥스",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1OeVJIQnNRQlNGLU8ybHBtOUNTYnpzSF80SF81UFptVFBIMnlCNnhPYU9sRnJacHRQUlhaU3F4dlAzdHRlR0xmbWtIZFAzU0hId2VKdlFjOFA0Z2wteVFvbmo1VVIyakxLbW0xT1R1cFo?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "에이피알, 핑크빛 라운지서 피부 타입 찾기? 런더너도 못 참지! - 머니투데이 - 머니투데이",
+        "date": "2026-10-28",
+        "source": "머니투데이",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9YdzVKbWhXd3RvNTdrWDhNTkltbEZNd2pyNExmV2djTkJ3czN1WGh5YVFDZGlFQTlGams1ZHFpeklXSjV2VlotYjV0RzdHcjR2THJ1R2Nra1NJaEl6Nk02YmJmR0UxZUdiajRnQ0Zac9IBb0FVX3lxTE9YdzVKbWhXd3RvNTdrWDhNTkltbEZNd2pyNExmV2djTkJ3czN1WGh5YVFDZGlFQTlGams1ZHFpeklXSjV2VlotYjV0RzdHcjR2THJ1R2Nra1NJaEl6Nk02YmJmR0UxZUdiajRnQ0Zacw?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "에이피알 27만7000원으로 1.77% 하락…30일 실적 발표와 공시 리스크 - 잡포스트",
+        "date": "2026-10-27",
+        "source": "잡포스트",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFA4emxBR1lzQkMwYkh2Wl9Ubk9IZ3lzLWYyTXNERDktb0xrMEY0MkhXY2JxT1BVczk5X0NJTzVSbEQ3Ujh4WTM1OGVjTjJ1MGkwekhlTmo5ZTRxVFJBWWUwVnRnY1g0SzZoUGI3RE9kcWtyd9IBckFVX3lxTFA4emxBR1lzQkMwYkh2Wl9Ubk9IZ3lzLWYyTXNERDktb0xrMEY0MkhXY2JxT1BVczk5X0NJTzVSbEQ3Ujh4WTM1OGVjTjJ1MGkwekhlTmo5ZTRxVFJBWWUwVnRnY1g0SzZoUGI3RE9kcWtydw?oc=5",
+        "type": "news"
+      },
       {
         "title": "[기획] '위기를 기회로'…에이피알, 유럽서 성장 공식 잇는다 - 뉴스워치",
         "date": "2026-10-27",
         "source": "뉴스워치",
-        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5oRjMwV3R4bjl3bjVsYTNhVjNTQ0JyUllaSDBYdnVGNlpLNDRfS1BGcDBmUlZYanhtNGxySXZyT0dOdG5BTWliNkJ6Y3ROR2lzUFIzOGQ2UkFVSlJDUlI3LUJIbUZxbUJm?oc=5",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE9GMWpmT0JuYjI5OXlQeFI0VVQwaHNwai1MUFQ0bXI4a3VPV2c5VkhfZFRzZk1kdFQ3VDdlYW96QVQ2ZlVGNmJxZGRJT1pMcnBXMzRSZW43b1hQN25SY1dOSUlINEdRV0RrckE?oc=5",
         "type": "news"
       },
       {
@@ -510,41 +553,34 @@
         "source": "소비자가 만드는 신문",
         "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5qNFFPdVQ1QWN6MUdOWnZlN1ZoaGM0Z0tnbWNQcnZ4UHVKTWREWEFEZWViZHJNV1N2UXpLQUdvWlRvWDFIRGplSGdXei1nZGI0aldZM3BOTkY1dDhrMEpwb1pIMGs0R01JNlloNkFwM1p3TlE?oc=5",
         "type": "news"
-      },
-      {
-        "title": "K-뷰티 홈케어 시장 연다…선두 에이피알, 추격하는 앳홈 - 대한경제",
-        "date": "2026-10-27",
-        "source": "대한경제",
-        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE42YXFZRGsxV3RoOW1LT3FfY0R6a3BoSjM1VjNGRktpVzJGTWVFSGROenVOSUR2dktXVW5DNHpVc185MkVIQ3JlM1lOWHpDcmJ3TDRCYVJHNHhnLXdja29GRUxPQ2dHY214eUpxMWxMQ0hYSGlh?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "에이피알 주가, 10월 26일 애프터마켓 278,500원 2.11% 하락 - 톱스타뉴스",
-        "date": "2026-10-26",
-        "source": "톱스타뉴스",
-        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBVMTh0OU5WMVAxV3hWZzNiSjhVMm1FbnAzS1kxQzgyVU1CanFzLXRMZVExWHJCMTMzeURSZV9JVWJ0YUlpYlVwYzFMZUMyUm9BYnROSzJKX1BPT0puVFJfMVNtVkRtampBUW8zV0FUemx2QQ?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "에이피알 주가 2,500원 하락 후 장마감 - 아시아뉴스통신",
-        "date": "2026-10-26",
-        "source": "아시아뉴스통신",
-        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE1NaWlKZ0wxS1FqUjZ4UTFuRS1lWUw1T3Zla2RoZUpMcmgxU2JKdjhDNDhjaTBhWEljNGZyOW1KN1BtSEZVNFUyVTNaMXkzcEdGUmd0dm9WUFRXdzBVRU1FYndJWk9PM19qWEFwdXhwZF9sV2Rs?oc=5",
-        "type": "news"
       }
     ]
   },
   "한국콜마": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "경영진의 행사 참여 및 산업 전망에 관한 내용으로 실질적 기업 이벤트는 없다.",
+    "source": "더퍼블릭",
+    "date": "2026-10-28",
+    "summary": "부회장의 인터뷰 및 행사 참여 기사로 주가에 영향을 줄 만한 재무적 사건이 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE5wNHVJZThKS3pTU0RucmhFQ2ZmSXlFZWVYckpDREJOS0ZCTGZkYXpPdjhRbTlkWXQxMFBtbGZWaUZUcHV2UElFN3VYV21XRHNLbUNvei1uTHZkcEFjZWJNSk9qWmF2OUVh?oc=5",
-    "title": "[Beauty & NOW] 한국콜마 윤상현 부회장, '아마존 뷰티 인 서울 2026' 강연 등 - www.ebn.co.kr",
+    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE40YVNwUW80Y0w4UUNWVXFURERXLXRGOXRKWmtuNnl3UU9LeHpCWTdHLU8yMDVudENDRzFYSVhNbnVmWmJGcVp4eGoyMTVkQUU0cTdUaGVLVGtkUmNSRkh1aFE2ZldpZVpIQjY1bFlxa9IBb0FVX3lxTE40YVNwUW80Y0w4UUNWVXFURERXLXRGOXRKWmtuNnl3UU9LeHpCWTdHLU8yMDVudENDRzFYSVhNbnVmWmJGcVp4eGoyMTVkQUU0cTdUaGVLVGtkUmNSRkh1aFE2ZldpZVpIQjY1bFlxaw?oc=5",
+    "title": "윤상현 한국콜마 부회장, K뷰티 지속 성장 질문에 “100% YES…새 브랜드 탄생이 원동력” - 더퍼블릭",
     "articles": [
+      {
+        "title": "윤상현 한국콜마 부회장, K뷰티 지속 성장 질문에 “100% YES…새 브랜드 탄생이 원동력” - 더퍼블릭",
+        "date": "2026-10-28",
+        "source": "더퍼블릭",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE40YVNwUW80Y0w4UUNWVXFURERXLXRGOXRKWmtuNnl3UU9LeHpCWTdHLU8yMDVudENDRzFYSVhNbnVmWmJGcVp4eGoyMTVkQUU0cTdUaGVLVGtkUmNSRkh1aFE2ZldpZVpIQjY1bFlxa9IBb0FVX3lxTE40YVNwUW80Y0w4UUNWVXFURERXLXRGOXRKWmtuNnl3UU9LeHpCWTdHLU8yMDVudENDRzFYSVhNbnVmWmJGcVp4eGoyMTVkQUU0cTdUaGVLVGtkUmNSRkh1aFE2ZldpZVpIQjY1bFlxaw?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "[가보니] 한국콜마 연우, 성수서 매달 트렌드 브리핑…인디 브랜드 접점 넓혔다 - 대한경제",
+        "date": "2026-10-28",
+        "source": "대한경제",
+        "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE5lQXpMaHRrRm1NSTRYUFRSa2R0UjI3T3RsWEZvMG4tZF9ONlltZGIwaWlXVlc5WVJZN2tGQ3psdVJzbGcybktpQ3ZfeGZrcndnUmlaS3FBWW9kWEo3cl8zcmhBT3RmLWRsbUpFZWNwY0VNeVRw?oc=5",
+        "type": "news"
+      },
       {
         "title": "[Beauty & NOW] 한국콜마 윤상현 부회장, '아마존 뷰티 인 서울 2026' 강연 등 - www.ebn.co.kr",
         "date": "2026-10-27",
@@ -565,67 +601,53 @@
         "source": "한국경제",
         "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE02UWFtN295endwVC1kS2p6b1Q0R2RmcXRXUmVjUXE4Y1lrMm9ULWJSUl9XOUJYUGNkZjFFZEpWTnQ5Rm4xVUY2YVd5ZTFkWlZKNW42eUVfZTJqQQ?oc=5",
         "type": "news"
-      },
-      {
-        "title": "한국콜마, 아마존과 3년째 협력…K뷰티 브랜드 글로벌 진출 지원 - 팍스경제TV",
-        "date": "2026-10-27",
-        "source": "팍스경제TV",
-        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9qTHR5OHFvOURtMXl0Z1ZMcVZ1TlNpWktPUkRCUWU5MDh6d1U3bEYzanlEWnhraEVfWDktcmM4NHBPSzBOdUhKQVFlMHZkS1RQQnBjZ1BZZU90Ymd1eVM1QVR5RzZoVjA?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "K뷰티 지속성장 질문에 “100% 확신”…한국콜마, 아마존과 글로벌 공략 속도 - 동아일보",
-        "date": "2026-10-27",
-        "source": "동아일보",
-        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBtRXdIZUlfZi02TGw2bF9ZMzhvT3NVSThneTAzanl5RWs2NjJtSnlGcWZ3T1QyVVVRUlUySDU5SmRNR3ZZeldjUHphVlVMaXlrY3RpZGdlRVhzQlNPQ3pMUkZuMFN1QdIBZkFVX3lxTFBtRXdIZUlfZi02TGw2bF9ZMzhvT3NVSThneTAzanl5RWs2NjJtSnlGcWZ3T1QyVVVRUlUySDU5SmRNR3ZZeldjUHphVlVMaXlrY3RpZGdlRVhzQlNPQ3pMUkZuMFN1QQ?oc=5",
-        "type": "news"
       }
     ]
   },
   "에스티팜": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "분기 실적 성장에 대한 언론 보도로 중요한 재무 변동 이벤트는 없다.",
+    "source": "뉴스퀘스트",
+    "date": "2026-10-28",
+    "summary": "특정 프로젝트 관련 투자심리 악화 보도이나, 이는 외부 분석 및 전망 기사로 분류됩니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9MaGR5Y3lWR1RPYVVVZksyRjdHMDRSS3V0TzFtUEJIUDNMMUZicC1xTlpuaUlEdEd3TU9KY1h4dXJtV3hUdTVlOEZ3bGVMY09zUlhrY3JmMjV5VFE5ZWNBUlA1ZjhWN0E3M3QxbjZOdV9WTkpZdGlB?oc=5",
-    "title": "에스티팜, 3분기 매출 976억 '외형 성장' 뚜렷 - 약업신문",
+    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5RN3doM0NaYWxlc1IxNktBQm96VUNmeWhmSmdlaUZYRHc3dGJnRTFkczlsRmQ1RmVEd2Y3MkJLNm82M2hCZUhzajJjZEItNTJCTlJva1REM20xUQ?oc=5",
+    "title": "[오늘의 증권가 콜] LG이노텍, 셀트리온, HD현대일렉트릭, 한화오션, 에스티팜, 성광벤드 등 - 한국경제",
     "articles": [
       {
-        "title": "에스티팜, 3분기 매출 976억 '외형 성장' 뚜렷 - 약업신문",
-        "date": "2026-10-27",
-        "source": "약업신문",
-        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9MaGR5Y3lWR1RPYVVVZksyRjdHMDRSS3V0TzFtUEJIUDNMMUZicC1xTlpuaUlEdEd3TU9KY1h4dXJtV3hUdTVlOEZ3bGVMY09zUlhrY3JmMjV5VFE5ZWNBUlA1ZjhWN0E3M3QxbjZOdV9WTkpZdGlB?oc=5",
+        "title": "[오늘의 증권가 콜] LG이노텍, 셀트리온, HD현대일렉트릭, 한화오션, 에스티팜, 성광벤드 등 - 한국경제",
+        "date": "2026-10-28",
+        "source": "한국경제",
+        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5RN3doM0NaYWxlc1IxNktBQm96VUNmeWhmSmdlaUZYRHc3dGJnRTFkczlsRmQ1RmVEd2Y3MkJLNm82M2hCZUhzajJjZEItNTJCTlJva1REM20xUQ?oc=5",
         "type": "news"
       },
       {
-        "title": "에스티팜, 3분기 매출 976억원…19% 증가 - 중소기업신문",
-        "date": "2026-10-27",
-        "source": "중소기업신문",
-        "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE40dDFnTjlMN0NpTEpzVmxVQUdtMUxKcjc5Q2JhLTZBNXpkc3R3cUJva3FQbXctNXBZbTNTcEVfVFNrcDFIejI4NTVlandYZmduWXplbWQ5OFpSWlhUZGFyeXdHYjNlN2FiN3NFZ0ZB?oc=5",
+        "title": "“실적은 선방했는데…펠라카르센 쇼크 직격탄 맞은 에스티팜, 반토막 난 투자심리” - 뉴스퀘스트",
+        "date": "2026-10-28",
+        "source": "뉴스퀘스트",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1nVHZ5aVpmdnFLTWJxcjZYVXF2TUlMQVpRVXVrM0prcHN6VFdQc0Qwbkk3VWRTWVJEczZjbmRva3dQWW5URGoyQ1U2OHJNRDVmR0hkU3h4THVHbkRjTVNTSy1NQlZLalhORFFtRm1EZw?oc=5",
         "type": "news"
       },
       {
-        "title": "에스티팜, 3분기 매출 976억원 기록…올리고 상업화가 성장 견인 By EBN - Investing.com 한국어",
-        "date": "2026-10-27",
-        "source": "Investing.com 한국어",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFByQjY2TjRfMXRMOEpVWFluV0xmVnlzcTNwODlBZUhDMW1YcU5FYUpDeXhJMlRwanowRDRyNDY5SU04R3ZkbjVvZ0lrUWhneGZVMl9rbmVXc3g3UzRwcXlCQ3phRzJpWkN4cDVucEVza3E?oc=5",
+        "title": "기대치 이하지만…에스티팜, '공장 풀가동' 턴어라운드 - 경제타임스",
+        "date": "2026-10-28",
+        "source": "경제타임스",
+        "url": "https://news.google.com/rss/articles/CBMiU0FVX3lxTFBjSnF1bTVYS2lRWTFxRVZaN1hwLUFpUkFBa0JZT00wQnFHT3FieGUtdHN1MTJsU3lBLVlfd1VjOHd0QWhkS0J5SDdmVkVwQ3Vwb3Y4?oc=5",
         "type": "news"
       },
       {
-        "title": "에스티팜, 3분기 매출 976억원…상업화 의약품 성장에 19% 증가 - 전자신문",
-        "date": "2026-10-27",
-        "source": "전자신문",
-        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE9ZQ2hJaWluLUl5RXgtNjZBSHBZMWl1TTk0cU56YlRiWFNQLXRjbWpPZWpReHpGNDloNlZJdUF0TTN1UzU3dkhhUTBJWFU4Zw?oc=5",
+        "title": "에스티팜, 환율에 꺾인 이익···임상 불확실성에 목표주가↓ - 뉴스웨이",
+        "date": "2026-10-28",
+        "source": "뉴스웨이",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1DdV9UY2NGTk9pS2RwRGtrak9aS0VrZjIxLVNhMFppSTc5THh6QUVDV0tDYVF3aEUtalJPT3p4WV9JVnlhSXBUZG5EaW83SFRKQW1DVVM2VllVNUpLMWFidGlhNXBqTmEtTGc?oc=5",
         "type": "news"
       },
       {
-        "title": "동아에스티·에스티팜, 3분기 나란히 성장…매출·영업익 동반 증가 - Chosunbiz",
-        "date": "2026-10-27",
-        "source": "Chosunbiz",
-        "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQUkNBeTctdlVISVdfbFhRcWZGUmJ0blExUHM0cVFmNGlKbEo4OGdtalNnYVlKeVBQYlNUa292aVQwUzhJQ1RtSU1YZGxTa1pVOGwyRFJyTjdhTURYU2ZLdEx3WEdDQmhxd0dmYmpuMzJXYjJtMUJYUmVaRmJ6UHBjS1RuWjhBY0nSAZsBQVVfeXFMUHF2LW9KYmxQaFV2RDJQcXhtTTRDeXV5dGgtVmE1QmVTQ2xkRVBZZkg4SVF2UEdxNm56NU1mYWdrSWFDSzZyRTlZS3NMOWNKZ1hMQjl1SWNORGk0SWZqWjhDVnB2VTh6eTc1eVdJNW9SN0IzQU5VRHVWaU1sRzQ0MHRFS1d0Xzl6bWhWQmV6YXhFZ1o2OFQ4RVF4RFU?oc=5",
+        "title": "[버핏 리포트] 에스티팜, 신약 원료 공급 늘어도 이익은 기대 이하...목표가 하향 - 메리츠 - 버핏연구소",
+        "date": "2026-10-28",
+        "source": "버핏연구소",
+        "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1zZmszQU1QZTdzT3FfOTFsVjhYMU5zcjI4VVFOSi11eVA4WDZ1QlNISEtsZ2M0ei1ETkNQM0pDcTZaTm01cmtIbFhpbTlZdUVJM01xR0NrVGhDSThFSVNoSVlR?oc=5",
         "type": "news"
       }
     ]
@@ -633,9 +655,9 @@
   "감성코퍼레이션": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
+    "source": "뉴스핌",
     "date": "2026-10-27",
-    "summary": "증권사 리포트 및 주주환원 기대감에 대한 일반적인 언급이다.",
+    "summary": "증권사 리포트 및 주주환원 언급 기사이나 공식적인 공시가 아닌 분석 의견입니다.",
     "impactPct": 0,
     "direction": "neutral",
     "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1OckMyNTBPUXd3LUNMMFVxaXlzelo3R1hiV3Z4ZjJIU3N0ZmktSVQ3NGo1MWloa0ZLMDlMaXJYVHdYelV0X0NueWRhaEFPeEVsLXR0Z2owOThsOHJj?oc=5",
@@ -659,7 +681,7 @@
         "title": "주주환원에 적극...“감성코퍼레이션 주주는 좋겠다” - Fashion Insight",
         "date": "2026-10-27",
         "source": "Fashion Insight",
-        "url": "https://news.google.com/rss/articles/CBMiVkFVX3lxTE5COGFKM3FGaHFscjZOYVg4RW1OZGlNb0xmMXBFZGhWWlE2R1RMTkttcEFwZ3lCVWJjUjlhMU1FODZYYXJ5aXk5NnlaR3JDUi14V1RzMjh3?oc=5",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBiZDV4UEVLazNvdnV0QU9OZG5oaWJTZEVUYTRtVnhsLW5YVXFDbzU2QlczN2F4eGVGS1lUNldBU20zYWVscUo4amNISU5uNS1zbFhHS1NyTWdUbUJMMEg0VUpyUElZcmJPVENRdnMxWmQ?oc=5",
         "type": "news"
       },
       {
@@ -679,13 +701,13 @@
     ]
   },
   "두산퓨얼셀": {
-    "hasImportantNews": false,
-    "materialImpact": false,
-    "source": "뉴스",
+    "hasImportantNews": true,
+    "materialImpact": true,
+    "source": "뉴스워커",
     "date": "2026-10-27",
-    "summary": "과거 자금 조달에 대한 비판적 의견과 수급 상황 분석 기사다.",
-    "impactPct": 0,
-    "direction": "neutral",
+    "summary": "자기자본을 초과하는 4,000억 원 규모의 자금 조달을 추진 중입니다. 대규모 외부 수혈은 재무 구조 및 주가 희석 가능성을 내포합니다.",
+    "impactPct": 20.0,
+    "direction": "down",
     "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTE50QUJOSG92OG9QN09GakRjcmhfRVV3YXNGYkhLdnJqN0xyRkswNUVOS09FcEF1bWtlSFp2dHNCcWVIYzNWMjNMSlN0VTVWeUxnZzBYOXZlRGh3MUY5S0REbDNOOVlaVC1IenZKTERERU5mb2tM0gF0QVVfeXFMTnRBQk5Ib3Y4b1A3T0ZqRGNyaF9FVXdhc0ZiSEt2cmo3THJGSzA1RU5LT0VwQXVta2VIWnZ0c0JxZUhjM1YyM0xKU3RVNVZ5TGdnMFg5dmVEaHcxRjlLRERsM045WVpULUh6dkpMRERFTmZva0w?oc=5",
     "title": "[IB탈탈털기] 두산퓨얼셀, 자기자본 넘는 4000억 긴급 수혈…3년 뒤 '이자 폭탄' 터지나 - 뉴스워커",
     "articles": [
@@ -729,26 +751,33 @@
   "두산에너빌리티": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "계열사 투자조합에 대한 출자 공시가 있으나 전체 규모 대비 영향이 제한적이다.",
+    "source": "톱스타뉴스",
+    "date": "2026-10-28",
+    "summary": "주가 변동 및 과거 하락에 대한 분석 기사로 실질적인 기업의 신규 이벤트는 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE56MlV6Q3B5d3lXVm94SERFaGN6cXdKajFxUUVyMFk2V1pNTHJTa3h1MXh6MmM1RUdaSk5PaUZZa2FkWTlxem9Wem80c0pQLVkzeTdIdXpZSTFoZ0cwSWVVQVNMZUdJcmJLc0lZZnhyTzhDZnJXdEE?oc=5",
-    "title": "InvestingPro는 두산에너빌리티의 48% 하락을 어떻게 미리 포착했나 By Investing.com - Investing.com 한국어",
+    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE90a1hxVWpicG52dGRKYnhVQlpNM05Xd0o3RG9DcXEtZWZ5TXJ5a21KeTBTTmpPLVZqaHhGYm5mcGlac0JONUctMUIxX1FTbENsQnNQZ2hvZ1FlVHhKY2RZdEh1Nll6RWtxYWRkazVBdFlEZw?oc=5",
+    "title": "두산에너빌리티 주가, 10월 28일 장중 60,900원 3.40% 상승 - 톱스타뉴스",
     "articles": [
+      {
+        "title": "두산에너빌리티 주가, 10월 28일 장중 60,900원 3.40% 상승 - 톱스타뉴스",
+        "date": "2026-10-28",
+        "source": "톱스타뉴스",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE90a1hxVWpicG52dGRKYnhVQlpNM05Xd0o3RG9DcXEtZWZ5TXJ5a21KeTBTTmpPLVZqaHhGYm5mcGlac0JONUctMUIxX1FTbENsQnNQZ2hvZ1FlVHhKY2RZdEh1Nll6RWtxYWRkazVBdFlEZw?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "두산에너빌리티 주가, 다시 돌아온 '6만빌리티'…장 초반 3%대 상승에 코스피도 강세 - CBC뉴스",
+        "date": "2026-10-28",
+        "source": "CBC뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1XbEZ0c0FvdmdzNThoT0tIa2dVMG9yV1NWVHlaWGtlTEdfS1piRWhqV0R6bnp0N285Q1Y3UHBDTncwYmtRZllTZW1fcEYxSXltbzg2eEJpUUZwTUp3LVI5MjJrNVdnU2lS?oc=5",
+        "type": "news"
+      },
       {
         "title": "InvestingPro는 두산에너빌리티의 48% 하락을 어떻게 미리 포착했나 By Investing.com - Investing.com 한국어",
         "date": "2026-10-27",
         "source": "Investing.com 한국어",
         "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE56MlV6Q3B5d3lXVm94SERFaGN6cXdKajFxUUVyMFk2V1pNTHJTa3h1MXh6MmM1RUdaSk5PaUZZa2FkWTlxem9Wem80c0pQLVkzeTdIdXpZSTFoZ0cwSWVVQVNMZUdJcmJLc0lZZnhyTzhDZnJXdEE?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "두산에너빌리티, 계열사 운용 두산신기술투자조합2호에 400억원 출자 결정 - 디지털투데이",
-        "date": "2026-10-27",
-        "source": "디지털투데이",
-        "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE9rdVo4UERlZTVqQWNCbVNLME5BUzRTTjVLNmZ3ZWFBRVJtY1J1Y19XaUVHWlVEVlpRcHgzbjBiQVdNcFFJcjFuYTJ5ZFlQYUtrUV8xalE5QVJ6eXMyNGRObmpRalZVQmdmNXpuVVRaYVIwSDh1c2ZiQXdWaw?oc=5",
         "type": "news"
       },
       {
@@ -759,17 +788,10 @@
         "type": "news"
       },
       {
-        "title": "남부발전, 두산에너빌리티와 하동복합 건설 착수회의 - 이투뉴스",
-        "date": "2026-10-27",
-        "source": "이투뉴스",
-        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9HNGV1WXhoZi1kaF96ZHp1VTFURi1DdlFYU05fVG12cmoyQ1REYi1lZ0dNSlFaLXpHeDRQYmRIQjVXRS1lQnEzVWdta21xeTd3c2NKa0JTYWljY2kzTjZXQkR5dHQyZTUwT0RB0gFrQVVfeXFMT0c0ZXVZeGhmLWRoX3pkenVVMVRGLUN2UVhTTl9UbXZyajJDVERiLWVnR01KUVotekd4NFBiZEhCNVdFLWVCcTNVZ21rbXF5N3dzY0prQlNhaWNjaTNONldCRHl0dDJlNTBPREE?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "두산에너빌리티 주가, 10월 27일 장중 59,500원 3.30% 상승 - 톱스타뉴스",
-        "date": "2026-10-27",
-        "source": "톱스타뉴스",
-        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBDWXN6elRPWG5yb0JRSDNlWGtjbUN3UUtwNUs1aExWMmliNHhBZmhiYzJhSFBRUGZWRTA4eGhuX1NMOTlLdDZZWG5MT3dwbU9TeHExenFGUmpLZDBxVXN0c1VaMm00SS1ya2pJY2FnVGM1dw?oc=5",
+        "title": "[리포트 브리핑]두산에너빌리티, '원전 수주 확대가 실적으로 연결되는 시점' 목표가 120,000원 - 교보증권 - 뉴스핌",
+        "date": "2026-10-26",
+        "source": "뉴스핌",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE85SXFFcUk3MXhab3l6amVGaGNWZ2JQa2pPOFRwODk5YVNURkVVYmhFOHhOWnAxMTBqMVVTcjVzVGRDaV9aQjhSbHgzQlVMZ251aUhKNWtGUWtfSFh2?oc=5",
         "type": "news"
       }
     ]
@@ -789,9 +811,9 @@
   "한농화성": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
+    "source": "아시아뉴스통신",
     "date": "2026-10-27",
-    "summary": "한농화성 주가 상승 중 - 아시아뉴스통신",
+    "summary": "단순 주가 등락 보도로 기업가치 변화와 관련된 공시는 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
     "url": "https://news.google.com/rss/articles/CBMidEFVX3lxTFAzVGRZN3RndXZBWVM2Y1ZnN3FYUndqTmR5M2VpTmtVOXJtczk4TEZFWTVYSXhQVng1WjNiWmN5MG9xSnJtRVhSQ2RXRUg3eTFRRko4NzhKNEE0SXJCa2s4VUdhOFBoenB1eW1vR0lnWE8wU1gw?oc=5",
@@ -852,19 +874,19 @@
   "티엘비": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
+    "source": "핀포인트뉴스",
     "date": "2026-10-27",
-    "summary": "반도체 장비주에 대한 시장의 관심 및 산업 분석 내용이다.",
+    "summary": "반도체 장비주 전반에 대한 산업 현황 분석 기사로 티엘비 기업 관련 특별한 뉴스가 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1yTXc4MUJXazMtSkdtZzF6WTI1TzlabGc3WEp5NGpWYTdKdFVXTG05al9fMFBOcWZHeEhSYTRhdWtNblBxdHZ1QW9peDJTRkI0bWk5VFRWeDRYYlhucEpPbjN2bUdBdw?oc=5",
-    "title": "하이퍼엑셀, 삼성증권 출신 인사 CFO로 영입 - 디일렉",
+    "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9FZElFRnRHUng4QWVBTnJnWGlxQTJMWVBYR2R3OW1iT3RsTnlMZTA0akhVRUZseFBuWHgzdE1SOXBxNzF5ak12Z1VEMGYxZjJuUllDUTN0SXJ1Rng4OU00QVZxMEVsQQ?oc=5",
+    "title": "칩스앤미디어, 3분기 실적 고른 성장...라이선스가 견인 - 디일렉",
     "articles": [
       {
-        "title": "하이퍼엑셀, 삼성증권 출신 인사 CFO로 영입 - 디일렉",
+        "title": "칩스앤미디어, 3분기 실적 고른 성장...라이선스가 견인 - 디일렉",
         "date": "2026-10-27",
         "source": "디일렉",
-        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE1yTXc4MUJXazMtSkdtZzF6WTI1TzlabGc3WEp5NGpWYTdKdFVXTG05al9fMFBOcWZHeEhSYTRhdWtNblBxdHZ1QW9peDJTRkI0bWk5VFRWeDRYYlhucEpPbjN2bUdBdw?oc=5",
+        "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTE9FZElFRnRHUng4QWVBTnJnWGlxQTJMWVBYR2R3OW1iT3RsTnlMZTA0akhVRUZseFBuWHgzdE1SOXBxNzF5ak12Z1VEMGYxZjJuUllDUTN0SXJ1Rng4OU00QVZxMEVsQQ?oc=5",
         "type": "news"
       },
       {
@@ -878,7 +900,7 @@
         "title": "AI 서버 투자 확대에 PCB·FPCB 관련주 기세등등…심텍·삼성전기 주목을 - 핀포인트뉴스",
         "date": "2026-10-27",
         "source": "핀포인트뉴스",
-        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9EeDNMelRZaHpvV2t5MFlsOFdaR0xmcElxcjFSWE9lUEFRYkM1UnNVc0ZobG9YeG9PT24zU3V6aGtQYklKSmdqS0ExSWpIOVh2aHdDUTZsdDJUUVFzcTRrYXpQMmUxWDBhS3l6enRhLXY1UknSAXdBVV95cUxPcGFRSURzai0wenNaMGtxR3hwN3NaN3JsQzlmckhwREV1R1lkM2NPV2VfOUJIeGdZenNyYkhoT2szUXdNQmh6cFdIN2oyN3luYkJSdVlneF9PdmRDVlVkY3hVX2RhTmN5UERmenlmWHdRMGRqOWpZcw?oc=5",
+        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9wYVFJRHNqLTB6c1owa3FHeHA3c1o3cmxDOWZySHBERXVHWWQzY09XZV85Qkh4Z1l6c3JiSGhPazNRd01CaHpwV0g3ajI3eW5iQlJ1WWd4X092ZENWVWRjeFVfZGFOY3lQRGZ6eWZYd1EwZGo5allz0gF3QVVfeXFMT3BhUUlEc2otMHpzWjBrcUd4cDdzWjdybEM5ZnJIcERFdUdZZDNjT1dlXzlCSHhnWXpzcmJIaE9rM1F3TUJoenBXSDdqMjd5bmJCUnVZZ3hfT3ZkQ1ZVZGN4VV9kYU5jeVBEZnp5Zlh3UTBkajlqWXM?oc=5",
         "type": "news"
       }
     ]
@@ -886,47 +908,47 @@
   "LG에너지솔루션": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "유럽·북미 지역에서의 ESS 사업 협력 추진 내용으로 구체적인 계약 공시가 아닌 사업 방향성 보도다.",
+    "source": "한국정경신문",
+    "date": "2026-10-28",
+    "summary": "배터리 3사의 실적 흐름에 대한 산업 분석 기사로 구체적인 개별 기업의 이벤트가 아닙니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1yMmhwQ19OM0laVlM1UTVSbmFIQXQtR0RJRXJRWi1ZZXc0VmYwM0g3bFFrb0hsY1JuNE9tMl95WjVDbUJFeW1zS0RfMkNRWVVqMzRQZzZYeGZ0Y2Q3VDVqMEZXNnNTSER3?oc=5",
-    "title": "LG에너지솔루션, 유럽·북미 ESS 사업 확대 추진 - 한국NGO신문",
+    "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5zVDVQQTRtTWExMDBjWXNkT3RObFZqVzlkZkEtOHRaWEE1b2ozaUNLc2l3UFYyZm9wLUdULWtzNXhVcFVhT0FTOHZ1bGFLdms4VHc?oc=5",
+    "title": "LG에너지솔루션·삼성SDI·SK온, 배터리3사 실적 '제자리거름'..승부처는 에너지저장장치 - 한국정경신문",
     "articles": [
+      {
+        "title": "LG에너지솔루션·삼성SDI·SK온, 배터리3사 실적 '제자리거름'..승부처는 에너지저장장치 - 한국정경신문",
+        "date": "2026-10-28",
+        "source": "한국정경신문",
+        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5zVDVQQTRtTWExMDBjWXNkT3RObFZqVzlkZkEtOHRaWEE1b2ozaUNLc2l3UFYyZm9wLUdULWtzNXhVcFVhT0FTOHZ1bGFLdms4VHc?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "LG에너지솔루션 주가, 10월 28일 장중 38만 9,500원 1.83% 상승 - 톱스타뉴스",
+        "date": "2026-10-28",
+        "source": "톱스타뉴스",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5scGpJTHE2SUMyTDRXYkNoX09HRllja2NLQmFWU21OemxYNDk1SlMyS3hMOFFvb2N5b3FSNzgtNHJrZVQxSVVZMWVJVnZESUgtakprZlhGNWxJS0syVjYyN2sxNUZra1FwWktCeHNqWnZlUQ?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "[특징주] LG에너지솔루션 장중 2%대 상승 39만원선 회복 : 기업주식정보 - 재경일보",
+        "date": "2026-10-28",
+        "source": "재경일보",
+        "url": "https://news.google.com/rss/articles/CBMiS0FVX3lxTE5kQmtucV90Ui00V0dHTUZXaExPNnJsNlRJMUdONmt6SFZSUUlGQ1hEbVlpRWNPempTbF9iUDJCaTJ5dUNiVzVuMk5aOA?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "LG에너지솔루션, 에너직스와 맞손…유럽·북미 ESS 사업 확대 가속화 - 더퍼블릭",
+        "date": "2026-10-28",
+        "source": "더퍼블릭",
+        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE9tNVBMbzB0a2xtTDl6QW1xREJQZHpmanA5R0M1cHFscU52Uzg4VkZUNnpTVEd3TXBoT1ZMRUlPX3RoQ01mUjhfTkE3VVNGRlZQNHRLcXA3eEdXNEQ3c1JWeUN5RHo1NU9GcTlDUi10QdIBb0FVX3lxTE9tNVBMbzB0a2xtTDl6QW1xREJQZHpmanA5R0M1cHFscU52Uzg4VkZUNnpTVEd3TXBoT1ZMRUlPX3RoQ01mUjhfTkE3VVNGRlZQNHRLcXA3eEdXNEQ3c1JWeUN5RHo1NU9GcTlDUi10QQ?oc=5",
+        "type": "news"
+      },
       {
         "title": "LG에너지솔루션, 유럽·북미 ESS 사업 확대 추진 - 한국NGO신문",
         "date": "2026-10-27",
         "source": "한국NGO신문",
         "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1yMmhwQ19OM0laVlM1UTVSbmFIQXQtR0RJRXJRWi1ZZXc0VmYwM0g3bFFrb0hsY1JuNE9tMl95WjVDbUJFeW1zS0RfMkNRWVVqMzRQZzZYeGZ0Y2Q3VDVqMEZXNnNTSER3?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "LG에너지솔루션, 글로벌 재생에너지 기업 손잡고 유럽까지 ESS 사업 확대 - 한국일보",
-        "date": "2026-10-27",
-        "source": "한국일보",
-        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5oVU0yVDM1Rm1hc0hDLUdZUFJhTHk5WHdjdnF4ZkY2aVdtU3FzajBuTVBKQ3c5ZW1KUHVHQVZuWjZPNEJyeUoxOGc2N3B4MFgwMGx3bDRqWkNteXRPNFlUVEFqdDhVQWJNSmE1ekVqak5XQ2fSAXNBVV95cUxOaFVNMlQzNUZtYXNIQy1HWVBSYUx5OVh3Y3ZxeGZGNmlXbVNxc2owbk1QSkN3OWVtSlB1R0FWblo2TzRCcnlKMThnNjdweDBYMDBsd2w0alpDbXl0TzRZVFRBanQ4VUFiTUphNXpFampOV0Nn?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "LG에너지솔루션, 에너직스와 ESS 공급 협력…유럽·북미에 2GWh 추진 - 동아일보",
-        "date": "2026-10-27",
-        "source": "동아일보",
-        "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE1ZWFVJVGY2XzM2MGNVa3hhSDh0eFpfVlJiN3YxWTdTQUJBXzM4SFNaQzI5RTZla0JSRG1KTF9GeTZySnV5UTRHb3hRQ2dQbUZmWUFvS08yUzdfdG5FdnRyRmNhMWJLVFd4eUw5MlVYWXFTODZlcEHSAWZBVV95cUxPM0V4bGhXM3FfRTNRclJQNFpOUjdqQkVaN2wwN25YSU9qQ3FRSXdCWnJUbDE0M09jelRvR3hKX0xlUXBQVDl4TmNrbzFYNnZDTWFVaUhoSlZvNXRCcjEta1B5ZEwtMEE?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "LG에너지솔루션, ESS 4.5GWh 추진...에너직스와 맞손 - 전기신문",
-        "date": "2026-10-27",
-        "source": "전기신문",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1hMFlnMTFSdHJtaW1rZlFtcktnNWRDb2FFRUhqa01TN3RtdkRBeGJYSS1McDhiZTZvanp6R0hiM3Rxem9iU0NNSTkyWXJSOHRHSUlaWDhKYkZyaDlZY2xpUUp1cHBLeW1XaTNURDUtaTHSAXBBVV95cUxNYTBZZzExUnRybWlta2ZRbXJLZzVkQ29hRUVIamtNUzd0bXZEQXhiWEktTHA4YmU2b2p6ekdIYjN0cXpvYlNDTUk5MllyUjh0R0lJWlg4SmJGcmg5WWNsaVFKdXBwS3ltV2kzVEQ1LWkx?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "LG에너지솔루션, 에너직스와 손잡고 유럽∙북미 ESS 사업 확대 - 서울경제",
-        "date": "2026-10-27",
-        "source": "서울경제",
-        "url": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE5hMEdvcG5TTjdyX3BGN0x4OXlTQUdmV2c5NUVVRFdkTzZzSTRPMnZ6YkpZcUJaZmpnc1F1X1FWWV9Kbndtd1A3Yk1ZYXZnVzBaWWfSAVNBVV95cUxQQnduQzg3a0dNSTRGNHNnS0pQOElvMkhJWTFLZ29qYnR6dTVZZnk1X2ZHRWVCd1MwVFQ5YTM3Z0cxSzdtMDhYN1hXSXJYaDU5U3Ewcw?oc=5",
         "type": "news"
       }
     ]
@@ -934,26 +956,40 @@
   "에코프로": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "구체화되지 않은 계약 추진설 및 기술 특구 참여에 대한 내용이다.",
+    "source": "톱스타뉴스",
+    "date": "2026-10-28",
+    "summary": "단순 주가 변동 및 관련주 동반 강세 기사로 실질적 재무 이벤트는 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1IV3htTzg0RjdKWFk5RjFYNXhNZWp3NF9tckJtOWZ6ejl2UDJDYV9oNXY2VzFISGlhRERBYkQ5TTM0NlVGbElqRnNYUG52eldWV28wZEJvVUVYbVE1VnBBcC1xNTBPTDl3SWxWQ2VmckQ?oc=5",
-    "title": "에코프로비엠, 中 배터리사와 '조 단위' 계약 추진…\"구체화되면 공시\" - 포인트데일리",
+    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5oMHBsQVdzczczRW1FaUd1NHBKZG5xcmxvcWgyQUpvNTB4RDNyWkNBUjAwbHRGNVJzem1xZUJ3TE5KakFmN2U2UVhMcGU4bVNzcWpYbTdqUHhJckdEdHZQOHpNbzl2NUpkNjN3UGF6dFN3dw?oc=5",
+    "title": "에코프로 주가, 10월 28일 장중 76,800원 3.23% 상승 - 톱스타뉴스",
     "articles": [
       {
-        "title": "에코프로비엠, 中 배터리사와 '조 단위' 계약 추진…\"구체화되면 공시\" - 포인트데일리",
-        "date": "2026-10-27",
-        "source": "포인트데일리",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1IV3htTzg0RjdKWFk5RjFYNXhNZWp3NF9tckJtOWZ6ejl2UDJDYV9oNXY2VzFISGlhRERBYkQ5TTM0NlVGbElqRnNYUG52eldWV28wZEJvVUVYbVE1VnBBcC1xNTBPTDl3SWxWQ2VmckQ?oc=5",
+        "title": "에코프로 주가, 10월 28일 장중 76,800원 3.23% 상승 - 톱스타뉴스",
+        "date": "2026-10-28",
+        "source": "톱스타뉴스",
+        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5oMHBsQVdzczczRW1FaUd1NHBKZG5xcmxvcWgyQUpvNTB4RDNyWkNBUjAwbHRGNVJzem1xZUJ3TE5KakFmN2U2UVhMcGU4bVNzcWpYbTdqUHhJckdEdHZQOHpNbzl2NUpkNjN3UGF6dFN3dw?oc=5",
         "type": "news"
       },
       {
-        "title": "코스닥 '급등'...심텍·에코프로비엠·JYP·안랩 '껑충' - 초이스경제",
-        "date": "2026-10-27",
-        "source": "초이스경제",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1laEF4SFptNHQzbzlMT19wMVktQmgwWUM0SmRObXd5bVhoblFDNkh6TXY2SFFnZTIxOE1kUW9TLXEtSi1SYS1PSnhBSERERHliTFVLM2JxYi0xQnlnbWxlRFRfV3V4TV9NTTI4UFgwdnrSAXNBVV95cUxOWmVuSmxXOXdRcG5JTmxVRGZkRjNaMkVKTUJTNDhyYXBnLW01M0lISHFkMWlaMncwaWFaTGZHZ0x0bGJSN2Q4LUdhTmV4cElVVnF5RUc2YmJpZkJVNFBEYjVHOW5hQnhaYTZlVUpFeWtienFZ?oc=5",
+        "title": "에코프로 3%대 상승…에코프로머티·에코프로비엠·에코프로에이치엔 동반 상승커브 - CBC뉴스",
+        "date": "2026-10-28",
+        "source": "CBC뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE1feHhWa2I5Zk0yZUxSYk96NXp2SUFpOExsSmRYbDAtcE1KZ2dpTTRjT1JjTmZtd1VjT3czTnFVRzdQSzJjUG5TOFZzOHFLNWZXSWpJdE9yR1ZBRW9zc2UwR1NiTS1tcjRa?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "[전날 애프터마켓] 삼성전자·SK하이닉스 오름폭 확대⋯에코프로도 강세 - 이투데이",
+        "date": "2026-10-28",
+        "source": "이투데이",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBFY1ZQcHhUMEE4RVpEME12cXpqOHJSYW1sYXIyYlFlSy1oejJlWUV6a0M1NkNHNWY5b1NWbW9kUU04eURHd1oyZWlyQTg2MVFGTzhJVw?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "[데이터&뉴스] 포스코홀딩스 소액주주 지분율 76.9% '톱'...에코프로·네이버·호텔신라도 70% 넘어 - 소비자가 만드는 신문",
+        "date": "2026-10-28",
+        "source": "소비자가 만드는 신문",
+        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBDLWhyTjBsOU9xR3hiVlhKZW4zRG1PUUpfYXFaOEtER292TTlxZnM1RzJ3VFdaOEdKc1RzUlJVWTNJaDJHV1EyX2hQSjl4WDV4Nk01WkpyRWc4WUFDQzBDbzd5RVFELVZyRWU5YlRCZkU0Ulk?oc=5",
         "type": "news"
       },
       {
@@ -962,29 +998,15 @@
         "source": "경북매일",
         "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE1qODFQWnl1YTM2TzdWSTFjVmp0amJoTXM2ZWNwTk5xNjF1VGRWdmhUMG5oUXAwYmwxdUluVFNCcGJ5SnMzY09TMUk4NlNSSWpoYTFoV2ptRWZldw?oc=5",
         "type": "news"
-      },
-      {
-        "title": "[1027시황레이더] 에코프로비엠, 유럽 中 배터리사와 조 단위 양극재 공급 계약 협의 소식 등 By 인포스탁데일리 - Investing.com 한국어",
-        "date": "2026-10-27",
-        "source": "Investing.com 한국어",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE9iSG83aGQ4UXVwdEJYQ1ZVVWxmNTRGcDh0b3Q4dmNTU3JrMzd4VmpuSURfR2hCSFVLUDRFRUJ1T2ZaSFdvRTFadS1qQUgzQ3RhQ1NSTHRQeGpPaTV6WEFlSlhoblMwd0FGTmtzekkydUg?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "'헝가리 거점 선점' 에코프로비엠, 유럽서 中 고객사 확보 추진 - 한국금융신문",
-        "date": "2026-10-27",
-        "source": "한국금융신문",
-        "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE9wdGVveUNrVEtsaDltRkZBM01uZk1OUjJJUXhoSE9LNDJSblRiaHJ3OUdJaTJOR2FHUU9PeUpnZHRrQlpwY0hEOHp2WG1qV1ZjaUZTOXFoTy1nY08zOU5RQUEtdUV2VlJtTTR2azZXTDV5aTQ3U1N0M1BPSmg?oc=5",
-        "type": "news"
       }
     ]
   },
   "포스코퓨처엠": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
+    "source": "뉴스드림",
     "date": "2026-10-27",
-    "summary": "투자 전략에 대한 보도로 실질적인 이벤트는 없다.",
+    "summary": "미래 투자 방향에 대한 경영 전략 설명 기사로 단기적인 실적 변경 공시는 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
     "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBWZkFwU3c3Mzd6RzEzc3JvUjRkV3p0aGx3NENjUU55ZGdpN3I0UDVDY1ZPNW5aWWRrZWxpdGxMWmQ0RFplMmZfaTVLNjFqTFEyNzNESXFvNmVta0FmSmRmT1dPbjZtcU1veFk1VW50azlIdw?oc=5",
@@ -1030,107 +1052,79 @@
   "KB금융": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "수급 분석 및 사회공헌 관련 내용으로 기업 가치에 큰 영향은 없다.",
+    "source": "PRESS9",
+    "date": "2026-10-28",
+    "summary": "내년 주주환원 전망치 보도로, 공식적인 이사회 결의 공시가 아니므로 영향도는 없습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9Eem9kakNHVjRhNDZVcFNiS0hTUEtNaGx6OUsyMVVWdjljR2NrY2FlMjFNQVQ2VUdrcEZESkVuMlk0V2NnSmFadDN1My0yX1R3NUs4Unk1WlBFWFFxaE05dW5Pa3RoR1RfdmVFMy1NTkNEUQ?oc=5",
-    "title": "KB금융 주가, 10월 27일 애프터마켓 147,400원 소폭 오름세 - 톱스타뉴스",
+    "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFA1a3hLYkVlU1lqdTZSc1NoNm1DNDRwSUdJeExndFl2QVQ2WGFGSVFNR3FwNlplaWFWdHVqcktQT1pxTDVJNEcxR2x4MllnVmFYWWtfZHdsYXdmR3BOdjdxVF9FOXc?oc=5",
+    "title": "KB금융, 내년 주주환원 4조2000억원 전망…환원율 62% - PRESS9",
     "articles": [
       {
-        "title": "KB금융 주가, 10월 27일 애프터마켓 147,400원 소폭 오름세 - 톱스타뉴스",
-        "date": "2026-10-27",
-        "source": "톱스타뉴스",
-        "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9Eem9kakNHVjRhNDZVcFNiS0hTUEtNaGx6OUsyMVVWdjljR2NrY2FlMjFNQVQ2VUdrcEZESkVuMlk0V2NnSmFadDN1My0yX1R3NUs4Unk1WlBFWFFxaE05dW5Pa3RoR1RfdmVFMy1NTkNEUQ?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "[거래소 기관] SK하이닉스·삼성전기 집중 매수…KB금융은 팔았다 - 핀포인트뉴스",
-        "date": "2026-10-27",
-        "source": "핀포인트뉴스",
-        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE5pM3Z6U3RMaGNDVndtMk5JU3U5SzFtc2RPSUlVcFU0blZPTWFuXzB3aHNFalRiTDNVRjlzeVNrRURiSnJxV0ZoaWNmREpSZUpZbDhtQnN6cW9OTXd2QWJUWkpwazNGTVpCREphZ1d4bDh1T0HSAXdBVV95cUxNU1F6X3FuRnp1X3hXM1NyOGRyRGM3SktKZ0draTE1ZWQzckxpdGNvamZVWFdsLXJ2WllwRlBmM0pEWmRtbnN1cDR6cVNVblVNdjNlOGRiMnFjZUR6Y1RjODBBY3FlOGVoc1A1c3VTVTNXTW9uZV9IVQ?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "상생협력재단, 5개 지방정부와 'KB금융 에너지 절감 시설 지원사업' 협약 - 전자신문",
-        "date": "2026-10-27",
-        "source": "전자신문",
-        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBrX3p2U3pYc28wYXRPUDNJc09ZMmN4bnhTVkFRbXMxS3FyT2lfV0t3eXA3dzAtdzY5azBrb25NYno1N0h1ZV85VEF2Znpzdw?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "상생협력재단, ‘KB금융 에너지 절감 시설 지원’ MOU - www.dt.co.kr",
-        "date": "2026-10-27",
-        "source": "www.dt.co.kr",
-        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTE5QT09OR2JtLWpCQUNmQXlnOXJyT1pTMFJ4WjJqX0lPNmwyY2RaWWtlNkQ5WnNfMXhaOEZ5MU5nN296ZkQ1NDc4b3pfbC1mZw?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "AI 거품론 속 93조 공급…KB금융, 수익성 시험대 - 컨슈머타임스",
-        "date": "2026-10-27",
-        "source": "컨슈머타임스",
-        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE1NS0tzamY3VlJIdUd6aVpXMGREeW84NjZvOUoxVUx1aVdKbUtoaHM4Vk5mc1ZCMTFGVEstNXpIOGNrdldCWUw4cl9pMld6cnVSUnprYnBaTU5BVV9xX0lNN3VlNkUtM0NnZ2c?oc=5",
+        "title": "KB금융, 내년 주주환원 4조2000억원 전망…환원율 62% - PRESS9",
+        "date": "2026-10-28",
+        "source": "PRESS9",
+        "url": "https://news.google.com/rss/articles/CBMiZEFVX3lxTFA1a3hLYkVlU1lqdTZSc1NoNm1DNDRwSUdJeExndFl2QVQ2WGFGSVFNR3FwNlplaWFWdHVqcktQT1pxTDVJNEcxR2x4MllnVmFYWWtfZHdsYXdmR3BOdjdxVF9FOXc?oc=5",
         "type": "news"
       }
     ]
   },
   "신한지주": {
-    "hasImportantNews": true,
-    "materialImpact": true,
-    "source": "공시",
-    "date": "2026-10-27",
-    "summary": "4,500억 원 규모의 자사주 매입 및 전량 소각을 결정했다. 강력한 주주환원 정책으로 기업 가치 제고에 긍정적이다.",
-    "impactPct": 20.0,
-    "direction": "up",
-    "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB1RWtLampCeWM0ZGtJSGJhMWZuZGR4SUJtTmdGa1lVRkVTSkdfNktTMXlLVjNwUEIwQjB0RjAxWng1eHRibEk3VU9rMFhfc2pwVWhHRDVMcl8zbmt6TUhHYXRONV91WFRJUzBCY0ZIWkhKQUFvSGfSAXZBVV95cUxQdUVrS2pqQnljNGRrSUhiYTFmbmRkeElCbU5nRmtZVUZFU0pHXzZLUzF5S1YzcFBCMEIwdEYwMVp4NXh0YmxJN1VPazBYX3NqcFVoR0Q1THJfM25rek1IR2F0TjVfdVhUSVMwQmNGSFpISkFBb0hn?oc=5",
-    "title": "신한지주, 롯데손보 ‘기본자본 신종자본증권’ 발행 시사 - 시사저널e",
+    "hasImportantNews": false,
+    "materialImpact": false,
+    "source": "중앙신문",
+    "date": "2026-10-28",
+    "summary": "자회사 대표 선임 후보 압축은 지배구조의 일환이나 기업의 가치 변화를 즉각 유발하는 사건은 아닙니다.",
+    "impactPct": 0,
+    "direction": "neutral",
+    "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFB4X1JNTzI2NkQ4Zk95TmptNEFYWU43WDZvdzltVDY4X2I0d3AyZGdLOUtlUG9MM01UTEtjbEtRTFdTZFpvMVJjeXlHTnFKOUtpUG9yS3hpcGwtamZW?oc=5",
+    "title": "[리포트 브리핑]신한지주, '성장력 확보를 위한 숨 고르기' 목표가 130,000원 - 다올투자증권 - 뉴스핌",
     "articles": [
       {
-        "title": "신한지주, 롯데손보 ‘기본자본 신종자본증권’ 발행 시사 - 시사저널e",
-        "date": "2026-10-27",
-        "source": "시사저널e",
-        "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTFB1RWtLampCeWM0ZGtJSGJhMWZuZGR4SUJtTmdGa1lVRkVTSkdfNktTMXlLVjNwUEIwQjB0RjAxWng1eHRibEk3VU9rMFhfc2pwVWhHRDVMcl8zbmt6TUhHYXRONV91WFRJUzBCY0ZIWkhKQUFvSGfSAXZBVV95cUxQdUVrS2pqQnljNGRrSUhiYTFmbmRkeElCbU5nRmtZVUZFU0pHXzZLUzF5S1YzcFBCMEIwdEYwMVp4NXh0YmxJN1VPazBYX3NqcFVoR0Q1THJfM25rek1IR2F0TjVfdVhUSVMwQmNGSFpISkFBb0hn?oc=5",
+        "title": "[리포트 브리핑]신한지주, '성장력 확보를 위한 숨 고르기' 목표가 130,000원 - 다올투자증권 - 뉴스핌",
+        "date": "2026-10-28",
+        "source": "뉴스핌",
+        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTFB4X1JNTzI2NkQ4Zk95TmptNEFYWU43WDZvdzltVDY4X2I0d3AyZGdLOUtlUG9MM01UTEtjbEtRTFdTZFpvMVJjeXlHTnFKOUtpUG9yS3hpcGwtamZW?oc=5",
         "type": "news"
       },
       {
-        "title": "신한지주, 3분기 당기순익 1조5846억…전분기 대비 12.9%↓ - www.fetv.co.kr",
-        "date": "2026-10-27",
-        "source": "www.fetv.co.kr",
-        "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE4xVG5Iam02bXBQYTlSSFpuWjFQdHNqdWRNLVJKc1FXN0F1TGhGcGsyVnlURTYyandtVmZQcWxuaEoxSGNzOGNqTnBqbk1RYmNLMUxVcGlWWkhqRXU5ZXdOaWZPelFJX3M4?oc=5",
+        "title": "신한지주 자경위, 신한·제주은행장 후보 2~3배수로 압축 - 중앙신문",
+        "date": "2026-10-28",
+        "source": "중앙신문",
+        "url": "https://news.google.com/rss/articles/CBMi4AJBVV95cUxPNWpjZzc2NzNsYVNKVUpoZ1pQcVNzaW00T3RwZkJtczU1NnFOaW5SODdRVjRNZTEtM3pOc2tTcXV0bnhPRDBpa1J0a2lYOTY0Tmo0Z1F5MHg4a1pHNGRfY0JmcDFzbjNYdGFlbXdDTFFXYkY1NVpVUjlNdjZlN2xBR1p1SUoyRTFyWUJsclg4RjRQcXlnWTJJYlRjeElrdTR2X2pRNWdKLUhGeHc3c3NsLVdjLWpYTm0tQXVEV2NhajZuWmxzUkhJUkxVRmFVMzNUZm5kVDRvVW05Y1dsTGZJdHhmZ0VHUmFuanRuNVhIWHBXa3M3NWdNcHZaX0dZR01xTDRLaE9UcXBmdHRRT2RtVXRQcW9YZUc5eUNJNTc4MW5BMkRxc2pHak9xXy15MFhpZU9GNFc1bTVBYW4tYlVRbUIzMmxOak5hNmp0UTdJQUdzYzFqb0JyOHhQY1hPSG1K?oc=5",
         "type": "news"
       },
       {
-        "title": "신한지주, 4,500억 원 자사주 매입 결정...전량 소각 예정 - Investing.com 한국어",
-        "date": "2026-10-27",
-        "source": "Investing.com 한국어",
-        "url": "https://news.google.com/rss/articles/CBMic0FVX3lxTE9YRzA2V1JGeTZtdTB1WWpyelplTmZPQmI2ZjVZcnNpMnNZSzNlcnpLRFVEWXdwT182WVQ0TjdzMXlvTEVhNWh0d0R4ejlzWk5KR01YaE96d2RPX1AyQllFRWczYWZBUnJSVkNsUkgtUGF0dzQ?oc=5",
+        "title": "신한지주, 자회사 대표 선임 과정 착수 - 이뉴스투데이",
+        "date": "2026-10-28",
+        "source": "이뉴스투데이",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBSTjJXdWVvRWUxRjlVZ1BQTlZteV84R1RGVDJRckd1Z0lvYnNXcEVlMVdad1hyLVl6R1lzTVRHcjZ5eC1hLWQ0bmN2N1dlQVpLVGRETjZDdGpMdVZRWFJTWE5jcndXcjFFZ3FGWlBiOETSAXRBVV95cUxOaDFON0JOTFFUaXFJLV8zYVBNOTVYZk03VG9wOVF3cW5VbS1uaTh4NDYwWUNEWDJUOEV5MW9LSi01U1hHQkRDd3kwMFc4ZnZTbUhzWUZsMXZGQkVET2kzWV9VeDRuWXJHVUh3T2dhQTU2NVQyVA?oc=5",
         "type": "news"
       },
       {
-        "title": "신한지주, 누적 순익 5조원 돌파…3분기는 1.5조 그쳐 - 비즈워치",
-        "date": "2026-10-27",
-        "source": "비즈워치",
-        "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTE1PSlFQVVczM19zQzhuRGFuR1ZoSTFiY0pFdV9OMGFYLVp1eks2NkRkRkVFQmFEZHRUcGZRZHdJZVV4OUU1TTVCdUllS2VBcDVhUzNhSmxrZmdfRkk5TFA1Wk1kUHM1VGFnOXI0?oc=5",
+        "title": "신한지주, 사상 최대 실적에도 목표가 줄하향···비이자이익 부진 여파 - 뉴스웨이",
+        "date": "2026-10-28",
+        "source": "뉴스웨이",
+        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE82QUtjUmZJckhpY00zTE9iUm9qa2NkUEVqQmFKemc3UXJBR3NiQ2hjUmFEdDRrZE1NaU9FYWJIYjBWSGhDaF96ZDYyZUdyLU1GY0YyMFJwZ3lzaHNNRlEzVW1DWHdaY0UxRkE?oc=5",
         "type": "news"
       },
       {
-        "title": "신한지주 3분기 누적 순익 5조 돌파 12.7%↑ - CNews",
-        "date": "2026-10-27",
-        "source": "CNews",
-        "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE1NNWI4dUlkUFhBc2x6UTF1M05NVlNHSlh4c2VyclpZT3EyRVlhcUZQQUVha3hYVzljZk0waDJ1anJZTm5hekVNZkk5S0NFMC1STE9CN1FmQl90Nm81VHhmU1BzZDBIVHlvR0hxWE11VlMzRlFFaUJn?oc=5",
+        "title": "[전일 주요공시] HD현대ㆍ신한지주ㆍKT 등 - 이투데이",
+        "date": "2026-10-28",
+        "source": "이투데이",
+        "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1jaXJ6WWN6SnpMOUo5OUdqLVV0eW1OZTZKTEc5aTFVb3hMdlN6S1ZQU2diejc1MWRZdWQxRWVJV2Rwby0ydTc0WmhMV3ZseXRKV3ZHeg?oc=5",
         "type": "news"
       }
     ]
   },
   "하나금융지주": {
-    "hasImportantNews": true,
-    "materialImpact": true,
-    "source": "공시",
+    "hasImportantNews": false,
+    "materialImpact": false,
+    "source": "데일리인베스트",
     "date": "2026-10-27",
-    "summary": "2,500억 원 규모의 자사주 소각을 단행했다. 주주가치 제고를 위한 적극적인 행보로 판단된다.",
-    "impactPct": 15.0,
-    "direction": "up",
+    "summary": "4분기 실적에 대한 증권가의 전망 및 분석 기사로 기업이 발표한 뉴스는 없습니다.",
+    "impactPct": 0,
+    "direction": "neutral",
     "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1vdENTVldxZC1fSWtzeDNqWGZBZUFwMnpLV1NXTE9nXzR0UkpFQWVsM04wUExLNnlIdUVuR1ZnSVN3WGJxaElQeE5XNEduMmk5Q3Faa0VnNVBNcE5tNF90YmRKblgwa3JyVjZVVF9hd9IBb0FVX3lxTE1vdENTVldxZC1fSWtzeDNqWGZBZUFwMnpLV1NXTE9nXzR0UkpFQWVsM04wUExLNnlIdUVuR1ZnSVN3WGJxaElQeE5XNEduMmk5Q3Faa0VnNVBNcE5tNF90YmRKblgwa3JyVjZVVF9hdw?oc=5",
     "title": "[코스피 현미경 분석] 하나금융지주, 4분기 대출금리 인상 효과로 주가 재도약? - 데일리인베스트",
     "articles": [
@@ -1139,20 +1133,6 @@
         "date": "2026-10-27",
         "source": "데일리인베스트",
         "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTE1vdENTVldxZC1fSWtzeDNqWGZBZUFwMnpLV1NXTE9nXzR0UkpFQWVsM04wUExLNnlIdUVuR1ZnSVN3WGJxaElQeE5XNEduMmk5Q3Faa0VnNVBNcE5tNF90YmRKblgwa3JyVjZVVF9hd9IBb0FVX3lxTE1vdENTVldxZC1fSWtzeDNqWGZBZUFwMnpLV1NXTE9nXzR0UkpFQWVsM04wUExLNnlIdUVuR1ZnSVN3WGJxaElQeE5XNEduMmk5Q3Faa0VnNVBNcE5tNF90YmRKblgwa3JyVjZVVF9hdw?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "[공시분석] 하나금융지주, 2500억 규모 자사주 소각 단행…‘주주가치 제고’ 속도 낸다 By 알파경제 alphabiz - Investing.com 한국어",
-        "date": "2026-10-27",
-        "source": "Investing.com 한국어",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFAtMGFRX1h0YlFMOUUwOTFqaEpBRFNIQWVZLUJ5dDhEVmpFUHFPTm1GczdLdWpKMEZ6OUVJLWppLVpPSEZlTy1zUUFLTzJxQ3BlMEFCYjd6R0hfeWpUTWoxeC1aX2F4amdDNmYwd3cwX0k?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "\"저평가 매력적\"...하나금융, 역대급 실적에 밸류업 '가속페달' - 청년일보",
-        "date": "2026-10-27",
-        "source": "청년일보",
-        "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFA4VFdoRU01ODcwRndaYklhSEFpNlkxeU5uQ1oyc0VTbDZ3eFFlQkJNcHlTWERVOWNubnZUaWlZZGh0Yk1EaVFjbEVaVHIxc2xVRWtVVTZFWmsxYlhZdkdpWHlkZU5lRFplYVE?oc=5",
         "type": "news"
       },
       {
@@ -1167,33 +1147,19 @@
   "현대차": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "인도 투자 확대 및 해외 생산 비중 확대 등 경영 전략에 대한 보도다.",
+    "source": "연합인포맥스",
+    "date": "2026-10-28",
+    "summary": "현대차증권의 탄소금융 관련 기사로 현대차 기업의 실질적 이벤트가 아닙니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE55bVJkVTg5LW41ekJ2ckVJVXJhdHF6RzlVSU51dXdKbE9ITmg1dnpzODluM1d1T2ZQTEpFeEI1YzRGTWNaQWdtQTV5Qm5ieHBaZk1Rc1lWSkNIZw?oc=5",
-    "title": "현대차그룹, 인도에 20조 투자…전기차·자율차로 주도권 굳힌다 - 한국경제",
+    "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1qdEpVYUI2TDl1Z3dhZkVuNURDTExuQVJlb1RUckoxWGdrcUdJOHZDTFppN0E2TEsxLXFGWGdFbGVMZjhmeXVEZEJJLVhpaWpvWEhTdlRoVWNDTlN2VDdOSTdSQndmSjVCb3hIblhiaGU?oc=5",
+    "title": "[증권가 이모저모] 전기버스 타고 탄소시장 달린다…현대차證의 탄소금융 실험 - 연합인포맥스",
     "articles": [
       {
-        "title": "현대차그룹, 인도에 20조 투자…전기차·자율차로 주도권 굳힌다 - 한국경제",
-        "date": "2026-10-27",
-        "source": "한국경제",
-        "url": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE55bVJkVTg5LW41ekJ2ckVJVXJhdHF6RzlVSU51dXdKbE9ITmg1dnpzODluM1d1T2ZQTEpFeEI1YzRGTWNaQWdtQTV5Qm5ieHBaZk1Rc1lWSkNIZw?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "현대차 '아틀라스' 공급망 공개에 관련주 급등…나무가·캠시스 30% 가까이 상승 - 전자신문",
-        "date": "2026-10-27",
-        "source": "전자신문",
-        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFB0bjNBT0h4eVcxRWIzcmtFVHlMcmxJM1V2bjRNZWlDa0ZhY0I1bEM3QUM5WWVCUjVWS2YwTTdxVng2SzlHU1dXcU9ZZXkwQQ?oc=5",
-        "type": "news"
-      },
-      {
-        "title": "2030년까지 증설 84%가 해외… 현대차, ‘탈한국’ 생산 가속화 - IT조선",
-        "date": "2026-10-27",
-        "source": "IT조선",
-        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE5zZGgzVmphSGdGZ09SSXh3UnZfX3RrLVNWX291dkdrODM1RVVIa01MeUlkZmJUS2FibnhFWlUzTTRUZE5rWTdKeWtOMmpRTEpBZkJKeTVWTFlITVltdWx3eDZDZ3pzNWMybmRhcDZWQVPSAXRBVV95cUxQbDJpb3FYT3FRdTJSR05BN0RVUXZySVFVNUsyS0Y4ck9yamxBTWcwMnlPcXg5MUFYSjRFaS1uSjhTVVRYdjRqeUpwUVRyTnZ3TjJoSXFpNGg3T0ZHMWtMUGpqRWVwUzM5ZkNJZ2YyTEE3NWE1RQ?oc=5",
+        "title": "[증권가 이모저모] 전기버스 타고 탄소시장 달린다…현대차證의 탄소금융 실험 - 연합인포맥스",
+        "date": "2026-10-28",
+        "source": "연합인포맥스",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE1qdEpVYUI2TDl1Z3dhZkVuNURDTExuQVJlb1RUckoxWGdrcUdJOHZDTFppN0E2TEsxLXFGWGdFbGVMZjhmeXVEZEJJLVhpaWpvWEhTdlRoVWNDTlN2VDdOSTdSQndmSjVCb3hIblhiaGU?oc=5",
         "type": "news"
       }
     ]
@@ -1201,77 +1167,92 @@
   "기아": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "",
-    "date": "",
-    "summary": "",
+    "source": "더구루",
+    "date": "2026-10-28",
+    "summary": "토탈에너지스와의 기존 윤활유 공급 계약 연장 보도이나 단순 협력 유지로 중요도는 낮습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "",
-    "title": "",
-    "articles": []
+    "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFB5NWFkMVltWi1FQXdnOUpTQXdYeTRhNENqbzJZSVdKQlZ2QnV1NXFVTVVVQnNLeDQzejFTUDVjVUlub0lHQXVOd21oVjd2ZVJrY084X1lkbHBXU3lvd25xVFJQYw?oc=5",
+    "title": "기아, 토탈에너지스와 유럽서 '윤활유 동맹' 5년 더 간다…2031년까지 '쿼츠' 전량 공급 - 더구루",
+    "articles": [
+      {
+        "title": "기아, 토탈에너지스와 유럽서 '윤활유 동맹' 5년 더 간다…2031년까지 '쿼츠' 전량 공급 - 더구루",
+        "date": "2026-10-28",
+        "source": "더구루",
+        "url": "https://news.google.com/rss/articles/CBMiY0FVX3lxTFB5NWFkMVltWi1FQXdnOUpTQXdYeTRhNENqbzJZSVdKQlZ2QnV1NXFVTVVVQnNLeDQzejFTUDVjVUlub0lHQXVOd21oVjd2ZVJrY084X1lkbHBXU3lvd25xVFJQYw?oc=5",
+        "type": "news"
+      },
+      {
+        "title": "[인사 풍향계 ③] 현대차 영업익 기아에 밀리나…관세·공급망 인재 중용 - 자본시장뉴스",
+        "date": "2026-10-28",
+        "source": "자본시장뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE81MnNyUFM4azQ2dlBTYVV6em1lZTNyOVNSZmdGQTJuLVN0UkE5RGJrMlhCVG9YdWt6bG00SVM0UVdUNXh1X0JiTG5yOURXZ2dMcTZTZUgwZDdESXdCZFZBUnh5WDJPTmc?oc=5",
+        "type": "news"
+      }
+    ]
   },
   "현대모비스": {
     "hasImportantNews": false,
     "materialImpact": false,
-    "source": "뉴스",
-    "date": "2026-10-27",
-    "summary": "청라 AI 모빌리티 거점 협력 참여 등 사업 추진 상황에 대한 내용이다.",
+    "source": "전자신문",
+    "date": "2026-10-28",
+    "summary": "임직원 대상 앱 개발 경진대회 보도로 기업의 재무 및 수급에 영향을 주지 않습니다.",
     "impactPct": 0,
     "direction": "neutral",
-    "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFB6ZXBCWHZkYXN0c19CbU5mMUdFVEJwSjZiZThWRVYwcnY3bktNWmNFRjVmNmx2RVNnYl9qeTAzTlJEX3FnWXdXazNNZlJxOVliakNxaFBxcmpNclJMajhCeW1URzNiYVpZd1AzNnhibw?oc=5",
-    "title": "인천 청라에 AI 모빌리티 혁신거점…현대모비스 등 10개 기업과 협력 - 기호일보",
+    "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBOX0k5M015Yld5a3pLTkFOdjlzYTJOa3Y0anZOYktqZGFCX0dDdGNENWFyam90Z2ZGOUd2cHU1am5OdHB3czhUbkNBdWhuUQ?oc=5",
+    "title": "현대모비스, '모빌리티 앱 개발 경진대회'…“임직원 SW 개발문화 확산” - 전자신문",
     "articles": [
       {
-        "title": "인천 청라에 AI 모빌리티 혁신거점…현대모비스 등 10개 기업과 협력 - 기호일보",
-        "date": "2026-10-27",
-        "source": "기호일보",
-        "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFB6ZXBCWHZkYXN0c19CbU5mMUdFVEJwSjZiZThWRVYwcnY3bktNWmNFRjVmNmx2RVNnYl9qeTAzTlJEX3FnWXdXazNNZlJxOVliakNxaFBxcmpNclJMajhCeW1URzNiYVpZd1AzNnhibw?oc=5",
+        "title": "현대모비스, '모빌리티 앱 개발 경진대회'…“임직원 SW 개발문화 확산” - 전자신문",
+        "date": "2026-10-28",
+        "source": "전자신문",
+        "url": "https://news.google.com/rss/articles/CBMiTkFVX3lxTFBOX0k5M015Yld5a3pLTkFOdjlzYTJOa3Y0anZOYktqZGFCX0dDdGNENWFyam90Z2ZGOUd2cHU1am5OdHB3czhUbkNBdWhuUQ?oc=5",
         "type": "news"
       },
       {
-        "title": "고환율 효과 걷히는 현대모비스…수익성 방어 시험대 - 블로터",
-        "date": "2026-10-27",
-        "source": "블로터",
-        "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE1sVWhxdG5VS1pUY3J5Tnd0VjgtZXVnU3RBMnJ3M2plSDR2ck42YmpsdW9ZR29yRWJzZHNtcnZUUmxlUnE0dFpWc2VUdGNIQ0JnLXBFTVVXU3dOOWJhcUdOTm5GVmhPN3M4dFRTQdIBbEFVX3lxTE1sVWhxdG5VS1pUY3J5Tnd0VjgtZXVnU3RBMnJ3M2plSDR2ck42YmpsdW9ZR29yRWJzZHNtcnZUUmxlUnE0dFpWc2VUdGNIQ0JnLXBFTVVXU3dOOWJhcUdOTm5GVmhPN3M4dFRTQQ?oc=5",
+        "title": "AI로 차량 고장 진단한다…현대모비스 앱 경진대회 '모비딕' 우승 - 뉴스1",
+        "date": "2026-10-28",
+        "source": "뉴스1",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE8wSGhiQXIzQlc4YzBtdGNtZS16RmkyNVNzamp1amZ4cXBJaVpSS0dudXctbjNQWHdsMmRzMlk4ZUd5UHJQQzNjU3lMNFRKT1RRTl9EV1hCS2RsRGtURkx3Ng?oc=5",
         "type": "news"
       },
       {
-        "title": "인천시, 현대모비스·LG이노텍 등 10개 기업과 손잡고 청라 AI 모빌리티 거점 추진 - 쓰담미디어",
-        "date": "2026-10-27",
-        "source": "쓰담미디어",
-        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTFBYQlVNaUc3bDFieEdTNllIckh6SkUtLUNlUHFCQTVySm5nLU5GMzJMS3JyclBDUHlJeGtjeG91V0JsTkNqWnAxa1QyOFVqTlBvMVM2c2tPdFZEVnpjZXNNNGZxSFE0amc?oc=5",
+        "title": "현대모비스, 임직원 67팀 車앱 해커톤…AI 진단앱 모비딕 우승 - 전기신문",
+        "date": "2026-10-28",
+        "source": "전기신문",
+        "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTFBFTDJnYzNxajJfYWpPZ3ZWMFVnWF9wazl2YXRaZEZhZGh4dEl1QndMX29SQ3BQeVZYQmJ1STVGdnFlb0RvcmhXSjJER3k5Y1ZrVms0NzZCYjJhZ0JLREZKak5vSXk5MHNaSGMweVZfRUvSAXBBVV95cUxQRUwyZ2MzcWoyX2FqT2d2VjBVZ1hfcGs5dmF0WmRGYWRoeHRJdUJ3TF9vUkNwUHlWWEJidUk1RnZxZW9Eb3JoV0oyREd5OWNWa1ZrNDc2QmIyYWdCS0RGSmpOb0l5OTBzWkhjMHlWX0VL?oc=5",
         "type": "news"
       },
       {
-        "title": "[리포트 브리핑]현대모비스, '부품에서 Physical AI로' 목표가 570,000원 - NH투자증권 - 뉴스핌",
-        "date": "2026-10-27",
-        "source": "뉴스핌",
-        "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE9ubURURmZDN2MyNmRTcG1uMDM2ajktRTJQRkoyRV84VGx3UnBnTlRYcmVpYm9nVHF1YklKeG5lUUQ5cUVZd3ZBQUpsWkhlRnRPa0VhTll1RmFmVGNI?oc=5",
+        "title": "롯데이노베이트, AI 커넥티드카 사업 확대…현대모비스와 협력 - 연합뉴스",
+        "date": "2026-10-28",
+        "source": "연합뉴스",
+        "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE56RUwtak4wcFVwNWVVVUtDb002bmZEbzZlUXdBZVE1YjJYMVFFZ08taUZhcExpX2loVVB3STRhbXRsY2JCV2hVcmZGYlRRUGNNb2JlVUxCc2ZXam1hRldNVdIBYEFVX3lxTE56RUwtak4wcFVwNWVVVUtDb002bmZEbzZlUXdBZVE1YjJYMVFFZ08taUZhcExpX2loVVB3STRhbXRsY2JCV2hVcmZGYlRRUGNNb2JlVUxCc2ZXam1hRldNVQ?oc=5",
         "type": "news"
       },
       {
-        "title": "현대모비스, 2026 차량용 반도체 포럼 개최 | HMG TV | 현대자동차그룹 - Hyundai Motor Group",
-        "date": "2026-10-27",
-        "source": "Hyundai Motor Group",
-        "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNVGNUUUdzTWN4c2tUV2VveENFZlpONndBQjVKck9HMDl4Y3YzWWhLaHBTSkhidjNQbm5RTFdJN1poWC1sMjVSV25PNUlETmVsYmpiUUZGaThXb2dwZ0N5YTBueXZXSGZYR0xhRzhSamtBV2FkMUZYTzZ4QU1zTElzWFFRTVFKbjZwbkNTTF9xVGVLZVk?oc=5",
+        "title": "AI 앱 위해 머리 맞댄 현대모비스 임직원들…사내 해커톤 - 연합뉴스TV",
+        "date": "2026-10-28",
+        "source": "연합뉴스TV",
+        "url": "https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9MN3RuUHpqOXBNbEhIWXl6U3VyTVZpMFI0ZmZiSUlsazRKSWt5cmh0aGxvbndlTEVnRVVsZmpfU0FoSi1LeXJka2ZlQ3hsSHFvX0JCbUo4VEJSRU5uNmFDOHdSVF9nSUE?oc=5",
         "type": "news"
       }
     ]
   },
   "_meta": {
-    "updatedAt": "2026-10-27T21:56:08.652582+09:00",
+    "updatedAt": "2026-10-28T11:32:47.716319+09:00",
     "sourceStatus": {
       "googleNewsRss": true,
       "dartSearch": true,
       "geminiSummary": true,
       "dartFailed": 0
     },
-    "itemCount": 116,
+    "itemCount": 113,
     "collectionStats": {
-      "stocksWithNews": 27,
-      "rawNews": 253,
+      "stocksWithNews": 29,
+      "rawNews": 254,
       "rawDart": 0,
-      "rejectedNews": 101,
+      "rejectedNews": 106,
       "dartOk": 35,
       "dartFailed": 0
     },
