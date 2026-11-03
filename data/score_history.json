@@ -5866,215 +5866,215 @@
         {
           "code": "005930",
           "name": "삼성전자",
-          "score": 76.3,
-          "price": 230000.0
+          "score": 77.5,
+          "price": 222000.0
         },
         {
           "code": "005935",
           "name": "삼성전자우",
           "score": 74.0,
-          "price": 177500.0
+          "price": 173300.0
         },
         {
           "code": "000660",
           "name": "SK하이닉스",
-          "score": 79.0,
-          "price": 1480000.0
+          "score": 79.8,
+          "price": 1414000.0
         },
         {
           "code": "006400",
           "name": "삼성SDI",
-          "score": 58.4,
-          "price": 542000.0
+          "score": 60.2,
+          "price": 497500.0
         },
         {
           "code": "0117V0",
           "name": "TIGER 코리아AI전기전자",
           "score": 49.2,
-          "price": 13930.0
+          "price": 13310.0
         },
         {
           "code": "395160",
           "name": "KODEX AI반도체",
           "score": 50.0,
-          "price": 34575.0
+          "price": 32480.0
         },
         {
           "code": "079550",
           "name": "LIG디펜스앤에어로스페이스",
           "score": 73.1,
-          "price": 422000.0
+          "price": 415500.0
         },
         {
           "code": "267270",
           "name": "HD건설기계",
           "score": 72.8,
-          "price": 81400.0
+          "price": 81600.0
         },
         {
           "code": "443060",
           "name": "HD현대마린솔루션",
           "score": 76.2,
-          "price": 168100.0
+          "price": 172000.0
         },
         {
           "code": "010060",
           "name": "OCI홀딩스",
-          "score": 68.8,
-          "price": 185900.0
+          "score": 69.0,
+          "price": 190300.0
         },
         {
           "code": "456040",
           "name": "OCI",
-          "score": 67.8,
-          "price": 57300.0
+          "score": 69.3,
+          "price": 55700.0
         },
         {
           "code": "298020",
           "name": "효성티앤씨",
-          "score": 69.3,
-          "price": 278000.0
+          "score": 67.1,
+          "price": 287000.0
         },
         {
           "code": "006260",
           "name": "LS",
-          "score": 73.1,
-          "price": 214000.0
+          "score": 72.3,
+          "price": 207000.0
         },
         {
           "code": "028050",
           "name": "삼성E&A",
           "score": 56.7,
-          "price": 63400.0
+          "price": 62500.0
         },
         {
           "code": "278470",
           "name": "에이피알",
-          "score": 73.4,
-          "price": 263500.0
+          "score": 74.4,
+          "price": 246500.0
         },
         {
           "code": "161890",
           "name": "한국콜마",
-          "score": 68.4,
-          "price": 116200.0
+          "score": 68.9,
+          "price": 115000.0
         },
         {
           "code": "237690",
           "name": "에스티팜",
-          "score": 76.8,
-          "price": 72600.0
+          "score": 77.5,
+          "price": 71400.0
         },
         {
           "code": "036620",
           "name": "감성코퍼레이션",
-          "score": 73.2,
+          "score": 70.0,
           "price": 3540.0
         },
         {
           "code": "336260",
           "name": "두산퓨얼셀",
-          "score": 59.0,
-          "price": 30300.0
+          "score": 62.1,
+          "price": 29200.0
         },
         {
           "code": "034020",
           "name": "두산에너빌리티",
-          "score": 68.8,
-          "price": 55800.0
+          "score": 68.5,
+          "price": 52700.0
         },
         {
           "code": "222080",
           "name": "SFA넥셀",
-          "score": 65.3,
-          "price": 7270.0
+          "score": 67.1,
+          "price": 6990.0
         },
         {
           "code": "011500",
           "name": "한농화성",
           "score": 53.1,
-          "price": 12570.0
+          "price": 11940.0
         },
         {
           "code": "023160",
           "name": "태광",
-          "score": 64.9,
-          "price": 30000.0
+          "score": 66.4,
+          "price": 27650.0
         },
         {
           "code": "214430",
           "name": "아이쓰리시스템",
           "score": 69.2,
-          "price": 60200.0
+          "price": 58600.0
         },
         {
           "code": "009520",
           "name": "포스코엠텍",
-          "score": 51.1,
-          "price": 10900.0
+          "score": 50.4,
+          "price": 10530.0
         },
         {
           "code": "356860",
           "name": "티엘비",
-          "score": 64.7,
-          "price": 39000.0
+          "score": 66.2,
+          "price": 36800.0
         },
         {
           "code": "373220",
           "name": "LG에너지솔루션",
-          "score": 54.8,
-          "price": 357500.0
+          "score": 59.5,
+          "price": 343000.0
         },
         {
           "code": "086520",
           "name": "에코프로",
           "score": 44.8,
-          "price": 74000.0
+          "price": 71300.0
         },
         {
           "code": "003670",
           "name": "포스코퓨처엠",
-          "score": 55.0,
-          "price": 168800.0
+          "score": 56.7,
+          "price": 165800.0
         },
         {
           "code": "105560",
           "name": "KB금융",
           "score": 64.8,
-          "price": 153800.0
+          "price": 152000.0
         },
         {
           "code": "055550",
           "name": "신한지주",
           "score": 66.6,
-          "price": 87500.0
+          "price": 85900.0
         },
         {
           "code": "086790",
           "name": "하나금융지주",
-          "score": 62.5,
-          "price": 118100.0
+          "score": 64.8,
+          "price": 116700.0
         },
         {
           "code": "005380",
           "name": "현대차",
           "score": 68.8,
-          "price": 286500.0
+          "price": 279000.0
         },
         {
           "code": "000270",
           "name": "기아",
-          "score": 75.4,
-          "price": 95700.0
+          "score": 73.4,
+          "price": 96700.0
         },
         {
           "code": "012330",
           "name": "현대모비스",
           "score": 73.6,
-          "price": 350500.0
+          "price": 353000.0
         }
       ],
-      "kospiPrice": NaN
+      "kospiPrice": 5648.79
     }
   ]
 }
